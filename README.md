@@ -4,7 +4,7 @@ https://www.python.org/downloads/
 
 - open cmd and type following\
   pip install virtualenv\
-  pip install virtualenvwrapper\
+  pip install virtualenvwrapper
 - create folder for project\
   open folder in cmd\
   type commands\
@@ -24,4 +24,4 @@ https://www.python.org/downloads/
   pip freeze > requirements.txt
 - library installation on local machine\
   .\Scripts\activate\
-  pip install library_name\
+  pip install library_name
