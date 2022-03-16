@@ -11,7 +11,7 @@ https://www.python.org/downloads/
   virtualenv . -p python3\
   git clone (repo HTTP/SSH etc)\
   cd ankietopol\
-  pip install -r requirements.txt\
+  pip install -r requirements.txt
 - run local server\
   open ankitopol directory in terminal and type: python manage.py runserver\
 - after each github pull/clone\
