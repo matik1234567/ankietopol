@@ -25,5 +25,3 @@ https://www.python.org/downloads/
 - library installation on local machine\
   .\Scripts\activate\
   pip install library_name\
- 
-
