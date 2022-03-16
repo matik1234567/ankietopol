@@ -30,8 +30,11 @@ https://www.python.org/downloads/
 - Database\
  postgreSQL with pgAdmin4\
  https://www.enterprisedb.com/downloads/postgres-postgresql-downloads *install with default options selected*\
- 'NAME': 'd45tflnq0hbf99',\
- 'HOST': 'ec2-54-220-166-184.eu-west-1.compute.amazonaws.com',\
- 'PORT': 5432,\
- 'USER': 'xqgvwjawnztfei',\
- 'PASSWORD': 'e8b1816da4e7e49b4655a7b2efcc95c78697f4fefb91bee5c7360e65dbfade3d'
+ https://stackoverflow.com/questions/11769860/connect-to-a-heroku-database-with-pgadmin *how to connect database with pgAdmin4*\
+Host ec2-54-220-166-184.eu-west-1.compute.amazonaws.com\
+Database d45tflnq0hbf99\
+User xqgvwjawnztfei\
+Port 5432\
+Password e8b1816da4e7e49b4655a7b2efcc95c78697f4fefb91bee5c7360e65dbfade3d\
+URI postgres://xqgvwjawnztfei:e8b1816da4e7e49b4655a7b2efcc95c78697f4fefb91bee5c7360e65dbfade3d@ec2-54-220-166-184.eu-west-1.compute.amazonaws.com:5432/d45tflnq0hbf99\
+Heroku CLI heroku pg:psql postgresql-metric-07610 --app ankietopol\
