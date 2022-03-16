@@ -3,9 +3,9 @@
 https://www.python.org/downloads/
 
 - create folder
-- open cmd
-  pip install virtualenv
-  pip install virtualenvwrapper
+- open cmd\
+  pip install virtualenv\
+  pip install virtualenvwrapper\
   create folder for project
   open folder in cmd
   type commends
