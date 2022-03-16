@@ -13,7 +13,8 @@ https://www.python.org/downloads/
   cd ankietopol\
   pip install -r requirements.txt
 - run local server\
-  open ankitopol directory in terminal and type: python manage.py runserver\
+  open ankitopol directory in terminal and type\
+  python manage.py runserver
 - after each github pull/clone\
   .\Scripts\activate\
   cd ankietopol\
