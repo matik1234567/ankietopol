@@ -14,7 +14,6 @@ https://www.python.org/downloads/
   pip install -r requirements.txt\
 - run local server\
   open ankitopol directory in terminal and type: python manage.py runserver\
-  \
 - after each github pull/clone\
   .\Scripts\activate\
   cd ankietopol\ 
@@ -22,7 +21,7 @@ https://www.python.org/downloads/
 - before each github push if you added libraries
   .\Scripts\activate\
   cd ankietopol\
-  pip freeze > requirements.txt\ 
+  pip freeze > requirements.txt
 - library installation on local machine\
   .\Scripts\activate\
   pip install library_name\
