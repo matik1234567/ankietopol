@@ -16,7 +16,7 @@ https://www.python.org/downloads/
   open ankitopol directory in terminal and type: python manage.py runserver\
 - after each github pull/clone\
   .\Scripts\activate\
-  cd ankietopol\ 
+  cd ankietopol\
   pip install -r requirements.txt *make sure you have installed all necessary libraries for current version*
 - before each github push if you added libraries
   .\Scripts\activate\
