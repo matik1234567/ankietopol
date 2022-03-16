@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-mv_s9eue5o68s5w9i)$j674-v2n=xkh42n@7_t5)q8+p$0yep6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ankietopol.herokuapp.com']
+ALLOWED_HOSTS = ['ankietopol.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -75,11 +75,14 @@ WSGI_APPLICATION = 'ankietopol.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd45tflnq0hbf99',
+        'HOST': 'ec2-54-220-166-184.eu-west-1.compute.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'xqgvwjawnztfei',
+        'PASSWORD': 'e8b1816da4e7e49b4655a7b2efcc95c78697f4fefb91bee5c7360e65dbfade3d'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
