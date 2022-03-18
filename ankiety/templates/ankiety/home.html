@@ -1,0 +1,14 @@
+{% extends "ankiety/base.html" %}
+{% block content %}
+
+<h1>Home</h1>
+{% for book in books %}
+    {% if book.author == 'anonymus' %}
+        <span style="color:red;">{{book.author}} , {{book.title}}</span>
+    {% else %}
+        <span>{{book.author}} , {{book.title}}</span>
+    {% endif %}
+    <br>
+{% endfor %}
+
+{% endblock content %}
