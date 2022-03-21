@@ -26,7 +26,8 @@ https://www.python.org/downloads/
 - library installation on local machine\
   .\Scripts\activate\
   pip install library_name
-
+- for Patryk Gacek\
+  python manage.py collectstatic\
 - Database\
  postgreSQL with pgAdmin4\
  https://www.enterprisedb.com/downloads/postgres-postgresql-downloads *install with default options selected*\
