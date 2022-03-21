@@ -75,12 +75,12 @@ WSGI_APPLICATION = 'ankietopol.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd45tflnq0hbf99',
-        'HOST': 'ec2-54-220-166-184.eu-west-1.compute.amazonaws.com',
-        'PORT': 5432,
-        'USER': 'xqgvwjawnztfei',
-        'PASSWORD': 'e8b1816da4e7e49b4655a7b2efcc95c78697f4fefb91bee5c7360e65dbfade3d'
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'database-ankietopol',
+        'HOST': 'database-ankietopol.c3fozusj0ema.us-east-1.rds.amazonaws.com',
+        'PORT': 3306,
+        'USER': 'admin',
+        'PASSWORD': 'e8b1816da4e7e49b4655a7b2efcc95c7'
     }
 }
 
