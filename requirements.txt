@@ -11,3 +11,4 @@ sqlparse==0.4.2
 tzdata==2021.5
 urllib3==1.26.9
 waitress==2.1.0
+whitenoise==6.0.0
