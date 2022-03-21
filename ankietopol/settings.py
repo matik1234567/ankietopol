@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'ankietopol.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'database-ankietopol',
+        'NAME': 'ankietopol',
         'HOST': 'database-ankietopol.c3fozusj0ema.us-east-1.rds.amazonaws.com',
         'PORT': 3306,
         'USER': 'admin',
