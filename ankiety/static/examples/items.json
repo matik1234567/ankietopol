@@ -1,0 +1,28 @@
+{
+  "formItems":[
+    {
+      "id": 0,
+      "type": "C",
+      "description": "headline of item 1",
+      "value": ["description of checkbox 1", "description of checkbox 2"]
+    },
+    {
+      "id": 1,
+      "type": "T",
+      "description": "headline of item 2",
+      "value": "placeholder(optionally)"
+    },
+    {
+      "id": 2,
+      "type": "R",
+      "description": "headline of item 3",
+      "value": ["description of radio 1", "description of radio 2"]
+    },
+    {
+      "id": 3,
+      "type": "S",
+      "description": "headline of item 4",
+      "value": ["description of slider 1", "description of slider 2"]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "formCharts":[
+    {
+      "type": "L",
+      "X": "description of x axis",
+      "Y": "description of y axis",
+      "itemId": 0
+    },
+    {
+      "type": "E",
+      "X": "description of x axis",
+      "Y": "description of y axis",
+      "itemId": 2
+    }
+  ]
+}
