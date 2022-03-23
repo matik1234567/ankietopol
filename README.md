@@ -40,3 +40,5 @@ https://www.python.org/downloads/
         'PORT': 3306,\
         'USER': 'admin',\
         'PASSWORD': 'e8b1816da4e7e49b4655a7b2efcc95c7'\
+python manage.py makemigrations --name <table_name>
+python manage.py migrate
