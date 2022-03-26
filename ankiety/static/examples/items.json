@@ -4,25 +4,41 @@
       "id": 0,
       "type": "C",
       "description": "headline of item 1",
-      "value": ["description of checkbox 1", "description of checkbox 2"]
+      "value": ["description of checkbox 1", "description of checkbox 2"],
+      "name": "shshhs",
+      "is_req": "T"
     },
     {
       "id": 1,
       "type": "T",
       "description": "headline of item 2",
-      "value": "placeholder(optionally)"
+      "value": "placeholder(optionally)",
+      "name": "shshhs",
+      "is_req": "T"
     },
     {
       "id": 2,
       "type": "R",
       "description": "headline of item 3",
-      "value": ["description of radio 1", "description of radio 2"]
+      "value": ["description of radio 1", "description of radio 2"],
+      "name": "shshhs",
+      "is_req": "F"
     },
     {
       "id": 3,
       "type": "S",
       "description": "headline of item 4",
-      "value": ["description of slider 1", "description of slider 2"]
+      "value": ["description of slider 1", "description of slider 2"],
+      "name": "shshhs",
+      "is_req": "T"
+    },
+    {
+      "id": 4,
+      "type": "N",
+      "description": "headline of item 4",
+      "value": [5, 80],
+      "name": "shshhs",
+      "is_req": "T"
     }
   ]
 }

@@ -1,29 +1,22 @@
 from django.db import models
-
-
-class User(models.Model):
-    id_user = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    email = models.CharField(max_length=100, unique=True)
-    password = models.CharField(max_length=40)
-    created_at = models.DateTimeField()
-    verified = models.BooleanField(default=False)
+from django.contrib.auth.models import User
 
 
 class Form(models.Model):
     CONDITIONS = (
+        ('N', 'No condition'),
         ('D', 'Date'),
         ('C', 'Users count')
     )
     id_form = models.BigAutoField(primary_key=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField()
-    close_condition = models.CharField(max_length=1, choices=CONDITIONS)
+    created_at = models.DateTimeField(auto_now_add=True)
+    close_condition = models.CharField(max_length=1, choices=CONDITIONS, default='N')
     close_value = models.CharField(max_length=20)
-    is_close = models.BooleanField(default=False)
-    title = models.CharField(max_length=50)
+    is_closed = models.BooleanField(default=False)
+    title = models.CharField(max_length=100)
     description = models.CharField(max_length=500)
-    items = models.JSONField()
+    items = models.JSONField(default='')
 
 
 class Response(models.Model):
