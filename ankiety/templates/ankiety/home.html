@@ -12,6 +12,13 @@
             {% endif %}
             <br>
         {% endfor %}
+        {% if request.user.is_authenticated %}
+            <p>{{request.user}}</p>
+            <a href="logout">LOGOUT</a>
+        {% else %}
+            <p>Nie zalogowano</p>
+            <a href="login">LOGIN</a>
+        {% endif %}
     </div>
 </div>
 {% endblock content %}
