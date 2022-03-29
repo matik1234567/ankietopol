@@ -3,8 +3,9 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from essential_generators import DocumentGenerator
 import random
+from ankiety.static.py import DataCleaner
 
-class FactoryDatabase(TestCase):
+"""class FactoryDatabase(TestCase):
     def setUp(self):
         self.rows_count = 4
         # User.objects.create(id_user="1",name="admin", email="example@example.com", password="fdsfsfd", created_at="22-05-2022")
@@ -66,4 +67,20 @@ class TestMainDB:
             up = random.randint(50, 100)
             return [down, up]
         else:
-            return s.sentence()
+            return s.sentence()"""
+
+class DataCleanerTests(TestCase):
+
+    dataCleaner = DataCleaner.DataCleaner()
+
+    def remove_spaces_test(self):
+        in_text = "he    ll    o!!"
+        ou_text = self.dataCleaner.removeMultipleSpaces(in_text)
+        self.assertEqual(ou_text, "he ll o!!")
+
+    def remove_newlines_test(self):
+        in_text = """hey
+        hi
+        hello"""
+        ou_text = self.dataCleaner.removeNewLines(in_text)
+        self.assertEqual(ou_text, "heyhihello")
