@@ -6,6 +6,7 @@
       "description": "headline of item 1",
       "value": ["description of checkbox 1", "description of checkbox 2"],
       "name": "shshhs",
+      "placeholder": "",
       "is_req": "T"
     },
     {
@@ -14,6 +15,7 @@
       "description": "headline of item 2",
       "value": "placeholder(optionally)",
       "name": "shshhs",
+      "placeholder": "",
       "is_req": "T"
     },
     {
@@ -22,14 +24,16 @@
       "description": "headline of item 3",
       "value": ["description of radio 1", "description of radio 2"],
       "name": "shshhs",
+      "placeholder": "",
       "is_req": "F"
     },
     {
       "id": 3,
       "type": "S",
       "description": "headline of item 4",
-      "value": ["description of slider 1", "description of slider 2"],
+      "value": [0, 5],
       "name": "shshhs",
+      "placeholder": "",
       "is_req": "T"
     },
     {
@@ -38,6 +42,7 @@
       "description": "headline of item 4",
       "value": [5, 80],
       "name": "shshhs",
+      "placeholder": "",
       "is_req": "T"
     }
   ]
