@@ -12,10 +12,10 @@ class Form(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     close_condition = models.CharField(max_length=1, choices=CONDITIONS, default='N')
-    close_value = models.CharField(max_length=20)
+    close_value = models.CharField(max_length=30)
     is_closed = models.BooleanField(default=False)
-    title = models.CharField(max_length=100)
-    description = models.CharField(max_length=500)
+    title = models.CharField(max_length=200)
+    description = models.CharField(max_length=1000)
     items = models.JSONField(default='')
 
 
