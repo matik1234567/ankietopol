@@ -27,9 +27,20 @@ data = [
 def home(request):
     return render(request, 'ankiety/home.html', {'books': data})
 
+# poll creator
+def create_poll(request):
+    if request.method == "POST":
+        print(request.POST)
+    return render(request, 'ankiety/create_poll.html')
 
 # dev purpose for database testers
 def test(request):
 
     TestMainDB.run()
     return render(request, 'ankiety/test.html')
+
+# dev purpose test forms
+def test_form(request):
+    if request.method == "POST":
+        print(request.POST)
+    return render(request, 'ankiety/test_form.html')
