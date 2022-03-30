@@ -3,6 +3,7 @@ from django.http import HttpResponse
 #from ankiety.tests import TestMainDB
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
+from ankiety.static.py.DBManager import DBManager
 # Create your views here.
 class CustomLoginView(LoginView):
     template_name = 'ankiety/login.html'
@@ -30,7 +31,7 @@ def home(request):
 # poll creator
 def create_poll(request):
     if request.method == "POST":
-        print(request.POST)
+        DBManager.convert_to_json(request.POST, 1)  # user id
     return render(request, 'ankiety/create_poll.html')
 
 # dev purpose for database testers
