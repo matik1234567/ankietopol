@@ -11,12 +11,18 @@
             <input type="text" id="description" name="description">
         </div>
         <hr>
+        <div id="endConditionForm">
+            <p>Wybierz kiedy ankieta ma zostać zakończona</p>
+            <button type="button" id="showDateBtn">Wybierz datę</button>
+            <button type="button" id="showCountBtn">Podaj ilość osób</button>
+        </div>
+        <hr>
         <div>
             <button type="button" id="create_r">Jednokrotny wybór</button>
-            <button type="button"  id="create_c">Wielokrotny wybór</button>
-            <button type="button"  id="create_t">Pole tesktowe</button>
-            <button type="button"  id="create_n">Pole liczbowe</button>
-            <button type="button"  id="create_s">Suwak</button>
+            <button type="button" id="create_c">Wielokrotny wybór</button>
+            <button type="button" id="create_t">Pole tesktowe</button>
+            <button type="button" id="create_n">Pole liczbowe</button>
+            <button type="button" id="create_s">Suwak</button>
         </div>
         <hr>
         <div id="polls"></div>
@@ -43,7 +49,8 @@
                 input.type = inputType
                 input.name = name
                 input.id = id
-                input.placeholder = placeholder
+                if (placeholder !== "")
+                    input.placeholder = placeholder
                 div.appendChild(input)
 
                 return div;
@@ -331,11 +338,35 @@
                 globalCount += 1
             }
 
+            const showDateBtn = document.getElementById("showDateBtn")
+            const showCountBtn = document.getElementById("showCountBtn")
+            const endConditionForm = document.getElementById("endConditionForm")
+
+            showDateBtn.addEventListener("click", () => {
+                showDateBtn.disabled = true
+                showCountBtn.disabled = false
+                const dateField = createField("end_condition", "end_condition", "date", "Podaj datę zakończenia:", "")
+                endConditionForm.removeChild(endConditionForm.lastChild)
+                endConditionForm.appendChild(dateField)
+                document.getElementById("endConditionForm").appendChild(dateField)
+            })
+
+            showCountBtn.addEventListener("click", () => {
+                showCountBtn.disabled = true
+                showDateBtn.disabled = false
+                const countField = createField("end_condition", "end_condition", "number", "Podaj ilość osób:", "")
+                endConditionForm.removeChild(endConditionForm.lastChild)
+                endConditionForm.appendChild(countField)
+                document.getElementById("endConditionForm").appendChild(countField)
+            })
+
             document.getElementById("create_r").addEventListener('click', createR)
             document.getElementById("create_c").addEventListener('click', createC)
             document.getElementById("create_t").addEventListener('click', createT)
             document.getElementById("create_n").addEventListener('click', createN)
             document.getElementById("create_s").addEventListener('click', createS)
+
+            showDateBtn.click()
         })
     </script>
 {% endblock content %}
