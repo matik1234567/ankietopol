@@ -1,0 +1,75 @@
+{% extends "ankiety/base.html" %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        {% for poll in polls %}
+            <div>
+                <h1>{{ poll.description }}{% if poll.is_req == "T" %}*{% endif %}</h1>
+                {% if poll.type == "r" %}
+                    {% for el in poll.value %}
+                        <div>
+                            <input type="radio"
+                                   name="r-{{ poll.id }}"
+                                   value="r-{{ poll.id }}-{{ forloop.counter0 }}"
+                                   id="r-{{ poll.id }}-{{ forloop.counter0 }}"
+                                   {% if poll.is_req == "T" %}required{% endif %}
+                            >
+                            <label for="r-{{ poll.id }}-{{ forloop.counter0 }}">{{ el }}</label>
+                        </div>
+                    {% endfor %}
+                {% elif poll.type == "c" %}
+                    {% for el in poll.value %}
+                        <div>
+                            <input type="checkbox"
+                                   name="c-{{ poll.id }}-{{ forloop.counter0 }}"
+                                   id="c-{{ poll.id }}-{{ forloop.counter0 }}"
+                            >
+                            <label for="c-{{ poll.id }}-{{ forloop.counter0 }}">{{ el }}</label>
+                        </div>
+                    {% endfor %}
+                {% elif poll.type == "t" %}
+                    <div>
+                        <label for="t-{{ poll.id }}">{{ poll.description }}</label>
+                        <input type="text"
+                               name="t-{{ poll.id }}"
+                               placeholder="{{ poll.value }}"
+                               id="t-{{ poll.id }}"
+                               {% if poll.is_req == "T" %}required{% endif %}
+                        >
+                    </div>
+                {% elif poll.type == "n" %}
+                    <div>
+                        <label for="n-{{ poll.id }}">{{ poll.description }}</label>
+                        <input type="number"
+                               name="n-{{ poll.id }}"
+                               placeholder="{{ poll.value }}"
+                               id="n-{{ poll.id }}"
+                               {% if poll.is_req == "T" %}required{% endif %}
+                        >
+                    </div>
+                {% elif poll.type == "s" %}
+                    <div>
+                        <label for="s-{{ poll.id }}" id="sl-{{ poll.id }}">0</label>
+                        <input type="range"
+                               name="s-{{ poll.id }}"
+                               id="s-{{ poll.id }}"
+                               min="{{ poll.value.0 }}"
+                               max="{{ poll.value.1 }}"
+                               value="0"
+                               {% if poll.is_req == "T" %}required{% endif %}
+                        >
+                        <script>
+                            document.addEventListener("DOMContentLoaded", () => {
+                                document.getElementById("s-{{ poll.id }}").oninput = e => {
+                                    document.getElementById("sl-{{ poll.id }}").textContent = e.target.value
+                                }
+                            })
+                        </script>
+                    </div>
+                {% endif %}
+            </div>
+            <hr>
+        {% endfor %}
+        <input type="submit" value="Zakończ ankietę">
+    </form>
+{% endblock content %}
