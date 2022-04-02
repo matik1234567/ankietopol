@@ -56,6 +56,15 @@
                 return div;
             }
 
+            const createHiddenRequiredField = (name) => {
+                const input = document.createElement("input")
+                input.hidden = true
+                input.type = "number"
+                input.valueAsNumber = 0
+                input.name = name
+                return input
+            }
+
             const addDelBtnToField = (element) => {
                 const removeFieldButton = document.createElement("button")
                 removeFieldButton.type = "button"
@@ -97,6 +106,10 @@
                 fieldCount += 1
                 pollFields.appendChild(fieldName)
 
+                {# Poll Required Field #}
+                const fieldRequiredHidden = createHiddenRequiredField(idPoll)
+                pollFields.appendChild(fieldRequiredHidden)
+
                 {# Two Default Created Option Fields #}
                 for (let i = 0; i < 2; i++) {
                     const idField = idPoll + "-" + fieldCount
@@ -121,9 +134,17 @@
                 newPoll.prepend(removePollButton)
                 removePollButton.addEventListener("click", () => newPoll.remove())
 
-                {# Poll Required #}
+                {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, idPoll, "checkbox", "Wymagane:", "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", "Wymagane:", "")
+                requiredField.addEventListener("change", e => {
+                    if (e.target.checked)
+                        fieldRequiredHidden.valueAsNumber = 1
+                    else
+                        fieldRequiredHidden.valueAsNumber = 0
+                    console.dir(fieldRequiredHidden)
+                    console.log(e.target.checked)
+                })
                 newPoll.appendChild(requiredField)
                 fieldCount += 1
 
@@ -157,6 +178,10 @@
                 fieldCount += 1
                 pollFields.appendChild(fieldName)
 
+                {# Poll Required Field #}
+                const fieldRequiredHidden = createHiddenRequiredField(idPoll)
+                pollFields.appendChild(fieldRequiredHidden)
+
                 {# One Default Option Field #}
                 const idField = idPoll + "-" + fieldCount
                 const fieldOption = createField(idField, idPoll, "text", "Opcja:", optionDescription)
@@ -179,9 +204,17 @@
                 newPoll.prepend(removePollButton)
                 removePollButton.addEventListener("click", () => newPoll.remove())
 
-                {# Poll Required #}
+                {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, idPoll, "checkbox", "Wymagane:", "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", "Wymagane:", "")
+                requiredField.addEventListener("change", e => {
+                    if (e.target.checked)
+                        fieldRequiredHidden.valueAsNumber = 1
+                    else
+                        fieldRequiredHidden.valueAsNumber = 0
+                    console.dir(fieldRequiredHidden)
+                    console.log(e.target.checked)
+                })
                 newPoll.appendChild(requiredField)
                 fieldCount += 1
 
@@ -215,6 +248,10 @@
                 fieldCount += 1
                 pollFields.appendChild(fieldName)
 
+                {# Poll Required Field #}
+                const fieldRequiredHidden = createHiddenRequiredField(idPoll)
+                pollFields.appendChild(fieldRequiredHidden)
+
                 {# Placeholder Input #}
                 const idFieldPlaceholder = idPoll + "-" + fieldCount
                 const fieldPlaceholder = createField(idFieldPlaceholder, idPoll, "text", "Podpowiedź:", "Podpowiedź do pola")
@@ -226,9 +263,17 @@
                 newPoll.prepend(removePollButton)
                 removePollButton.addEventListener("click", () => newPoll.remove())
 
-                {# Poll Required #}
+                {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, idPoll, "checkbox", "Wymagane:", "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", "Wymagane:", "")
+                requiredField.addEventListener("change", e => {
+                    if (e.target.checked)
+                        fieldRequiredHidden.valueAsNumber = 1
+                    else
+                        fieldRequiredHidden.valueAsNumber = 0
+                    console.dir(fieldRequiredHidden)
+                    console.log(e.target.checked)
+                })
                 newPoll.appendChild(requiredField)
                 fieldCount += 1
 
@@ -262,6 +307,10 @@
                 fieldCount += 1
                 pollFields.appendChild(fieldName)
 
+                {# Poll Required Field #}
+                const fieldRequiredHidden = createHiddenRequiredField(idPoll)
+                pollFields.appendChild(fieldRequiredHidden)
+
                 {# Placeholder Input #}
                 const idFieldPlaceholder = idPoll + "-" + fieldCount
                 const fieldPlaceholder = createField(idFieldPlaceholder, idPoll, "text", "Podpowiedź:", "Podpowiedź do pola")
@@ -273,9 +322,17 @@
                 newPoll.prepend(removePollButton)
                 removePollButton.addEventListener("click", () => newPoll.remove())
 
-                {# Poll Required #}
+                {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, idPoll, "checkbox", "Wymagane:", "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", "Wymagane:", "")
+                requiredField.addEventListener("change", e => {
+                    if (e.target.checked)
+                        fieldRequiredHidden.valueAsNumber = 1
+                    else
+                        fieldRequiredHidden.valueAsNumber = 0
+                    console.dir(fieldRequiredHidden)
+                    console.log(e.target.checked)
+                })
                 newPoll.appendChild(requiredField)
                 fieldCount += 1
 
@@ -309,6 +366,10 @@
                 fieldCount += 1
                 pollFields.appendChild(fieldName)
 
+                {# Poll Required Field #}
+                const fieldRequiredHidden = createHiddenRequiredField(idPoll)
+                pollFields.appendChild(fieldRequiredHidden)
+
                 {# Min Field #}
                 const idFieldMin = idPoll + "-" + fieldCount
                 const fieldMin = createField(idFieldMin, idPoll, "text", "Minimalnalna wartość:", "Minimalna wartość suwaka")
@@ -326,9 +387,17 @@
                 newPoll.prepend(removePollButton)
                 removePollButton.addEventListener("click", () => newPoll.remove())
 
-                {# Poll Required #}
+                {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, idPoll, "checkbox", "Wymagane:", "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", "Wymagane:", "")
+                requiredField.addEventListener("change", e => {
+                    if (e.target.checked)
+                        fieldRequiredHidden.valueAsNumber = 1
+                    else
+                        fieldRequiredHidden.valueAsNumber = 0
+                    console.dir(fieldRequiredHidden)
+                    console.log(e.target.checked)
+                })
                 newPoll.appendChild(requiredField)
                 fieldCount += 1
 
