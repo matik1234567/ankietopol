@@ -28,6 +28,43 @@
             let globalCount = 0;
             const nameDescription = "Krótka nazwa"
             const headerDescription = "Twoje pytanie"
+            const optionDescription = "Opis pola"
+
+            const createField = (id, name, inputType, labelText, placeholder) => {
+                const div = document.createElement("div")
+
+                const label = document.createElement("label")
+                label.setAttribute("for", id)
+                const labelContent = document.createTextNode(labelText)
+                label.appendChild(labelContent)
+                div.appendChild(label)
+
+                const input = document.createElement("input")
+                input.type = inputType
+                input.name = name
+                input.id = id
+                input.placeholder = placeholder
+                div.appendChild(input)
+
+                return div;
+            }
+
+            const addDelBtnToField = (element) => {
+                const removeFieldButton = document.createElement("button")
+                removeFieldButton.type = "button"
+                const removeFieldButtonContent = document.createTextNode("-")
+                removeFieldButton.appendChild(removeFieldButtonContent)
+                removeFieldButton.addEventListener("click", () => element.remove())
+                element.appendChild(removeFieldButton)
+            }
+
+            const createButton = (type, text) => {
+                const button = document.createElement("button")
+                const buttonContent = document.createTextNode(text)
+                button.appendChild(buttonContent)
+                button.type = type
+                return button
+            }
 
             const createR = () => {
                 console.log("CreateR")
@@ -35,106 +72,53 @@
                 let fieldCount = 0
                 const idPoll = "r-" + localCount
 
+                {# Poll Wrapper #}
                 const newPoll = document.createElement("div")
                 polls.appendChild(newPoll)
 
-                const pollFileds = document.createElement("div")
-                newPoll.appendChild(pollFileds)
+                {# Fields Container #}
+                const pollFields = document.createElement("div")
+                newPoll.appendChild(pollFields)
 
-                const headerLabel = document.createElement("label")
-                headerLabel.for = idPoll
-                const headerLabelContent = document.createTextNode("Pytanie: ")
-                headerLabel.appendChild(headerLabelContent)
-                pollFileds.appendChild(headerLabel)
+                {# Poll Header #}
+                const fieldHeader = createField(idPoll, idPoll, "text", "Pytanie:", headerDescription)
+                pollFields.appendChild(fieldHeader)
 
-                const headerInput = document.createElement("input")
-                headerInput.type = "text"
-                headerInput.name = idPoll
-                headerInput.id = idPoll
-                headerInput.placeholder = headerDescription
-                pollFileds.appendChild(headerInput)
-
-                {# Name input START #}
+                {# Poll Name Field #}
                 const idFieldName = idPoll + "-" + fieldCount
-                const nameLabel = document.createElement("label")
-                nameLabel.for = idFieldName
-                const nameLabelContent = document.createTextNode("Nazwa: ")
-                nameLabel.appendChild(nameLabelContent)
-                pollFileds.appendChild(nameLabel)
-
-                const nameInput = document.createElement("input")
-                nameInput.type = "text"
-                nameInput.name = idPoll
-                nameInput.id = idFieldName
-                nameInput.placeholder = nameDescription
-                pollFileds.appendChild(nameInput)
+                const fieldName = createField(idFieldName, idPoll, "text", "Nazwa:", nameDescription)
                 fieldCount += 1
-                {# Name input START END #}
+                pollFields.appendChild(fieldName)
 
-                {# Two default created fields #}
+                {# Two Default Created Option Fields #}
                 for (let i = 0; i < 2; i++) {
                     const idField = idPoll + "-" + fieldCount
-
-                    const fieldLabel = document.createElement("label")
-                    fieldLabel.setAttribute("for", idField)
-                    const fieldLabelContent = document.createTextNode("Opcja:")
-                    fieldLabel.appendChild(fieldLabelContent)
-                    pollFileds.appendChild(fieldLabel)
-
-                    const fieldInput = document.createElement("input")
-                    fieldInput.type = "text"
-                    fieldInput.name = idPoll
-                    fieldInput.id = idField
-                    fieldInput.placeholder = "Opis pola"
-                    pollFileds.appendChild(fieldInput)
-
+                    const fieldOption = createField(idField, idPoll, "text", "Opcja:", optionDescription)
+                    pollFields.appendChild(fieldOption)
                     fieldCount += 1
                 }
 
-                const addFieldButton = document.createElement("button")
-                newPoll.prepend(addFieldButton)
-                const addFieldButtonContent = document.createTextNode("Dodaj pole")
-                addFieldButton.appendChild(addFieldButtonContent)
-                addFieldButton.type = "button"
+                {# Add More Option Fields Button #}
+                const addFieldButton = createButton("button", "+")
+                newPoll.appendChild(addFieldButton)
                 addFieldButton.addEventListener("click", () => {
                     const idField = idPoll + "-" + fieldCount
-
-                    const fieldLabel = document.createElement("label")
-                    pollFileds.appendChild(fieldLabel)
-                    fieldLabel.setAttribute("for", idField)
-                    const fieldLabelContent = document.createTextNode("Opcja:")
-                    fieldLabel.appendChild(fieldLabelContent)
-
-
-                    const fieldInput = document.createElement("input")
-                    pollFileds.appendChild(fieldInput)
-                    fieldInput.type = "text"
-                    fieldInput.name = idPoll
-                    fieldInput.id = idField
-                    fieldInput.placeholder = "Opis pola"
-
-                    const removeFieldButton = document.createElement("button")
-                    pollFileds.appendChild(removeFieldButton)
-                    removeFieldButton.type = "button"
-                    const removeFieldButtonContent = document.createTextNode("-")
-                    removeFieldButton.appendChild(removeFieldButtonContent)
-                    removeFieldButton.addEventListener("click", () => {
-                        fieldLabel.remove()
-                        fieldInput.remove()
-                        removeFieldButton.remove()
-                    })
-
+                    const optionField = createField(idField, idPoll, "text", "Opcja:", optionDescription)
+                    addDelBtnToField(optionField)
+                    pollFields.appendChild(optionField)
                     fieldCount += 1
                 })
 
-                const removePollButton = document.createElement("button")
+                {# Poll Delete Button #}
+                const removePollButton = createButton("button", "X")
                 newPoll.prepend(removePollButton)
-                removePollButton.type = "button"
-                const removePollButtonContent = document.createTextNode("X")
-                removePollButton.appendChild(removePollButtonContent)
-                removePollButton.addEventListener("click", () => {
-                    newPoll.remove()
-                })
+                removePollButton.addEventListener("click", () => newPoll.remove())
+
+                {# Poll Required #}
+                const idFieldRequired = idPoll + "-" + fieldCount
+                const requiredField = createField(idFieldRequired, idPoll, "checkbox", "Wymagane:", "")
+                newPoll.appendChild(requiredField)
+                fieldCount += 1
 
                 const hr = document.createElement("hr")
                 newPoll.appendChild(hr)
@@ -148,105 +132,51 @@
                 let fieldCount = 0
                 const idPoll = "c-" + localCount
 
+                {# Poll Wrapper #}
                 const newPoll = document.createElement("div")
                 polls.appendChild(newPoll)
 
-                const pollFileds = document.createElement("div")
-                newPoll.appendChild(pollFileds)
+                {# Fields Container #}
+                const pollFields = document.createElement("div")
+                newPoll.appendChild(pollFields)
 
-                const headerLabel = document.createElement("label")
-                headerLabel.for = idPoll
-                const headerLabelContent = document.createTextNode("Pytanie: ")
-                headerLabel.appendChild(headerLabelContent)
-                pollFileds.appendChild(headerLabel)
+                {# Poll Header #}
+                const fieldHeader = createField(idPoll, idPoll, "text", "Pytanie:", headerDescription)
+                pollFields.appendChild(fieldHeader)
 
-                const headerInput = document.createElement("input")
-                headerInput.type = "text"
-                headerInput.name = idPoll
-                headerInput.id = idPoll
-                headerInput.placeholder = headerDescription
-                pollFileds.appendChild(headerInput)
-
-                {# Name input START #}
+                {# Poll Name Field #}
                 const idFieldName = idPoll + "-" + fieldCount
-                const nameLabel = document.createElement("label")
-                nameLabel.for = idFieldName
-                const nameLabelContent = document.createTextNode("Nazwa: ")
-                nameLabel.appendChild(nameLabelContent)
-                pollFileds.appendChild(nameLabel)
-
-                const nameInput = document.createElement("input")
-                nameInput.type = "text"
-                nameInput.name = idPoll
-                nameInput.id = idFieldName
-                nameInput.placeholder = nameDescription
-                pollFileds.appendChild(nameInput)
+                const fieldName = createField(idFieldName, idPoll, "text", "Nazwa:", nameDescription)
                 fieldCount += 1
-                {# Name input START END #}
+                pollFields.appendChild(fieldName)
 
-                {# One default created field START #}
+                {# One Default Option Field #}
                 const idField = idPoll + "-" + fieldCount
-
-                const fieldLabel = document.createElement("label")
-                fieldLabel.setAttribute("for", idField)
-                const fieldLabelContent = document.createTextNode("Opcja:")
-                fieldLabel.appendChild(fieldLabelContent)
-                pollFileds.appendChild(fieldLabel)
-
-                const fieldInput = document.createElement("input")
-                fieldInput.type = "text"
-                fieldInput.name = idPoll
-                fieldInput.id = idField
-                fieldInput.placeholder = "Opis pola"
-                pollFileds.appendChild(fieldInput)
-
+                const fieldOption = createField(idField, idPoll, "text", "Opcja:", optionDescription)
+                pollFields.appendChild(fieldOption)
                 fieldCount += 1
-                {# One default created field END #}
 
-                const addFieldButton = document.createElement("button")
-                newPoll.prepend(addFieldButton)
-                const addFieldButtonContent = document.createTextNode("Dodaj pole")
-                addFieldButton.appendChild(addFieldButtonContent)
-                addFieldButton.type = "button"
+                {# Add More Option Fields Button #}
+                const addFieldButton = createButton("button", "+")
+                newPoll.appendChild(addFieldButton)
                 addFieldButton.addEventListener("click", () => {
                     const idField = idPoll + "-" + fieldCount
-
-                    const fieldLabel = document.createElement("label")
-                    pollFileds.appendChild(fieldLabel)
-                    fieldLabel.setAttribute("for", idField)
-                    const fieldLabelContent = document.createTextNode("Opcja:")
-                    fieldLabel.appendChild(fieldLabelContent)
-
-
-                    const fieldInput = document.createElement("input")
-                    pollFileds.appendChild(fieldInput)
-                    fieldInput.type = "text"
-                    fieldInput.name = idPoll
-                    fieldInput.id = idField
-                    fieldInput.placeholder = "Opis pola"
-
-                    const removeFieldButton = document.createElement("button")
-                    pollFileds.appendChild(removeFieldButton)
-                    removeFieldButton.type = "button"
-                    const removeFieldButtonContent = document.createTextNode("-")
-                    removeFieldButton.appendChild(removeFieldButtonContent)
-                    removeFieldButton.addEventListener("click", () => {
-                        fieldLabel.remove()
-                        fieldInput.remove()
-                        removeFieldButton.remove()
-                    })
-
+                    const optionField = createField(idField, idPoll, "text", "Opcja:", optionDescription)
+                    addDelBtnToField(optionField)
+                    pollFields.appendChild(optionField)
                     fieldCount += 1
                 })
 
-                const removePollButton = document.createElement("button")
+                {# Poll Delete Button #}
+                const removePollButton = createButton("button", "X")
                 newPoll.prepend(removePollButton)
-                removePollButton.type = "button"
-                const removePollButtonContent = document.createTextNode("X")
-                removePollButton.appendChild(removePollButtonContent)
-                removePollButton.addEventListener("click", () => {
-                    newPoll.remove()
-                })
+                removePollButton.addEventListener("click", () => newPoll.remove())
+
+                {# Poll Required #}
+                const idFieldRequired = idPoll + "-" + fieldCount
+                const requiredField = createField(idFieldRequired, idPoll, "checkbox", "Wymagane:", "")
+                newPoll.appendChild(requiredField)
+                fieldCount += 1
 
                 const hr = document.createElement("hr")
                 newPoll.appendChild(hr)
@@ -260,66 +190,40 @@
                 let fieldCount = 0
                 const idPoll = "t-" + localCount
 
+                {# Poll Wrapper #}
                 const newPoll = document.createElement("div")
                 polls.appendChild(newPoll)
 
-                const pollFileds = document.createElement("div")
-                newPoll.appendChild(pollFileds)
+                {# Fields Container #}
+                const pollFields = document.createElement("div")
+                newPoll.appendChild(pollFields)
 
-                const headerLabel = document.createElement("label")
-                headerLabel.for = idPoll
-                const headerLabelContent = document.createTextNode("Pytanie: ")
-                headerLabel.appendChild(headerLabelContent)
-                pollFileds.appendChild(headerLabel)
+                {# Poll Header #}
+                const fieldHeader = createField(idPoll, idPoll, "text", "Pytanie:", headerDescription)
+                pollFields.appendChild(fieldHeader)
 
-                const headerInput = document.createElement("input")
-                headerInput.type = "text"
-                headerInput.name = idPoll
-                headerInput.id = idPoll
-                headerInput.placeholder = headerDescription
-                pollFileds.appendChild(headerInput)
-
-                {# Name input START #}
+                {# Poll Name Field #}
                 const idFieldName = idPoll + "-" + fieldCount
-                const nameLabel = document.createElement("label")
-                nameLabel.for = idFieldName
-                const nameLabelContent = document.createTextNode("Nazwa: ")
-                nameLabel.appendChild(nameLabelContent)
-                pollFileds.appendChild(nameLabel)
-
-                const nameInput = document.createElement("input")
-                nameInput.type = "text"
-                nameInput.name = idPoll
-                nameInput.id = idFieldName
-                nameInput.placeholder = nameDescription
-                pollFileds.appendChild(nameInput)
+                const fieldName = createField(idFieldName, idPoll, "text", "Nazwa:", nameDescription)
                 fieldCount += 1
-                {# Name input START END #}
+                pollFields.appendChild(fieldName)
 
-                {# Placeholder input START #}
+                {# Placeholder Input #}
                 const idFieldPlaceholder = idPoll + "-" + fieldCount
-                const placeholderLabel = document.createElement("label")
-                placeholderLabel.for = idFieldPlaceholder
-                const placeholderLabelContent = document.createTextNode("Placeholder: ")
-                placeholderLabel.appendChild(placeholderLabelContent)
-                pollFileds.appendChild(placeholderLabel)
+                const fieldPlaceholder = createField(idFieldPlaceholder, idPoll, "text", "Podpowiedź:", "Podpowiedź do pola")
+                fieldCount += 1
+                pollFields.appendChild(fieldPlaceholder)
 
-                const placeholderInput = document.createElement("input")
-                placeholderInput.type = "text"
-                placeholderInput.name = idPoll
-                placeholderInput.id = idFieldPlaceholder
-                pollFileds.appendChild(placeholderInput)
-                {#fieldCount += 1#}
-                {# Placeholder input START END #}
-
-                const removePollButton = document.createElement("button")
+                {# Poll Delete Button #}
+                const removePollButton = createButton("button", "X")
                 newPoll.prepend(removePollButton)
-                removePollButton.type = "button"
-                const removePollButtonContent = document.createTextNode("X")
-                removePollButton.appendChild(removePollButtonContent)
-                removePollButton.addEventListener("click", () => {
-                    newPoll.remove()
-                })
+                removePollButton.addEventListener("click", () => newPoll.remove())
+
+                {# Poll Required #}
+                const idFieldRequired = idPoll + "-" + fieldCount
+                const requiredField = createField(idFieldRequired, idPoll, "checkbox", "Wymagane:", "")
+                newPoll.appendChild(requiredField)
+                fieldCount += 1
 
                 const hr = document.createElement("hr")
                 newPoll.appendChild(hr)
@@ -333,66 +237,40 @@
                 let fieldCount = 0
                 const idPoll = "n-" + localCount
 
+                {# Poll Wrapper #}
                 const newPoll = document.createElement("div")
                 polls.appendChild(newPoll)
 
-                const pollFileds = document.createElement("div")
-                newPoll.appendChild(pollFileds)
+                {# Fields Container #}
+                const pollFields = document.createElement("div")
+                newPoll.appendChild(pollFields)
 
-                const headerLabel = document.createElement("label")
-                headerLabel.for = idPoll
-                const headerLabelContent = document.createTextNode("Pytanie: ")
-                headerLabel.appendChild(headerLabelContent)
-                pollFileds.appendChild(headerLabel)
+                {# Poll Header #}
+                const fieldHeader = createField(idPoll, idPoll, "text", "Pytanie:", headerDescription)
+                pollFields.appendChild(fieldHeader)
 
-                const headerInput = document.createElement("input")
-                headerInput.type = "text"
-                headerInput.name = idPoll
-                headerInput.id = idPoll
-                headerInput.placeholder = headerDescription
-                pollFileds.appendChild(headerInput)
-
-                {# Name input START #}
+                {# Poll Name Field #}
                 const idFieldName = idPoll + "-" + fieldCount
-                const nameLabel = document.createElement("label")
-                nameLabel.for = idFieldName
-                const nameLabelContent = document.createTextNode("Nazwa: ")
-                nameLabel.appendChild(nameLabelContent)
-                pollFileds.appendChild(nameLabel)
-
-                const nameInput = document.createElement("input")
-                nameInput.type = "text"
-                nameInput.name = idPoll
-                nameInput.id = idFieldName
-                nameInput.placeholder = nameDescription
-                pollFileds.appendChild(nameInput)
+                const fieldName = createField(idFieldName, idPoll, "text", "Nazwa:", nameDescription)
                 fieldCount += 1
-                {# Name input START END #}
+                pollFields.appendChild(fieldName)
 
-                {# Placeholder input START #}
+                {# Placeholder Input #}
                 const idFieldPlaceholder = idPoll + "-" + fieldCount
-                const placeholderLabel = document.createElement("label")
-                placeholderLabel.for = idFieldPlaceholder
-                const placeholderLabelContent = document.createTextNode("Placeholder: ")
-                placeholderLabel.appendChild(placeholderLabelContent)
-                pollFileds.appendChild(placeholderLabel)
+                const fieldPlaceholder = createField(idFieldPlaceholder, idPoll, "text", "Podpowiedź:", "Podpowiedź do pola")
+                fieldCount += 1
+                pollFields.appendChild(fieldPlaceholder)
 
-                const placeholderInput = document.createElement("input")
-                placeholderInput.type = "text"
-                placeholderInput.name = idPoll
-                placeholderInput.id = idFieldPlaceholder
-                pollFileds.appendChild(placeholderInput)
-                {#fieldCount += 1#}
-                {# Placeholder input START END #}
-
-                const removePollButton = document.createElement("button")
+                {# Poll Delete Button #}
+                const removePollButton = createButton("button", "X")
                 newPoll.prepend(removePollButton)
-                removePollButton.type = "button"
-                const removePollButtonContent = document.createTextNode("X")
-                removePollButton.appendChild(removePollButtonContent)
-                removePollButton.addEventListener("click", () => {
-                    newPoll.remove()
-                })
+                removePollButton.addEventListener("click", () => newPoll.remove())
+
+                {# Poll Required #}
+                const idFieldRequired = idPoll + "-" + fieldCount
+                const requiredField = createField(idFieldRequired, idPoll, "checkbox", "Wymagane:", "")
+                newPoll.appendChild(requiredField)
+                fieldCount += 1
 
                 const hr = document.createElement("hr")
                 newPoll.appendChild(hr)
@@ -406,77 +284,46 @@
                 let fieldCount = 0
                 const idPoll = "s-" + localCount
 
+                {# Poll Wrapper #}
                 const newPoll = document.createElement("div")
                 polls.appendChild(newPoll)
 
-                const pollFileds = document.createElement("div")
-                newPoll.appendChild(pollFileds)
+                {# Fields Container #}
+                const pollFields = document.createElement("div")
+                newPoll.appendChild(pollFields)
 
-                const headerLabel = document.createElement("label")
-                headerLabel.for = idPoll
-                const headerLabelContent = document.createTextNode("Pytanie: ")
-                headerLabel.appendChild(headerLabelContent)
-                pollFileds.appendChild(headerLabel)
+                {# Poll Header #}
+                const fieldHeader = createField(idPoll, idPoll, "text", "Pytanie:", headerDescription)
+                pollFields.appendChild(fieldHeader)
 
-                const headerInput = document.createElement("input")
-                headerInput.type = "text"
-                headerInput.name = idPoll
-                headerInput.id = idPoll
-                headerInput.placeholder = headerDescription
-                pollFileds.appendChild(headerInput)
-
-                {# Name input START #}
+                {# Poll Name Field #}
                 const idFieldName = idPoll + "-" + fieldCount
-                const nameLabel = document.createElement("label")
-                nameLabel.for = idFieldName
-                const nameLabelContent = document.createTextNode("Nazwa: ")
-                nameLabel.appendChild(nameLabelContent)
-                pollFileds.appendChild(nameLabel)
-
-                const nameInput = document.createElement("input")
-                nameInput.type = "text"
-                nameInput.name = idPoll
-                nameInput.id = idFieldName
-                nameInput.placeholder = nameDescription
-                pollFileds.appendChild(nameInput)
+                const fieldName = createField(idFieldName, idPoll, "text", "Nazwa:", nameDescription)
                 fieldCount += 1
-                {# Name input START END #}
+                pollFields.appendChild(fieldName)
 
+                {# Min Field #}
                 const idFieldMin = idPoll + "-" + fieldCount
-                const minLabel = document.createElement("label")
-                minLabel.for = idFieldMin
-                const minLabelContent = document.createTextNode("Minimalnalna wartość: ")
-                minLabel.appendChild(minLabelContent)
-                pollFileds.appendChild(minLabel)
-
-                const minInput = document.createElement("input")
-                minInput.type = "number"
-                minInput.name = idPoll
-                minInput.id = idFieldMin
-                pollFileds.appendChild(minInput)
-
+                const fieldMin = createField(idFieldMin, idPoll, "text", "Minimalnalna wartość:", "Minimalna wartość suwaka")
                 fieldCount += 1
+                pollFields.appendChild(fieldMin)
+
+                {# Min Field #}
                 const idFieldMax = idPoll + "-" + fieldCount
-                const maxLabel = document.createElement("label")
-                maxLabel.for = idFieldMax
-                const maxLabelContent = document.createTextNode("Maksymalna wartość: ")
-                maxLabel.appendChild(maxLabelContent)
-                pollFileds.appendChild(maxLabel)
+                const fieldMax = createField(idFieldMax, idPoll, "text", "Maksymalna wartość:", "Maksymalna wartość suwaka")
+                fieldCount += 1
+                pollFields.appendChild(fieldMax)
 
-                const maxInput = document.createElement("input")
-                maxInput.type = "number"
-                maxInput.name = idPoll
-                maxInput.id = idFieldMax
-                pollFileds.appendChild(maxInput)
-
-                const removePollButton = document.createElement("button")
+                {# Poll Delete Button #}
+                const removePollButton = createButton("button", "X")
                 newPoll.prepend(removePollButton)
-                removePollButton.type = "button"
-                const removePollButtonContent = document.createTextNode("X")
-                removePollButton.appendChild(removePollButtonContent)
-                removePollButton.addEventListener("click", () => {
-                    newPoll.remove()
-                })
+                removePollButton.addEventListener("click", () => newPoll.remove())
+
+                {# Poll Required #}
+                const idFieldRequired = idPoll + "-" + fieldCount
+                const requiredField = createField(idFieldRequired, idPoll, "checkbox", "Wymagane:", "")
+                newPoll.appendChild(requiredField)
+                fieldCount += 1
 
                 const hr = document.createElement("hr")
                 newPoll.appendChild(hr)
