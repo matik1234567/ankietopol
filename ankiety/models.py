@@ -13,6 +13,7 @@ class Form(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     close_condition = models.CharField(max_length=1, choices=CONDITIONS, default='N')
     close_value = models.CharField(max_length=30)
+    close_count = models.PositiveBigIntegerField(default=0)
     is_closed = models.BooleanField(default=False)
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
