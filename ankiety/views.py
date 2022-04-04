@@ -12,6 +12,11 @@ class CustomLoginView(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('home')
+
+def UserPanel(request):
+    if request.method == "POST":
+        print(request.POST)
+    return render(request, 'ankiety/UserPanel.html')
 # example
 data = [
     {
