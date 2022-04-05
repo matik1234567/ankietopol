@@ -3,4 +3,5 @@
     {% csrf_token %}
     {{form.as_p}}
     <input type = "submit" value="Login">
+    <a href="{% url 'home' %}">Return to main page</a>
 </form>

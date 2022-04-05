@@ -4,10 +4,15 @@
     {% csrf_token %}
     {{form.as_p}}
     <div>
-        <p>{{request.user}}</p>
-        <input type = "submit" value="Your Poll's">
-        <input type = "submit" value="Delete Account">
-        <input type = "submit" value="Change Password">
+        {% if request.user.is_authenticated %}
+            <p>{{request.user}}</p>
+            <input type = "submit" value="Your Poll's">
+            <input type = "submit" value="Delete Account">
+            <input type = "submit" value="Change Password">
+        {% else %}
+            <p>Nie zalogowano</p>
+            <a href="{% url 'login'%}">LOGIN </a>
+         {% endif %}
     </div>
 </form>
 <a href="{% url 'home' %}">Return to main page</a>
