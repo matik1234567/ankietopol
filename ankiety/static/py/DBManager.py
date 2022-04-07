@@ -8,7 +8,7 @@ class DBManager:
     @staticmethod
     def is_required(is_req):
         if is_req == '1':
-            return 'T'
+            return 'Y'
         else:
             return 'F'
 
@@ -50,8 +50,7 @@ class DBManager:
                 placeholder = value[-1]
                 value.pop(-1)
             poll_json['formItems'].append({'id': index, 'type': item_symbol, 'description': description, 'value': value,
-                                           'name': name, 'placeholder': placeholder,
-                                           'is_req': DBManager.is_required(is_req)})
+                                           'name': name, 'is_req': DBManager.is_required(is_req)})
             index += 1
         print(poll_json)
         user = User.objects.get(pk=user_id)  # owner
