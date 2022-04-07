@@ -34,6 +34,9 @@ data = [
 
 # return home view
 def home(request):
+    if request.method == "POST":
+        return redirect('poll', request.POST['poll_code'])
+
     return render(request, 'ankiety/home.html', {'books': data})
 
 
@@ -45,18 +48,16 @@ def create_poll(request):
 
 
 # poll view
-def poll(request):
+def poll(request, pk):
     if request.method == "POST":
-<<<<<<< HEAD
-        DBManager.send_poll_response(request.POST, 42)
-
-    polls = DBManager.get_poll_model(42)
-=======
-        print(request.POST)
+        DBManager.send_poll_response(request.POST, pk)
         return redirect('poll_complete')
-    polls = DBManager.get_poll_model(47)
->>>>>>> a86879d668bf25c04d5a9e5e1bce05756f872265
-    return render(request, 'ankiety/poll.html', {'polls': polls})
+
+    try:
+        polls = DBManager.get_poll_model(pk)
+        return render(request, 'ankiety/poll.html', {'polls': polls})
+    except:
+        return render(request, 'ankiety/error_page.html', {'error': "Bad Code"})
 
 
 # poll complete

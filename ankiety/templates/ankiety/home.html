@@ -22,9 +22,13 @@
         <br>
         <a href="{% url 'create_poll' %}">Poll creator</a>
         <br>
-        <a href="{% url 'poll' %}">Fill a poll</a>
-        <br>
         <a href="{% url 'UserPanel'%}"> Manage Your Account</a>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="poll_code">Kod ankiety:</label>
+            <input type="text" name="poll_code" id="poll_code">
+            <input type="submit" value="Wypełnij ankietę">
+        </form>
     </div>
 </div>
 {% endblock content %}
