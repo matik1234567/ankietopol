@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
-from ankiety.models import Form,Response
-from RequestParser import RequestParser
+from ankiety.models import Form, Response
+from .RequestParser import RequestParser
 
 
 class DBManager:
@@ -29,7 +29,7 @@ class DBManager:
             value.pop(0)
             is_req = value[0]
             value.pop(0)
-            
+
             poll_json['formItems'].append({'id': index, 'type': item_symbol, 'description': description, 'value': value,
                                            'name': name, 'is_req': RequestParser.is_required(is_req)})
             index += 1

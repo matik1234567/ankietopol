@@ -112,6 +112,7 @@ def test(request):
 # dev purpose test forms
 def test_form(request):
     if request.method == "POST":
+        DBManager.send_poll_response()
         print(request.POST)
     return render(request, 'ankiety/test_form.html')
 # login user

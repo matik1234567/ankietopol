@@ -2,6 +2,8 @@ import re
 
 
 class RequestParser:
+    def aa(self):
+        return 6
     @staticmethod
     def is_required(is_req):
         if is_req == '1':
