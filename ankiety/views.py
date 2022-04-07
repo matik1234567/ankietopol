@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 # from ankiety.tests import TestMainDB
@@ -38,8 +39,8 @@ data = [
 def home(request):
     if request.method == "POST":
         return redirect('poll', request.POST['poll_code'])
-
-    return render(request, 'ankiety/home.html', {'books': data})
+    public_polls = DBManager.get_public_newest_polls()
+    return render(request, 'ankiety/home.html', {'books': data, 'public_polls': public_polls})
 
 
 # poll creator
@@ -50,17 +51,27 @@ def create_poll(request):
 
 
 # poll view
-def poll(request):
+def poll(request, pk):
     if request.method == "POST":
-        DBManager.send_poll_response(request.POST, 47)
+        DBManager.send_poll_response(request.POST, pk)
         return redirect('poll_complete')
-    polls = DBManager.get_poll_model(47)
-    return render(request, 'ankiety/poll.html', {'polls': polls})
+    
+    try:
+        polls = DBManager.get_poll_model(pk)
+        return render(request, 'ankiety/poll.html', {'polls': polls})
+    except:
+        return render(request, 'ankiety/error_page.html', {'error': "Bad Code"})
 
 # poll complete
 def poll_complete(request):
     return render(request, 'ankiety/poll_complete.html')
 
+# poll search
+def poll_search(request):
+    if request.method == "GET":
+        print(request.GET)
+
+    return render(request, 'ankiety/poll_search.html', {'books': data})
 
 # dev purpose for database testers
 def test(request):

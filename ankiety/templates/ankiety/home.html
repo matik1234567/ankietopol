@@ -23,6 +23,9 @@
         <a href="{% url 'create_poll' %}">Poll creator</a>
         <br>
         <a href="{% url 'UserPanel'%}"> Manage Your Account</a>
+        <br>
+        <a href="{% url 'poll_search'%}">Search poll</a>
+        <br>
         <form method="POST">
             {% csrf_token %}
             <label for="poll_code">Kod ankiety:</label>
@@ -30,5 +33,12 @@
             <input type="submit" value="Wypełnij ankietę">
         </form>
     </div>
+</div>
+<div>
+<h1>Recently added public polls</h1>
+{% for poll in public_polls %}
+    <a href="{% url 'poll' poll.id_form %}">{{ poll.title }}</a>
+    <br>
+{% endfor %}
 </div>
 {% endblock content %}
