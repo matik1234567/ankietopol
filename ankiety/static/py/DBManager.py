@@ -71,8 +71,11 @@ class DBManager:
             poll_json[key] = value
 
         print(poll_json)
-        with connection.cursor() as cursor:
-            cursor.execute("UPDATE ankiety_response SET responses = JSON_ARRAY_APPEND(responses, '$', %s) WHERE id_response_id = 42", [poll_json])
+        if Response.objects.filter(pk=poll_id).exists():
+            with connection.cursor() as cursor:
+                cursor.execute("UPDATE ankiety_response SET responses = JSON_ARRAY_APPEND(responses, '$', %s) WHERE id_response_id = %s", [poll_json, poll_id])
+        else:
+            Form.objects.create(id_response=poll_id, responses=poll_json)
         # Response.objects.filter(id_response=poll_id).update(responses=Response('responses',poll_json ))
 
 
