@@ -1,40 +1,44 @@
 {% extends "ankiety/base.html" %}
 {% block content %}
-    <a href="{% url 'home' %}">Strona główna</a>
-    <h1>Utwórz ankietę</h1>
+    <a href="{% url 'home' %}">Back</a>
+    <h1>Create poll</h1>
     <form method="POST">
         {% csrf_token %}
         <div>
-            <label for="title">Nazwa ankiety</label>
-            <input type="text" id="title" name="title">
-            <label for="description">Opis</label>
-            <input type="text" id="description" name="description">
+            <label for="title">Title of the survey</label>
+            <input type="text" id="title" name="title" placeholder="Title of the survey">
+            <label for="description">Description</label>
+            <input type="text" id="description" name="description" placeholder="Description">
         </div>
         <hr>
         <div id="endConditionForm">
-            <p>Wybierz kiedy ankieta ma zostać zakończona</p>
-            <button type="button" id="showDateBtn">Wybierz datę</button>
-            <button type="button" id="showCountBtn">Podaj ilość osób</button>
+            <p>Select when the survey should be completed</p>
+            <button type="button" id="showDateBtn">Select a date</button>
+            <button type="button" id="showCountBtn">Enter number of people</button>
         </div>
         <hr>
         <div>
-            <button type="button" id="create_r">Jednokrotny wybór</button>
-            <button type="button" id="create_c">Wielokrotny wybór</button>
-            <button type="button" id="create_t">Pole tesktowe</button>
-            <button type="button" id="create_n">Pole liczbowe</button>
-            <button type="button" id="create_s">Suwak</button>
+            <button type="button" id="create_r">Single choice</button>
+            <button type="button" id="create_c">Multiple choice</button>
+            <button type="button" id="create_t">Text field</button>
+            <button type="button" id="create_n">Numerical field</button>
+            <button type="button" id="create_s">Range slider</button>
         </div>
         <hr>
         <div id="polls"></div>
-        <input type="submit" value="Utwórz ankietę">
+        <input type="submit" value="Create poll">
     </form>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const polls = document.getElementById("polls")
             let globalCount = 0;
-            const nameDescription = "Krótka nazwa"
-            const headerDescription = "Twoje pytanie"
-            const optionDescription = "Opis pola"
+            const nameDescription = "Question ID (short name)"
+            const headerDescription = "Content of the question"
+            const optionDescription = "Field description"
+            const requiredContent = "Required"
+            const maxValueContent = "Max value"
+            const minValueContent = "Min value"
+            const placeholderContent = "Placeholder"
 
             const createField = (id, name, inputType, labelText, placeholder) => {
                 const div = document.createElement("div")
@@ -97,12 +101,12 @@
                 newPoll.appendChild(pollFields)
 
                 {# Poll Header #}
-                const fieldHeader = createField(idPoll, idPoll, "text", "Pytanie:", headerDescription)
+                const fieldHeader = createField(idPoll, idPoll, "text", headerDescription, headerDescription)
                 pollFields.appendChild(fieldHeader)
 
                 {# Poll Name Field #}
                 const idFieldName = idPoll + "-" + fieldCount
-                const fieldName = createField(idFieldName, idPoll, "text", "Nazwa:", nameDescription)
+                const fieldName = createField(idFieldName, idPoll, "text", nameDescription, nameDescription)
                 fieldCount += 1
                 pollFields.appendChild(fieldName)
 
@@ -113,7 +117,7 @@
                 {# Two Default Created Option Fields #}
                 for (let i = 0; i < 2; i++) {
                     const idField = idPoll + "-" + fieldCount
-                    const fieldOption = createField(idField, idPoll, "text", "Opcja:", optionDescription)
+                    const fieldOption = createField(idField, idPoll, "text", optionDescription, optionDescription)
                     pollFields.appendChild(fieldOption)
                     fieldCount += 1
                 }
@@ -123,7 +127,7 @@
                 newPoll.appendChild(addFieldButton)
                 addFieldButton.addEventListener("click", () => {
                     const idField = idPoll + "-" + fieldCount
-                    const optionField = createField(idField, idPoll, "text", "Opcja:", optionDescription)
+                    const optionField = createField(idField, idPoll, "text", optionDescription, optionDescription)
                     addDelBtnToField(optionField)
                     pollFields.appendChild(optionField)
                     fieldCount += 1
@@ -136,7 +140,7 @@
 
                 {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, "", "checkbox", "Wymagane:", "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "")
                 requiredField.addEventListener("change", e => {
                     if (e.target.checked)
                         fieldRequiredHidden.valueAsNumber = 1
@@ -169,12 +173,12 @@
                 newPoll.appendChild(pollFields)
 
                 {# Poll Header #}
-                const fieldHeader = createField(idPoll, idPoll, "text", "Pytanie:", headerDescription)
+                const fieldHeader = createField(idPoll, idPoll, "text", headerDescription, headerDescription)
                 pollFields.appendChild(fieldHeader)
 
                 {# Poll Name Field #}
                 const idFieldName = idPoll + "-" + fieldCount
-                const fieldName = createField(idFieldName, idPoll, "text", "Nazwa:", nameDescription)
+                const fieldName = createField(idFieldName, idPoll, "text", nameDescription, nameDescription)
                 fieldCount += 1
                 pollFields.appendChild(fieldName)
 
@@ -184,7 +188,7 @@
 
                 {# One Default Option Field #}
                 const idField = idPoll + "-" + fieldCount
-                const fieldOption = createField(idField, idPoll, "text", "Opcja:", optionDescription)
+                const fieldOption = createField(idField, idPoll, "text", optionDescription, optionDescription)
                 pollFields.appendChild(fieldOption)
                 fieldCount += 1
 
@@ -193,7 +197,7 @@
                 newPoll.appendChild(addFieldButton)
                 addFieldButton.addEventListener("click", () => {
                     const idField = idPoll + "-" + fieldCount
-                    const optionField = createField(idField, idPoll, "text", "Opcja:", optionDescription)
+                    const optionField = createField(idField, idPoll, "text", optionDescription, optionDescription)
                     addDelBtnToField(optionField)
                     pollFields.appendChild(optionField)
                     fieldCount += 1
@@ -206,7 +210,7 @@
 
                 {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, "", "checkbox", "Wymagane:", "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "")
                 requiredField.addEventListener("change", e => {
                     if (e.target.checked)
                         fieldRequiredHidden.valueAsNumber = 1
@@ -239,12 +243,12 @@
                 newPoll.appendChild(pollFields)
 
                 {# Poll Header #}
-                const fieldHeader = createField(idPoll, idPoll, "text", "Pytanie:", headerDescription)
+                const fieldHeader = createField(idPoll, idPoll, "text", headerDescription, headerDescription)
                 pollFields.appendChild(fieldHeader)
 
                 {# Poll Name Field #}
                 const idFieldName = idPoll + "-" + fieldCount
-                const fieldName = createField(idFieldName, idPoll, "text", "Nazwa:", nameDescription)
+                const fieldName = createField(idFieldName, idPoll, "text", nameDescription, nameDescription)
                 fieldCount += 1
                 pollFields.appendChild(fieldName)
 
@@ -254,7 +258,7 @@
 
                 {# Placeholder Input #}
                 const idFieldPlaceholder = idPoll + "-" + fieldCount
-                const fieldPlaceholder = createField(idFieldPlaceholder, idPoll, "text", "Podpowiedź:", "Podpowiedź do pola")
+                const fieldPlaceholder = createField(idFieldPlaceholder, idPoll, "text", placeholderContent, placeholderContent)
                 fieldCount += 1
                 pollFields.appendChild(fieldPlaceholder)
 
@@ -265,7 +269,7 @@
 
                 {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, "", "checkbox", "Wymagane:", "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "")
                 requiredField.addEventListener("change", e => {
                     if (e.target.checked)
                         fieldRequiredHidden.valueAsNumber = 1
@@ -298,12 +302,12 @@
                 newPoll.appendChild(pollFields)
 
                 {# Poll Header #}
-                const fieldHeader = createField(idPoll, idPoll, "text", "Pytanie:", headerDescription)
+                const fieldHeader = createField(idPoll, idPoll, "text", headerDescription, headerDescription)
                 pollFields.appendChild(fieldHeader)
 
                 {# Poll Name Field #}
                 const idFieldName = idPoll + "-" + fieldCount
-                const fieldName = createField(idFieldName, idPoll, "text", "Nazwa:", nameDescription)
+                const fieldName = createField(idFieldName, idPoll, "text", nameDescription, nameDescription)
                 fieldCount += 1
                 pollFields.appendChild(fieldName)
 
@@ -312,10 +316,22 @@
                 pollFields.appendChild(fieldRequiredHidden)
 
                 {# Placeholder Input #}
-                const idFieldPlaceholder = idPoll + "-" + fieldCount
-                const fieldPlaceholder = createField(idFieldPlaceholder, idPoll, "text", "Podpowiedź:", "Podpowiedź do pola")
+                {#const idFieldPlaceholder = idPoll + "-" + fieldCount#}
+                {#const fieldPlaceholder = createField(idFieldPlaceholder, idPoll, "text", placeholderContent, placeholderContent)#}
+                {#fieldCount += 1#}
+                {#pollFields.appendChild(fieldPlaceholder)#}
+
+                {# Min Field #}
+                const idFieldMin = idPoll + "-" + fieldCount
+                const fieldMin = createField(idFieldMin, idPoll, "text", minValueContent, minValueContent)
                 fieldCount += 1
-                pollFields.appendChild(fieldPlaceholder)
+                pollFields.appendChild(fieldMin)
+
+                {# Max Field #}
+                const idFieldMax = idPoll + "-" + fieldCount
+                const fieldMax = createField(idFieldMax, idPoll, "text", maxValueContent, maxValueContent)
+                fieldCount += 1
+                pollFields.appendChild(fieldMax)
 
                 {# Poll Delete Button #}
                 const removePollButton = createButton("button", "X")
@@ -324,7 +340,7 @@
 
                 {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, "", "checkbox", "Wymagane:", "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "")
                 requiredField.addEventListener("change", e => {
                     if (e.target.checked)
                         fieldRequiredHidden.valueAsNumber = 1
@@ -357,12 +373,12 @@
                 newPoll.appendChild(pollFields)
 
                 {# Poll Header #}
-                const fieldHeader = createField(idPoll, idPoll, "text", "Pytanie:", headerDescription)
+                const fieldHeader = createField(idPoll, idPoll, "text", headerDescription, headerDescription)
                 pollFields.appendChild(fieldHeader)
 
                 {# Poll Name Field #}
                 const idFieldName = idPoll + "-" + fieldCount
-                const fieldName = createField(idFieldName, idPoll, "text", "Nazwa:", nameDescription)
+                const fieldName = createField(idFieldName, idPoll, "text", nameDescription, nameDescription)
                 fieldCount += 1
                 pollFields.appendChild(fieldName)
 
@@ -372,13 +388,13 @@
 
                 {# Min Field #}
                 const idFieldMin = idPoll + "-" + fieldCount
-                const fieldMin = createField(idFieldMin, idPoll, "text", "Minimalnalna wartość:", "Minimalna wartość suwaka")
+                const fieldMin = createField(idFieldMin, idPoll, "text", minValueContent, minValueContent)
                 fieldCount += 1
                 pollFields.appendChild(fieldMin)
 
-                {# Min Field #}
+                {# Max Field #}
                 const idFieldMax = idPoll + "-" + fieldCount
-                const fieldMax = createField(idFieldMax, idPoll, "text", "Maksymalna wartość:", "Maksymalna wartość suwaka")
+                const fieldMax = createField(idFieldMax, idPoll, "text", maxValueContent, maxValueContent)
                 fieldCount += 1
                 pollFields.appendChild(fieldMax)
 
@@ -389,7 +405,7 @@
 
                 {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, "", "checkbox", "Wymagane:", "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "")
                 requiredField.addEventListener("change", e => {
                     if (e.target.checked)
                         fieldRequiredHidden.valueAsNumber = 1
@@ -414,7 +430,7 @@
             showDateBtn.addEventListener("click", () => {
                 showDateBtn.disabled = true
                 showCountBtn.disabled = false
-                const dateField = createField("end_condition", "end_condition", "date", "Podaj datę zakończenia:", "")
+                const dateField = createField("end_condition", "end_condition", "date", "Specify the date of completion:", "")
                 endConditionForm.removeChild(endConditionForm.lastChild)
                 endConditionForm.appendChild(dateField)
                 document.getElementById("endConditionForm").appendChild(dateField)
@@ -423,7 +439,7 @@
             showCountBtn.addEventListener("click", () => {
                 showCountBtn.disabled = true
                 showDateBtn.disabled = false
-                const countField = createField("end_condition", "end_condition", "number", "Podaj ilość osób:", "")
+                const countField = createField("end_condition", "end_condition", "number", "Enter the number of people:", "")
                 endConditionForm.removeChild(endConditionForm.lastChild)
                 endConditionForm.appendChild(countField)
                 document.getElementById("endConditionForm").appendChild(countField)

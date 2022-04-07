@@ -2,7 +2,7 @@
 {% block content %}
     <form method="POST">
         {% csrf_token %}
-        {% for poll in polls %}
+        {% for poll in polls.items.formItems %}
             <div>
                 <h1>{{ poll.description }}{% if poll.is_req == "T" %}*{% endif %}</h1>
                 {% if poll.type == "r" %}
@@ -42,7 +42,9 @@
                         <label for="n-{{ poll.id }}">{{ poll.description }}</label>
                         <input type="number"
                                name="n-{{ poll.id }}"
-                               placeholder="{{ poll.value }}"
+                               placeholder="{{ poll.description }}"
+                               min="{{ poll.value.0 }}"
+                               max="{{ poll.value.1 }}"
                                id="n-{{ poll.id }}"
                                {% if poll.is_req == "T" %}required{% endif %}
                         >

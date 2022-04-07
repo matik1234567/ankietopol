@@ -97,7 +97,9 @@ def create_poll(request):
 def poll(request):
     if request.method == "POST":
         print(request.POST)
-    return render(request, 'ankiety/poll.html', {'polls': formItems})
+
+    polls = DBManager.get_poll_model(42)
+    return render(request, 'ankiety/poll.html', {'polls': polls})
 
 
 # dev purpose for database testers
