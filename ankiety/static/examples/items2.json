@@ -1,0 +1,42 @@
+[
+    {
+      "id": 0,
+      "type": "r",
+      "description": "How old are you?",
+      "value": ["<18", "19-25", ">25"],
+      "name": "age",
+      "is_req": "T"
+    },
+    {
+      "id": 1,
+      "type": "t",
+      "description": "What's your name?",
+      "value": "My name",
+      "name": "name",
+      "is_req": "T"
+    },
+    {
+      "id": 2,
+      "type": "c",
+      "description": "What are your hobbies?",
+      "value": ["sports", "reading", "tech"],
+      "name": "interests",
+      "is_req": "T"
+    },
+    {
+      "id": 3,
+      "type": "s",
+      "description": "How happy are you right now?",
+      "value": [1, 10],
+      "name": "happiness",
+      "is_req": "T"
+    },
+    {
+      "id": 4,
+      "type": "n",
+      "description": "What is your height?",
+      "value": [140, 200],
+      "name": "height",
+      "is_req": "T"
+    }
+]

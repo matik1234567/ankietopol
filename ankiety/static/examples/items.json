@@ -2,7 +2,7 @@
   "formItems":[
     {
       "id": 0,
-      "type": "C",
+      "type": "c",
       "description": "headline of item 1",
       "value": ["description of checkbox 1", "description of checkbox 2"],
       "name": "shshhs",
@@ -10,7 +10,7 @@
     },
     {
       "id": 1,
-      "type": "T",
+      "type": "t",
       "description": "headline of item 2",
       "value": "placeholder(optionally)",
       "name": "shshhs",
@@ -18,7 +18,7 @@
     },
     {
       "id": 2,
-      "type": "R",
+      "type": "r",
       "description": "headline of item 3",
       "value": ["description of radio 1", "description of radio 2"],
       "name": "shshhs",
@@ -26,7 +26,7 @@
     },
     {
       "id": 3,
-      "type": "S",
+      "type": "s",
       "description": "headline of item 4",
       "value": [0, 5],
       "name": "shshhs",
@@ -34,7 +34,7 @@
     },
     {
       "id": 4,
-      "type": "N",
+      "type": "n",
       "description": "headline of item 4",
       "value": [5, 80],
       "name": "shshhs",
