@@ -68,19 +68,20 @@ class DBManager:
         if current_form.close_condition == 'C':
             if current_form.close_count >= int(current_form.close_value):
                 current_form.is_closed = True
+        """
         elif current_form.close_condition == 'D':
             if datetime.now().strftime("%Y-%m-%d") > datetime.strptime(current_form.close_value, "%Y-%m-%d"):
                 current_form.is_closed = True
+        """
 
         current_form.close_count += current_form.close_count + 1
         current_form.save()
 
-        print(request)
         request._mutable = True
         dict_ = {k: request.getlist(k) if len(request.getlist(k)) > 1 else v for k, v in request.items()}
         del request['csrfmiddlewaretoken']
-        print(request)
         poll_json = {}
+
         for key, value in dict_.items():
             if key == 'csrfmiddlewaretoken':
                 continue
@@ -88,16 +89,14 @@ class DBManager:
             key = params[1]
             poll_json[key] = value
 
-        print(poll_json)
-
+        # print(poll_json)
 
         if Response.objects.filter(pk=poll_id).exists():
             with connection.cursor() as cursor:
                 cursor.execute("UPDATE ankiety_response SET responses = JSON_ARRAY_APPEND(responses, '$', %s) WHERE id_response_id = %s", [poll_json, poll_id])
         else:
-            Form.objects.create(id_response=poll_id, responses=poll_json)
+            Response.objects.create(id_response=current_form, responses=poll_json)
         # Response.objects.filter(id_response=poll_id).update(responses=Response('responses',poll_json ))
-
 
 
     @staticmethod
