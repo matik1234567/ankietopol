@@ -1,25 +1,9 @@
 from django.contrib.auth.models import User
 from ankiety.models import Form,Response
-import re
+from RequestParser import RequestParser
 
 
 class DBManager:
-
-    @staticmethod
-    def is_required(is_req):
-        if is_req == '1':
-            return 'Y'
-        else:
-            return 'F'
-
-    @staticmethod
-    def close_condition_mark(close_value):
-        if re.match(r"^\d{4}-\d{2}-\d{2}$", close_value) is not None:
-            return 'D'
-        elif re.match(r"^[1-9]\d*$", close_value) is not None:
-            return 'C'
-        else:
-            return 'N'
 
     @staticmethod
     def insert_poll_model(request, user_id):
@@ -45,17 +29,15 @@ class DBManager:
             value.pop(0)
             is_req = value[0]
             value.pop(0)
-            placeholder = ''
             if item_symbol == 't' or item_symbol == 'n':  # possibility of placeholder
-                placeholder = value[-1]
                 value.pop(-1)
             poll_json['formItems'].append({'id': index, 'type': item_symbol, 'description': description, 'value': value,
-                                           'name': name, 'is_req': DBManager.is_required(is_req)})
+                                           'name': name, 'is_req': RequestParser.is_required(is_req)})
             index += 1
         print(poll_json)
         user = User.objects.get(pk=user_id)  # owner
         Form.objects.create(owner=user,
-                            close_condition=DBManager.close_condition_mark(end_condition_poll),
+                            close_condition=RequestParser.close_condition_mark(end_condition_poll),
                             close_value=end_condition_poll,
                             title=title_poll,
                             description=description_poll,
