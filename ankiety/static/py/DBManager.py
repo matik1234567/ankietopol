@@ -29,8 +29,7 @@ class DBManager:
             value.pop(0)
             is_req = value[0]
             value.pop(0)
-            if item_symbol == 't' or item_symbol == 'n':  # possibility of placeholder
-                value.pop(-1)
+            
             poll_json['formItems'].append({'id': index, 'type': item_symbol, 'description': description, 'value': value,
                                            'name': name, 'is_req': RequestParser.is_required(is_req)})
             index += 1
