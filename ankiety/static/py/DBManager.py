@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from ankiety.models import Form, Response
 from .RequestParser import RequestParser
 from django.db import connection
+from datetime import datetime
+
 
 class DBManager:
 
@@ -60,6 +62,19 @@ class DBManager:
 
     @staticmethod
     def send_poll_response(request, poll_id):
+        current_form = Form.objects.get(pk=poll_id)
+        if current_form.is_closed:
+            return Exception("This poll is closed. You can no longer respond to it.")
+        if current_form.close_condition == 'C':
+            if current_form.close_count >= int(current_form.close_value):
+                current_form.is_closed = True
+        elif current_form.close_condition == 'D':
+            if datetime.now().strftime("%Y-%m-%d") > datetime.strptime(current_form.close_value, "%Y-%m-%d"):
+                current_form.is_closed = True
+
+        current_form.close_count += current_form.close_count + 1
+        current_form.save()
+
         print(request)
         request._mutable = True
         dict_ = {k: request.getlist(k) if len(request.getlist(k)) > 1 else v for k, v in request.items()}
@@ -74,6 +89,8 @@ class DBManager:
             poll_json[key] = value
 
         print(poll_json)
+
+
         if Response.objects.filter(pk=poll_id).exists():
             with connection.cursor() as cursor:
                 cursor.execute("UPDATE ankiety_response SET responses = JSON_ARRAY_APPEND(responses, '$', %s) WHERE id_response_id = %s", [poll_json, poll_id])
