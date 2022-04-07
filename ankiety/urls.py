@@ -3,8 +3,8 @@ from . import views
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
-    path('login/', views.CustomLoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(next_page='home'), name='logout'),
+    path('login/', views.loginPage, name='login'),
+    path('logout/', views.logoutUser, name='logout'),
     path('userpanel/',views.UserPanel,name='UserPanel'),
     path('', views.home, name='home'),
     path('kreator-ankiety/', views.create_poll, name='create_poll'),

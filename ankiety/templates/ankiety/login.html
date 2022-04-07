@@ -1,7 +1,15 @@
 <h1>Login</h1>
-<form method="post">
+<form method="POST" action="">
     {% csrf_token %}
-    {{form.as_p}}
-    <input type = "submit" value="Login">
-    <a href="{% url 'home' %}">Return to main page</a>
+    <div>
+        <input type="text" name="username" placeholder="Username...">
+    </div>
+
+    <div>
+        <input type="password" name="password" placeholder="Password..." >
+    </div>
+
+    <div>
+        <input type="submit" value="Login">
+    </div>
 </form>
