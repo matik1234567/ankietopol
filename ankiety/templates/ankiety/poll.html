@@ -10,7 +10,7 @@
                         <div>
                             <input type="radio"
                                    name="r-{{ poll.id }}"
-                                   value="r-{{ poll.id }}-{{ forloop.counter0 }}"
+                                   value="{{ forloop.counter0 }}"
                                    id="r-{{ poll.id }}-{{ forloop.counter0 }}"
                                    {% if poll.is_req == "T" %}required{% endif %}
                             >
@@ -21,7 +21,8 @@
                     {% for el in poll.value %}
                         <div>
                             <input type="checkbox"
-                                   name="c-{{ poll.id }}-{{ forloop.counter0 }}"
+                                   name="c-{{ poll.id }}"
+                                   value="{{ forloop.counter0 }}"
                                    id="c-{{ poll.id }}-{{ forloop.counter0 }}"
                             >
                             <label for="c-{{ poll.id }}-{{ forloop.counter0 }}">{{ el }}</label>

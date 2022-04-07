@@ -12,4 +12,5 @@ urlpatterns = [
     path('test', views.test),  # dev purpose
     path('test-form/', views.test_form, name='tf'),  # dev purpose
     path('userpass/', views.userpassview, name='userpass'),
+    path('poll-complete/', views.poll_complete, name='poll_complete'),
 ]

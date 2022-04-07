@@ -16,13 +16,13 @@
             <p>{{request.user}}</p>
             <a href="logout">LOGOUT</a>
         {% else %}
-            <p>Nie zalogowano</p>
+            <p>Not logged in</p>
             <a href="login">LOGIN</a>
         {% endif %}
         <br>
-        <a href="{% url 'create_poll' %}">Kreator ankiety</a>
+        <a href="{% url 'create_poll' %}">Poll creator</a>
         <br>
-        <a href="{% url 'poll' %}">Wypełnij ankietę</a>
+        <a href="{% url 'poll' %}">Fill a poll</a>
         <br>
         <a href="{% url 'UserPanel'%}"> Manage Your Account</a>
     </div>
