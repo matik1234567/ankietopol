@@ -1,20 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render , redirect
 from django.http import HttpResponse
 # from ankiety.tests import TestMainDB
-from django.contrib.auth.views import LoginView
+from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse_lazy
 from ankiety.static.py.DBManager import DBManager
 
 
 # Create your views here.
-class CustomLoginView(LoginView):
-    template_name = 'ankiety/login.html'
-    fields = '_all_'
-    redirect_authenticated_user = True
-
-    def get_success_url(self):
-        return reverse_lazy('home')
-
 
 def UserPanel(request):
     if request.method == "POST":
@@ -120,3 +112,26 @@ def test_form(request):
     if request.method == "POST":
         print(request.POST)
     return render(request, 'ankiety/test_form.html')
+# login user
+def loginPage(request):
+	if request.user.is_authenticated:
+		return redirect('home')
+	else:
+		if request.method == 'POST':
+			username = request.POST.get('username')
+			password =request.POST.get('password')
+
+			user = authenticate(request, username=username, password=password)
+
+			if user is not None:
+				login(request, user)
+				return redirect('home')
+			else:
+				messages.info(request, 'Username OR password is incorrect')
+
+		context = {}
+		return render(request, 'ankiety/login.html', context)
+#logout User
+def logoutUser(request):
+	logout(request)
+	return redirect('home')
