@@ -12,4 +12,8 @@
     <div>
         <input type="submit" value="Login">
     </div>
+
+    {% for message in messages %}
+    <p id="messages">{{message}}</p>
+    {% endfor %}
 </form>

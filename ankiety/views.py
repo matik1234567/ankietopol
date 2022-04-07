@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse_lazy
 from ankiety.static.py.DBManager import DBManager
+from django.contrib import messages
 
 
 # Create your views here.
