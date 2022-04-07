@@ -76,7 +76,7 @@ def poll_search(request):
 # dev purpose for database testers
 def test(request):
     # TestMainDB.run()
-    DBManager.get_user_polls(1)
+    DBManager.get_polls_by_title("pub tes")
     return render(request, 'ankiety/test.html')
 
 

@@ -51,6 +51,7 @@ class DBManager:
     @staticmethod
     def get_poll_model(poll_id):
         form = Form.objects.get(pk=poll_id)
+        # close if date expired
         if form.is_closed:
             return Exception("This poll is closed. You can no longer respond to it.")
         else:
@@ -98,7 +99,6 @@ class DBManager:
             Response.objects.create(id_response=current_form, responses=poll_json)
         # Response.objects.filter(id_response=poll_id).update(responses=Response('responses',poll_json ))
 
-
     @staticmethod
     def get_responses(poll_id):
         return Response.objects.filter(id_response=poll_id)
@@ -106,3 +106,18 @@ class DBManager:
     @staticmethod
     def get_public_newest_polls():
         return Form.objects.filter(is_public=True).order_by('created_at')
+
+    @staticmethod
+    def get_polls_by_title(request):
+        params = request.split(' ')
+        query = "select * from ankiety_form where "
+        for p in range(0, len(params)):
+            query += "title like '%%" + params[p] + "%%'"
+            if p != len(params) - 1:
+                query += " or "
+        data = []
+        for p in Form.objects.raw(query):
+            data.append(p)
+        print(data)
+        return data
+
