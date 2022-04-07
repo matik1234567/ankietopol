@@ -62,3 +62,11 @@ class DBManager:
                             description=description_poll,
                             items=poll_json
                             )
+
+    @staticmethod
+    def get_poll_model(poll_id):
+        form = Form.objects.get(pk=poll_id)
+        if form.is_closed:
+            return Exception("This poll is closed. You can no longer respond to it.")
+        else:
+            return form
