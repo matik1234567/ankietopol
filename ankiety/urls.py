@@ -8,7 +8,7 @@ urlpatterns = [
     path('userpanel/',views.UserPanel,name='UserPanel'),
     path('', views.home, name='home'),
     path('kreator-ankiety/', views.create_poll, name='create_poll'),
-    path('ankieta/', views.poll, name='poll'),
+    path('ankieta/<int:pk>/', views.poll, name='poll'),
     path('test', views.test),  # dev purpose
     path('test-form/', views.test_form, name='tf'),  # dev purpose
     path('userpass/', views.userpassview, name='userpass'),
