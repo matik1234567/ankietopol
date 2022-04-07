@@ -15,6 +15,7 @@ class Form(models.Model):
     close_value = models.CharField(max_length=30)
     close_count = models.PositiveBigIntegerField(default=0)
     is_closed = models.BooleanField(default=False)
+    is_public = models.BooleanField(default=False)
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
     items = models.JSONField(default='')

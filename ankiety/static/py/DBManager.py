@@ -12,10 +12,12 @@ class DBManager:
         title_poll = request['title']
         description_poll = request['description']
         end_condition_poll = request['end_condition']
+        is_public = request['public']
         del request['csrfmiddlewaretoken']
         del request['title']
         del request['description']
         del request['end_condition']
+        del request['public']
 
         poll_json = {'formItems': []}
         index = 0
@@ -38,6 +40,7 @@ class DBManager:
         Form.objects.create(owner=user,
                             close_condition=RequestParser.close_condition_mark(end_condition_poll),
                             close_value=end_condition_poll,
+                            is_public=is_public,
                             title=title_poll,
                             description=description_poll,
                             items=poll_json
@@ -83,3 +86,7 @@ class DBManager:
     @staticmethod
     def get_responses(poll_id):
         return Response.objects.filter(id_response=poll_id)
+
+    @staticmethod
+    def get_public_newest_polls():
+        return Form.objects.filter(is_public=True).order_by('created_at')
