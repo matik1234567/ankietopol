@@ -18,6 +18,12 @@
         </div>
         <hr>
         <div>
+            <label for="publicCheckbox">Make public:</label>
+            <input type="checkbox" id="publicCheckbox" placeholder="Make public">
+            <input type="number" id="public" name="public" value="0" hidden>
+        </div>
+        <hr>
+        <div>
             <button type="button" id="create_r">Single choice</button>
             <button type="button" id="create_c">Multiple choice</button>
             <button type="button" id="create_t">Text field</button>
@@ -450,6 +456,13 @@
             document.getElementById("create_t").addEventListener('click', createT)
             document.getElementById("create_n").addEventListener('click', createN)
             document.getElementById("create_s").addEventListener('click', createS)
+
+            document.getElementById("publicCheckbox").addEventListener("change", e => {
+                    if (e.target.checked)
+                        document.getElementById("public").valueAsNumber = 1
+                    else
+                         document.getElementById("public").valueAsNumber = 0
+                })
 
             showDateBtn.click()
         })

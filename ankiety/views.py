@@ -1,4 +1,4 @@
-from django.shortcuts import render , redirect
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 # from ankiety.tests import TestMainDB
 from django.contrib.auth import authenticate, login, logout
@@ -32,6 +32,7 @@ data = [
     }
 ]
 
+
 # return home view
 def home(request):
     if request.method == "POST":
@@ -64,9 +65,10 @@ def poll(request, pk):
 def poll_complete(request):
     return render(request, 'ankiety/poll_complete.html')
 
+
 # dev purpose for database testers
 def test(request):
-    #TestMainDB.run()
+    # TestMainDB.run()
     DBManager.get_user_polls(1)
     return render(request, 'ankiety/test.html')
 
@@ -76,26 +78,30 @@ def test_form(request):
     if request.method == "POST":
         DBManager.send_poll_response(request.POST, 42)
     return render(request, 'ankiety/test_form.html')
+
+
 # login user
 def loginPage(request):
-	if request.user.is_authenticated:
-		return redirect('home')
-	else:
-		if request.method == 'POST':
-			username = request.POST.get('username')
-			password =request.POST.get('password')
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
-			user = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=username, password=password)
 
-			if user is not None:
-				login(request, user)
-				return redirect('home')
-			else:
-				messages.info(request, 'Username OR password is incorrect')
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.info(request, 'Username OR password is incorrect')
 
-		context = {}
-		return render(request, 'ankiety/login.html', context)
-#logout User
+        context = {}
+        return render(request, 'ankiety/login.html', context)
+
+
+# logout User
 def logoutUser(request):
-	logout(request)
-	return redirect('home')
+    logout(request)
+    return redirect('home')
