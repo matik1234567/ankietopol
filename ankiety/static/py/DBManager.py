@@ -57,7 +57,22 @@ class DBManager:
 
     @staticmethod
     def send_poll_response(request, poll_id):
-        return 5
+        print(request)
+        request._mutable = True
+        dict_ = {k: request.getlist(k) if len(request.getlist(k)) > 1 else v for k, v in request.items()}
+        del request['csrfmiddlewaretoken']
+        print(request)
+        poll_json = {}
+        for key, value in dict_.items():
+            if key == 'csrfmiddlewaretoken':
+                continue
+            params = key.split('-')
+            key = params[1]
+            # type = params[0]
+            poll_json[key] = value
+        print(poll_json)
+
+
 
     @staticmethod
     def get_responses(poll_id):

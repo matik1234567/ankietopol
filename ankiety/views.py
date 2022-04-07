@@ -96,7 +96,7 @@ def create_poll(request):
 # poll view
 def poll(request):
     if request.method == "POST":
-        print(request.POST)
+        DBManager.send_poll_response(request.POST, 42)
 
     polls = DBManager.get_poll_model(42)
     return render(request, 'ankiety/poll.html', {'polls': polls})
@@ -112,8 +112,7 @@ def test(request):
 # dev purpose test forms
 def test_form(request):
     if request.method == "POST":
-        DBManager.send_poll_response()
-        print(request.POST)
+        DBManager.send_poll_response(request.POST, 42)
     return render(request, 'ankiety/test_form.html')
 # login user
 def loginPage(request):
