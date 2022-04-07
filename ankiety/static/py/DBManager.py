@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from ankiety.models import Form
+from ankiety.models import Form,Response
 import re
 
 
@@ -22,7 +22,7 @@ class DBManager:
             return 'N'
 
     @staticmethod
-    def convert_to_json(request, user_id):
+    def insert_poll_model(request, user_id):
         print(request)
         request._mutable = True
         title_poll = request['title']
@@ -70,3 +70,15 @@ class DBManager:
             return Exception("This poll is closed. You can no longer respond to it.")
         else:
             return form
+
+    @staticmethod
+    def get_user_polls(user_id):
+        return Form.objects.filter(owner=user_id)
+
+    @staticmethod
+    def send_poll_response(request, poll_id):
+        return 5
+
+    @staticmethod
+    def get_responses(poll_id):
+        return Response.objects.filter(id_response=poll_id)

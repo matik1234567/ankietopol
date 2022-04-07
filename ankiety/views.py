@@ -97,7 +97,7 @@ def home(request):
 # poll creator
 def create_poll(request):
     if request.method == "POST":
-        DBManager.convert_to_json(request.POST, 1)  # user id
+        DBManager.insert_poll_model(request.POST, 1)  # user id
     return render(request, 'ankiety/poll_create.html')
 
 
@@ -110,7 +110,8 @@ def poll(request):
 
 # dev purpose for database testers
 def test(request):
-    TestMainDB.run()
+    #TestMainDB.run()
+    DBManager.get_user_polls(1)
     return render(request, 'ankiety/test.html')
 
 
