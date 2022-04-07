@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from ankiety.models import Form, Response
 from .RequestParser import RequestParser
-
+from django.db import connection
 
 class DBManager:
 
@@ -68,9 +68,12 @@ class DBManager:
                 continue
             params = key.split('-')
             key = params[1]
-            # type = params[0]
             poll_json[key] = value
+
         print(poll_json)
+        with connection.cursor() as cursor:
+            cursor.execute("UPDATE ankiety_response SET responses = JSON_ARRAY_APPEND(responses, '$', %s) WHERE id_response_id = 42", [poll_json])
+        # Response.objects.filter(id_response=poll_id).update(responses=Response('responses',poll_json ))
 
 
 

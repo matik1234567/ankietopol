@@ -47,17 +47,11 @@ def create_poll(request):
 # poll view
 def poll(request):
     if request.method == "POST":
-<<<<<<< HEAD
-        DBManager.send_poll_response(request.POST, 42)
-
-    polls = DBManager.get_poll_model(42)
-=======
         print(request.POST)
+        DBManager.send_poll_response(request.POST, 42)
         return redirect('poll_complete')
     polls = DBManager.get_poll_model(47)
->>>>>>> a86879d668bf25c04d5a9e5e1bce05756f872265
     return render(request, 'ankiety/poll.html', {'polls': polls})
-
 
 # poll complete
 def poll_complete(request):
