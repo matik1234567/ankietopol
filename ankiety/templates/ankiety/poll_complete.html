@@ -1,0 +1,8 @@
+{% extends "ankiety/base.html" %}
+{% block content %}
+    <div>
+    <p>The survey has been completed</p>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'poll' %}">Back to ankieta</a>
+    </div>
+{% endblock content %}
