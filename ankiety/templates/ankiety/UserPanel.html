@@ -9,6 +9,7 @@
             <input type = "submit" value="Your Poll's">
             <input type = "submit" value="Delete Account">
             <input type = "submit" value="Change Password">
+            <a href="{% url 'userpass'%}">Change Password </a>
         {% else %}
             <p>Not logged in</p>
             <a href="{% url 'login'%}">LOGIN </a>

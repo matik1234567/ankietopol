@@ -26,6 +26,8 @@
         <br>
         <a href="{% url 'poll_search'%}">Search poll</a>
         <br>
+        <a href="{%url 'register'%}"> Register account</a>
+        <br>
         <form method="POST">
             {% csrf_token %}
             <label for="poll_code">Kod ankiety:</label>
