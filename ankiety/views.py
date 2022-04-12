@@ -5,14 +5,14 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse_lazy
 from ankiety.static.py.DBManager import DBManager
-from ankiety.static.py.Export import Export
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-
+import xlwt
 from .forms import CreateUserForm
-
-
+from ankiety.static.py.Export import Export
+import time
+import xlsxwriter
 # Create your views here.
 
 def UserPanel(request):
@@ -81,7 +81,9 @@ def poll_search(request):
 # dev purpose for database testers
 def test(request):
     if request.method == 'POST':
-        Export.write_xlsx(request['poll_id'])
+
+        return Export.write_xlsx(50)
+
     # TestMainDB.run()
     # DBManager.get_polls_by_title("pub tes")
     return render(request, 'ankiety/test.html')
