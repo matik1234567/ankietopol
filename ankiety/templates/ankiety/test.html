@@ -1,4 +1,9 @@
 {% extends "ankiety/base.html" %}
 {% block content %}
     <span>Database test page</span>
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="poll_id">
+    <button type='submit'>Download xlsx</button>
+</form>
 {% endblock content %}

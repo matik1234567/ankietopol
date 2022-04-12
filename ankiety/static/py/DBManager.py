@@ -51,29 +51,41 @@ class DBManager:
     @staticmethod
     def get_poll_model(poll_id):
         form = Form.objects.get(pk=poll_id)
-        # close if date expired
-        if form.is_closed:
-            return Exception("This poll is closed. You can no longer respond to it.")
-        else:
-            return form
+        try:
+            DBManager.__check_close_condition(form)
+        except Exception as ex:
+            return Exception(str(ex))
+        return form
 
     @staticmethod
     def get_user_polls(user_id):
         return Form.objects.filter(owner=user_id)
 
     @staticmethod
+    def __check_close_condition(form):
+        if form.is_closed:
+            return Exception("This poll is closed. You can no longer respond to it.")
+        if form.close_condition == 'C':
+            if form.close_count+1 == int(form.close_value):
+                form.is_closed = True
+            elif form.close_count >= int(form.close_value):
+                form.is_closed = True
+                form.save()
+                return Exception("This poll is closed. You can no longer respond to it.")
+        elif form.close_condition == 'D':
+            if datetime.strptime(datetime.now().strftime("%Y-%m-%d"), "%Y-%m-%d") > \
+                    datetime.strptime(form.close_value, "%Y-%m-%d"):
+                form.is_closed = True
+                form.save()
+                return Exception("This poll is closed. You can no longer respond to it.")
+
+    @staticmethod
     def send_poll_response(request, poll_id):
         current_form = Form.objects.get(pk=poll_id)
-        if current_form.is_closed:
-            return Exception("This poll is closed. You can no longer respond to it.")
-        if current_form.close_condition == 'C':
-            if current_form.close_count >= int(current_form.close_value):
-                current_form.is_closed = True
-        """
-        elif current_form.close_condition == 'D':
-            if datetime.now().strftime("%Y-%m-%d") > datetime.strptime(current_form.close_value, "%Y-%m-%d"):
-                current_form.is_closed = True
-        """
+        try:
+            DBManager.__check_close_condition(current_form)
+        except Exception as ex:
+            return Exception(str(ex))
 
         current_form.close_count += current_form.close_count + 1
         current_form.save()
@@ -109,8 +121,8 @@ class DBManager:
 
     @staticmethod
     def get_polls_by_title(request):
-        params = request.split(' ')
-        query = "select * from ankiety_form where "
+        params = request['search'].split(' ')
+        query = "select * from ankiety_form where is_public=true and where "
         for p in range(0, len(params)):
             query += "title like '%%" + params[p] + "%%'"
             if p != len(params) - 1:
@@ -118,6 +130,7 @@ class DBManager:
         data = []
         for p in Form.objects.raw(query):
             data.append(p)
-        print(data)
+        # print(data)
         return data
+
 
