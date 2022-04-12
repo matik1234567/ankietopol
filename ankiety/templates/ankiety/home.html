@@ -1,28 +1,78 @@
 {% extends "ankiety/base.html" %}
 {% block content %}
-
-<div class="box">
-    <div>
-        <h1>Home</h1>
-        {% for book in books %}
+<div class="wrapper">
+    <nav class="hero-nav">
+        <a href="{% url 'create_poll' %}" class="btn btn-lg btn-focus">Create poll</a>
+    </nav>
+    <main>
+        <h1 class="hero-logo"><span class="text-dark">Ankieto</span>poll</h1>
+        <form method="POST" class="hero-form">
+            {% csrf_token %}
+            <label for="poll_code">Enter code and complete survey</label>
+            <div>
+                <input type="text" name="poll_code" id="poll_code" placeholder="_ _ _ _ _ _ _ _" required>
+                <button type="submit"><i class="fa-solid fa-angle-right"></i></button>
+            </div>
+        </form>
+        <nav class="hero-links">
+            <a href="{% url 'create_poll' %}">Or <span class="text-red">make Your Own</span></a>
+            <a href="#">Explore the possibilities</a>
+        </nav>
+        <section class="hero-public-polls">
+            <h1>Recently added public polls</h1>
+            {% for poll in public_polls %}
+            <a href="{% url 'poll' poll.id_form %}">
+                <article>
+                    <h1>{{ poll.title }}</h1>
+                    <p>Username</p>
+                </article>
+            </a>
+            {% endfor %}
+        </section>
+        <div class="text-center">
+            <a class="btn btn-md" href="{% url 'poll_search'%}">Find more surveys</a>
+        </div>
+        <footer class="hero-footer">
+            <h1>Some Dev Stuff</h1>
+            {% if request.user.is_authenticated %}
+            <p>{{request.user}}</p>
+            <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+            <a href="{% url 'create_poll' %}">Poll creator</a>
+            <a href="{% url 'UserPanel'%}"> Manage Your Account</a>
+            <a href="{%url 'register'%}"> Register account</a>
+            {% for book in books %}
             {% if book.author == 'anonymus' %}
                 <span style="color:red;">{{book.author}} , {{book.title}}</span>
             {% else %}
                 <span>{{book.author}} , {{book.title}}</span>
             {% endif %}
             <br>
-        {% endfor %}
+            {% endfor %}
+           
+        </footer>
+    </main>
+</div>
+
+
+
+<!-- <div class="box">
+    <div>
+        <h1>Home</h1>
+        
         {% if request.user.is_authenticated %}
             <p>{{request.user}}</p>
             <a href="logout">LOGOUT</a>
         {% else %}
             <p>Not logged in</p>
-            <a href="login">LOGIN</a>
+            
         {% endif %}
         <br>
-        <a href="{% url 'create_poll' %}">Poll creator</a>
+        
         <br>
-        <a href="{% url 'UserPanel'%}"> Manage Your Account</a>
+        
         <br>
         <a href="{% url 'poll_search'%}">Search poll</a>
         <br>
@@ -38,9 +88,6 @@
 </div>
 <div>
 <h1>Recently added public polls</h1>
-{% for poll in public_polls %}
-    <a href="{% url 'poll' poll.id_form %}">{{ poll.title }}</a>
-    <br>
-{% endfor %}
-</div>
+
+</div> -->
 {% endblock content %}

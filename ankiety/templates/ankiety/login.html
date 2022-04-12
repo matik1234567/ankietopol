@@ -1,19 +1,31 @@
-<h1>Login</h1>
-<form method="POST" action="">
+{% extends "ankiety/base.html" %}
+{% block content %}
+{% load static %}
+
+<a href="{% url 'home' %}" class="static-logo">
+  <img src="{% static 'ankiety/assets/icon.svg' %}" />
+  <h1><span class="text-dark">Ankieto</span>poll</h1>
+</a>
+<main class="wrapper flex-center">
+  <form method="POST" class="card form">
     {% csrf_token %}
-    <div>
-        <input type="text" name="username" placeholder="Username...">
+    <h1>Welcome back!</h1>
+    <div class="input-group">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" />
     </div>
-
-    <div>
-        <input type="password" name="password" placeholder="Password..." >
+    <div class="input-group">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" />
     </div>
-
-    <div>
-        <input type="submit" value="Login">
-    </div>
-
     {% for message in messages %}
-    <p id="messages">{{message}}</p>
+    <p class="form-error-message">{{message}}</p>
     {% endfor %}
-</form>
+    <div class="form-buttons">
+      <button type="submit" class="btn btn-md btn-focus">SignIn</button>
+      <a class="btn btn-md btn-outline" href="{% url 'home' %}">Create an account</a>
+    </div>
+  </form>
+  <!-- <img src="{% static 'ankiety/assets/donut.svg' %}" class="bg-donut" > -->
+</main>
+{% endblock content %}
