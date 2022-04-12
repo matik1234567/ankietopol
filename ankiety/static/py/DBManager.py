@@ -113,7 +113,9 @@ class DBManager:
 
     @staticmethod
     def get_responses(poll_id):
-        return Response.objects.filter(id_response=poll_id)
+        response = Response.objects.filter(id_response=poll_id)
+        print(response[0].responses)
+        return response
 
     @staticmethod
     def get_public_newest_polls():
@@ -122,7 +124,7 @@ class DBManager:
     @staticmethod
     def get_polls_by_title(request):
         params = request['search'].split(' ')
-        query = "select * from ankiety_form where is_public=true and where "
+        query = "select * from ankiety_form where "
         for p in range(0, len(params)):
             query += "title like '%%" + params[p] + "%%'"
             if p != len(params) - 1:

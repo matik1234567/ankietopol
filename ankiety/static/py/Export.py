@@ -8,7 +8,7 @@ class Export:
     @staticmethod
     def write_xlsx(poll_id):
         responses = DBManager.get_responses(poll_id)
-        print(responses.responses)
+        print(responses)
         #print(json.loads(responses))
         response = HttpResponse(content_type='pplication/ms-excel')
         timestr = time.strftime("%Y%m%d%H%M%S")
