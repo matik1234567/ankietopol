@@ -8,7 +8,6 @@ from ankiety.static.py.DBManager import DBManager
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-import xlwt
 from .forms import CreateUserForm
 from ankiety.static.py.Export import Export
 import time
@@ -42,6 +41,9 @@ data = [
 
 # return home view
 def home(request):
+
+
+
     if request.method == "POST":
         return redirect('poll', request.POST['poll_code'])
     public_polls = DBManager.get_public_newest_polls()
@@ -58,14 +60,17 @@ def create_poll(request):
 # poll view
 def poll(request, pk):
     if request.method == "POST":
-        DBManager.send_poll_response(request.POST, pk)
+        try:
+            DBManager.send_poll_response(request.POST, pk)
+        except Exception as ex:
+            return render(request, 'ankiety/error_page.html', {'error': str(ex)})
         return redirect('poll_complete')
     
     try:
         polls = DBManager.get_poll_model(pk)
         return render(request, 'ankiety/poll.html', {'polls': polls})
-    except:
-        return render(request, 'ankiety/error_page.html', {'error': "Bad Code"})
+    except Exception as ex:
+        return render(request, 'ankiety/error_page.html', {'error': str(ex)})
 
 # poll complete
 def poll_complete(request):
@@ -73,10 +78,16 @@ def poll_complete(request):
 
 # poll search
 def poll_search(request):
-    if request.method == "GET":
-        print(request.GET)
+    if request.GET.get("search", default="") != "":
+        try:
+            polls = DBManager.get_polls_by_title(request.GET)
+            return render(request, 'ankiety/poll_search.html', {'polls': polls})
+        except Exception as ex:
+            return render(request, 'ankiety/error_page.html', {'error': str(ex)})
+    else:
+        polls = DBManager.get_public_newest_polls()
+        return render(request, 'ankiety/poll_search.html', {'polls': polls})
 
-    return render(request, 'ankiety/poll_search.html', {'books': data})
 
 # dev purpose for database testers
 def test(request):
