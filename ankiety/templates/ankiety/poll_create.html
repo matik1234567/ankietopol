@@ -1,39 +1,43 @@
 {% extends "ankiety/base.html" %}
 {% block content %}
-    <a href="{% url 'home' %}">Back</a>
-    <h1>Create poll</h1>
-    <form method="POST">
+    <div class="wrapper">
+    <a class="btn m10" href="{% url 'home' %}">Home</a>
+    <form method="POST" class="container">
         {% csrf_token %}
-        <div>
-            <label for="title">Title of the survey</label>
-            <input type="text" id="title" name="title" placeholder="Title of the survey">
-            <label for="description">Description</label>
-            <input type="text" id="description" name="description" placeholder="Description">
+        <div class="card field-spacing">
+            <label for="title" class="hidden" >Title of the survey</label>
+            <input required type="text" id="title" name="title" placeholder="Title of the survey" class="field-md">
+            <label for="description" class="hidden">Description</label>
+            <input required type="text" id="description" name="description" placeholder="Description" class="field-sm">
+            <hr class="hr20">
+            <p class="w-full">Select when the survey should be closed</p>
+            <div class="flex">
+                <button type="button" id="showDateBtn" class="button-sm">Select a date</button>
+                <button type="button" id="showCountBtn" class="button-sm">Enter number of people</button>
+                <div id="endConditionForm">
+
+                </div>
+            </div>
+            <hr class="hr20">
+            <div class="w-full">
+                <input type="checkbox" id="publicCheckbox" placeholder="Make public">
+                <label for="publicCheckbox" title="Decide if you want your survey to be displayed in our search engine">Make public</label>
+                <input type="number" id="public" name="public" value="0" hidden>
+            </div>
         </div>
-        <hr>
-        <div id="endConditionForm">
-            <p>Select when the survey should be completed</p>
-            <button type="button" id="showDateBtn">Select a date</button>
-            <button type="button" id="showCountBtn">Enter number of people</button>
+        <div id="polls" class="w-full">
+
         </div>
-        <hr>
-        <div>
-            <label for="publicCheckbox">Make public:</label>
-            <input type="checkbox" id="publicCheckbox" placeholder="Make public">
-            <input type="number" id="public" name="public" value="0" hidden>
+        <div class="card menu-buttons">
+            <button type="button" id="create_r" class="button-md">Single choice</button>
+            <button type="button" id="create_c" class="button-md">Multiple choice</button>
+            <button type="button" id="create_t" class="button-md">Text field</button>
+            <button type="button" id="create_n" class="button-md">Numerical field</button>
+            <button type="button" id="create_s" class="button-md">Range slider</button>
+            <button type="submit" class="button-md button-focus">Create Poll</button>
         </div>
-        <hr>
-        <div>
-            <button type="button" id="create_r">Single choice</button>
-            <button type="button" id="create_c">Multiple choice</button>
-            <button type="button" id="create_t">Text field</button>
-            <button type="button" id="create_n">Numerical field</button>
-            <button type="button" id="create_s">Range slider</button>
-        </div>
-        <hr>
-        <div id="polls"></div>
-        <input type="submit" value="Create poll">
     </form>
+    </div>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const polls = document.getElementById("polls")
@@ -41,27 +45,41 @@
             const nameDescription = "Question ID (short name)"
             const headerDescription = "Content of the question"
             const optionDescription = "Field description"
-            const requiredContent = "Required"
+            const requiredContent = " Required"
             const maxValueContent = "Max value"
             const minValueContent = "Min value"
             const placeholderContent = "Placeholder"
 
-            const createField = (id, name, inputType, labelText, placeholder) => {
+            const createField = (id, name, inputType, labelText, placeholder, checkbox) => {
                 const div = document.createElement("div")
+                div.classList.add("w-full")
 
                 const label = document.createElement("label")
                 label.setAttribute("for", id)
                 const labelContent = document.createTextNode(labelText)
                 label.appendChild(labelContent)
-                div.appendChild(label)
+
 
                 const input = document.createElement("input")
                 input.type = inputType
                 input.name = name
                 input.id = id
+
+
                 if (placeholder !== "")
                     input.placeholder = placeholder
                 div.appendChild(input)
+
+                if (checkbox) {
+                    div.appendChild(input)
+                    div.appendChild(label)
+                } else {
+                    label.classList.add("hidden")
+                    input.classList.add("field-sm")
+                    input.setAttribute("required", "")
+                    div.appendChild(label)
+                    div.appendChild(input)
+                }
 
                 return div;
             }
@@ -78,6 +96,7 @@
             const addDelBtnToField = (element) => {
                 const removeFieldButton = document.createElement("button")
                 removeFieldButton.type = "button"
+                removeFieldButton.classList.add("button-sm")
                 const removeFieldButtonContent = document.createTextNode("-")
                 removeFieldButton.appendChild(removeFieldButtonContent)
                 removeFieldButton.addEventListener("click", () => element.remove())
@@ -100,10 +119,21 @@
 
                 {# Poll Wrapper #}
                 const newPoll = document.createElement("div")
+                newPoll.classList.add("card")
+                newPoll.classList.add("field-spacing")
                 polls.appendChild(newPoll)
+
+                {# Poll Header #}
+                const pollHeader = document.createElement("p")
+                const pollHeaderContent = document.createTextNode("SINGLE CHOICE")
+                pollHeader.classList.add("poll-header")
+                pollHeader.appendChild(pollHeaderContent)
+                newPoll.appendChild(pollHeader)
 
                 {# Fields Container #}
                 const pollFields = document.createElement("div")
+                pollFields.classList.add("w-full")
+                pollFields.classList.add("field-spacing")
                 newPoll.appendChild(pollFields)
 
                 {# Poll Header #}
@@ -130,6 +160,7 @@
 
                 {# Add More Option Fields Button #}
                 const addFieldButton = createButton("button", "+")
+                addFieldButton.classList.add("button-sm")
                 newPoll.appendChild(addFieldButton)
                 addFieldButton.addEventListener("click", () => {
                     const idField = idPoll + "-" + fieldCount
@@ -141,12 +172,13 @@
 
                 {# Poll Delete Button #}
                 const removePollButton = createButton("button", "X")
+                removePollButton.classList.add("button-sm")
                 newPoll.prepend(removePollButton)
                 removePollButton.addEventListener("click", () => newPoll.remove())
 
                 {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "", true)
                 requiredField.addEventListener("change", e => {
                     if (e.target.checked)
                         fieldRequiredHidden.valueAsNumber = 1
@@ -157,10 +189,6 @@
                 })
                 newPoll.appendChild(requiredField)
                 fieldCount += 1
-
-                const hr = document.createElement("hr")
-                newPoll.appendChild(hr)
-
                 globalCount += 1
             }
 
@@ -172,10 +200,21 @@
 
                 {# Poll Wrapper #}
                 const newPoll = document.createElement("div")
+                newPoll.classList.add("card")
+                newPoll.classList.add("field-spacing")
                 polls.appendChild(newPoll)
+
+                {# Poll Header #}
+                const pollHeader = document.createElement("p")
+                const pollHeaderContent = document.createTextNode("MULTIPLE CHOICE")
+                pollHeader.classList.add("poll-header")
+                pollHeader.appendChild(pollHeaderContent)
+                newPoll.appendChild(pollHeader)
 
                 {# Fields Container #}
                 const pollFields = document.createElement("div")
+                pollFields.classList.add("w-full")
+                pollFields.classList.add("field-spacing")
                 newPoll.appendChild(pollFields)
 
                 {# Poll Header #}
@@ -200,6 +239,7 @@
 
                 {# Add More Option Fields Button #}
                 const addFieldButton = createButton("button", "+")
+                addFieldButton.classList.add("button-sm")
                 newPoll.appendChild(addFieldButton)
                 addFieldButton.addEventListener("click", () => {
                     const idField = idPoll + "-" + fieldCount
@@ -211,12 +251,13 @@
 
                 {# Poll Delete Button #}
                 const removePollButton = createButton("button", "X")
+                removePollButton.classList.add("button-sm")
                 newPoll.prepend(removePollButton)
                 removePollButton.addEventListener("click", () => newPoll.remove())
 
                 {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "", true)
                 requiredField.addEventListener("change", e => {
                     if (e.target.checked)
                         fieldRequiredHidden.valueAsNumber = 1
@@ -227,10 +268,6 @@
                 })
                 newPoll.appendChild(requiredField)
                 fieldCount += 1
-
-                const hr = document.createElement("hr")
-                newPoll.appendChild(hr)
-
                 globalCount += 1
             }
 
@@ -242,10 +279,21 @@
 
                 {# Poll Wrapper #}
                 const newPoll = document.createElement("div")
+                newPoll.classList.add("card")
+                newPoll.classList.add("field-spacing")
                 polls.appendChild(newPoll)
+
+                {# Poll Header #}
+                const pollHeader = document.createElement("p")
+                const pollHeaderContent = document.createTextNode("TEXT FIELD")
+                pollHeader.classList.add("poll-header")
+                pollHeader.appendChild(pollHeaderContent)
+                newPoll.appendChild(pollHeader)
 
                 {# Fields Container #}
                 const pollFields = document.createElement("div")
+                pollFields.classList.add("w-full")
+                pollFields.classList.add("field-spacing")
                 newPoll.appendChild(pollFields)
 
                 {# Poll Header #}
@@ -270,12 +318,13 @@
 
                 {# Poll Delete Button #}
                 const removePollButton = createButton("button", "X")
+                removePollButton.classList.add("button-sm")
                 newPoll.prepend(removePollButton)
                 removePollButton.addEventListener("click", () => newPoll.remove())
 
                 {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "", true)
                 requiredField.addEventListener("change", e => {
                     if (e.target.checked)
                         fieldRequiredHidden.valueAsNumber = 1
@@ -301,10 +350,21 @@
 
                 {# Poll Wrapper #}
                 const newPoll = document.createElement("div")
+                newPoll.classList.add("card")
+                newPoll.classList.add("field-spacing")
                 polls.appendChild(newPoll)
+
+                {# Poll Header #}
+                const pollHeader = document.createElement("p")
+                const pollHeaderContent = document.createTextNode("NUMERICAL FIELD")
+                pollHeader.classList.add("poll-header")
+                pollHeader.appendChild(pollHeaderContent)
+                newPoll.appendChild(pollHeader)
 
                 {# Fields Container #}
                 const pollFields = document.createElement("div")
+                pollFields.classList.add("w-full")
+                pollFields.classList.add("field-spacing")
                 newPoll.appendChild(pollFields)
 
                 {# Poll Header #}
@@ -341,12 +401,13 @@
 
                 {# Poll Delete Button #}
                 const removePollButton = createButton("button", "X")
+                removePollButton.classList.add("button-sm")
                 newPoll.prepend(removePollButton)
                 removePollButton.addEventListener("click", () => newPoll.remove())
 
                 {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "", true)
                 requiredField.addEventListener("change", e => {
                     if (e.target.checked)
                         fieldRequiredHidden.valueAsNumber = 1
@@ -357,10 +418,6 @@
                 })
                 newPoll.appendChild(requiredField)
                 fieldCount += 1
-
-                const hr = document.createElement("hr")
-                newPoll.appendChild(hr)
-
                 globalCount += 1
             }
 
@@ -372,10 +429,21 @@
 
                 {# Poll Wrapper #}
                 const newPoll = document.createElement("div")
+                newPoll.classList.add("card")
+                newPoll.classList.add("field-spacing")
                 polls.appendChild(newPoll)
+
+                {# Poll Header #}
+                const pollHeader = document.createElement("p")
+                const pollHeaderContent = document.createTextNode("RANGE SLIDER")
+                pollHeader.classList.add("poll-header")
+                pollHeader.appendChild(pollHeaderContent)
+                newPoll.appendChild(pollHeader)
 
                 {# Fields Container #}
                 const pollFields = document.createElement("div")
+                pollFields.classList.add("w-full")
+                pollFields.classList.add("field-spacing")
                 newPoll.appendChild(pollFields)
 
                 {# Poll Header #}
@@ -406,12 +474,13 @@
 
                 {# Poll Delete Button #}
                 const removePollButton = createButton("button", "X")
+                removePollButton.classList.add("button-sm")
                 newPoll.prepend(removePollButton)
                 removePollButton.addEventListener("click", () => newPoll.remove())
 
                 {# Poll Required Checkbox #}
                 const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "")
+                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "", true)
                 requiredField.addEventListener("change", e => {
                     if (e.target.checked)
                         fieldRequiredHidden.valueAsNumber = 1
@@ -422,10 +491,6 @@
                 })
                 newPoll.appendChild(requiredField)
                 fieldCount += 1
-
-                const hr = document.createElement("hr")
-                newPoll.appendChild(hr)
-
                 globalCount += 1
             }
 
@@ -436,7 +501,7 @@
             showDateBtn.addEventListener("click", () => {
                 showDateBtn.disabled = true
                 showCountBtn.disabled = false
-                const dateField = createField("end_condition", "end_condition", "date", "Specify the date of completion:", "")
+                const dateField = createField("end_condition", "end_condition", "date", "Specify the date of completion:", "", false)
                 endConditionForm.removeChild(endConditionForm.lastChild)
                 endConditionForm.appendChild(dateField)
                 document.getElementById("endConditionForm").appendChild(dateField)
@@ -445,7 +510,7 @@
             showCountBtn.addEventListener("click", () => {
                 showCountBtn.disabled = true
                 showDateBtn.disabled = false
-                const countField = createField("end_condition", "end_condition", "number", "Enter the number of people:", "")
+                const countField = createField("end_condition", "end_condition", "number", "Enter the number of people:", "", false)
                 endConditionForm.removeChild(endConditionForm.lastChild)
                 endConditionForm.appendChild(countField)
                 document.getElementById("endConditionForm").appendChild(countField)
