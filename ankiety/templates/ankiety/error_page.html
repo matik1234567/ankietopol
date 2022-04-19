@@ -1,9 +1,14 @@
 {% extends "ankiety/base.html" %}
 {% block content %}
-    <div>
-    <p>
-        {{ error }}
-    </p>
-    <a href="{% url 'home' %}">Home</a>
+{% load static %}
+    <a href="{% url 'home' %}" class="static-logo">
+      <img src="{% static 'ankiety/assets/icon.svg' %}" />
+      <h1><span class="text-dark">Ankieto</span>poll</h1>
+    </a>
+    <main class="wrapper flex-center">
+    <div class="text-center">
+        <h1 style="font-weight: 400; margin: 24px 0;">{{ error }}</h1>
+        <a href="{% url 'home' %}" class="button-md mt-20">Homepage</a>
     </div>
+    </main>
 {% endblock content %}

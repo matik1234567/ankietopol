@@ -3,9 +3,9 @@ from . import views
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
-    path('login/', views.loginPage, name='login'),
-    path('logout/', views.logoutUser, name='logout'),
-    path('userpanel/',views.UserPanel,name='UserPanel'),
+    path('login/', views.login_page, name='login'),
+    path('logout/', views.logout_user, name='logout'),
+    path('userpanel/',views.user_panel,name='user_panel'),
     path('', views.home, name='home'),
     path('create-poll/', views.create_poll, name='create_poll'),
     path('poll/<int:pk>/', views.poll, name='poll'),

@@ -1,67 +1,41 @@
-<!DOCTYPE html>
-<html>
-    
-<head>
-	<title>Login</title>
+{% extends "ankiety/base.html" %}
+{% block content %}
+{% load static %}
+<a href="{% url 'home' %}" class="static-logo">
+  <img src="{% static 'ankiety/assets/icon.svg' %}" />
+  <h1><span class="text-dark">Ankieto</span>poll</h1>
+</a>
+<div class="wrapper flex-center">
+<form method="POST" class="card form">
+    {% csrf_token %}
+    <h1>Create an account!</h1>
+    <p>We look forward to getting to know you!</p>
+    <p>Create account to create your first survey</p>
+    <div class="input-group-sign">
+        <label for="id_username">Username</label>
+        {{ form.username }}
+        <p class="form-error-message2">{{ form.username.errors.as_text }}</p>
+    </div>
+    <div class="input-group-sign">
+        <label for="id_email">Email</label>
+        {{ form.email }}
+        <p class="form-error-message2">{{ form.email.errors.as_text }}</p>
+    </div>
+    <div class="input-group-sign">
+        <label for="id_password1">Password</label>
+        {{ form.password1 }}
+        <p class="form-error-message2">{{ form.password1.errors.as_text }}</p>
+    </div>
+    <div class="input-group-sign">
+        <label for="id_password2">Confirm Password</label>
+        {{ form.password2 }}
+        <p class="form-error-message2">{{ form.password2.errors.as_text }}</p>
+    </div>
+    <div class="form-buttons">
+        <button type="submit" class="button-md button-focus">Register Account</button>
+        <a class="button-md button-outline" href="{% url 'login' %}">I am already registered</a>
+    </div>
+</form>
+</div>
 
-
-</head>
-<body>
-	<form method="POST">
-	{% csrf_token %}
-		<div class="container h-100">
-			<div class="d-flex justify-content-center h-100">
-				<div class="user_card">
-					<div class="d-flex justify-content-center">
-						<h3 id="form-title">REGISTER ACCOUNT</h3>
-					</div>
-					<div class="d-flex justify-content-center form_container">
-
-
-							<div class="input-group mb-3">
-								<div class="input-group-append">
-									<span class="input-group-text"><i class="fas fa-user"></i></span>
-								</div>
-								{{form.username}}
-							</div>
-							<div class="input-group mb-2">
-								<div class="input-group-append">
-									<span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
-								</div>
-								{{form.email}}
-							</div>
-							<div class="input-group mb-2">
-								<div class="input-group-append">
-									<span class="input-group-text"><i class="fas fa-key"></i></span>
-								</div>
-								{{form.password1}}
-							</div>
-							<div class="input-group mb-2">
-								<div class="input-group-append">
-									<span class="input-group-text"><i class="fas fa-key"></i></span>
-								</div>
-								{{form.password2}}
-							</div>
-
-
-
-				   			<div class="d-flex justify-content-center mt-3 login_container">
-				 				<input class="btn login_btn" type="submit" value="Register Account">
-				   			</div>
-
-						</form>
-					</div>
-
-					{{form.errors}}
-
-					<div class="mt-4">
-						<div class="d-flex justify-content-center links">
-							Already have an account? <a href="{% url 'login' %}" class="ml-2">Login</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
-</body>
-</html>
+{% endblock content %}

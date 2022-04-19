@@ -24,8 +24,23 @@
 }
 
 .container {
-  margin: 0 128px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+.container-poll {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container-poll h1 {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
 
 .flex-center {
   display: flex;
@@ -52,7 +67,17 @@
   display: flex;
 }
 
-.static-logo h1 {
+.logo {
+  display: block;
+  text-decoration: none;
+  font-family: "Century Gothic";
+  color: var(--dark-red);
+  display: flex;
+  margin: 20px;
+}
+
+.static-logo h1,
+.logo h1 {
   font-size: 40px;
   margin-left: 8px;
 }
@@ -82,6 +107,12 @@
   text-align: center;
 }
 
+.form-error-message2 {
+  color: var(--dark-red);
+  margin: 4px 0;
+  text-align: center;
+}
+
 .form-buttons {
   margin-top: 48px;
 }
@@ -98,6 +129,11 @@
 .form h1 {
   margin: 20px 0px 20px 16px;
   font-weight: 400;
+}
+
+.form p {
+  text-align: center;
+  font-size: 16px;
 }
 
 .input-group-sign {
@@ -396,6 +432,8 @@
 .button-sm,
 .button-md,
 .button-lg {
+  display: inline-block;
+  text-align: center;
   text-decoration: none;
   border: none;
   background-color: var(--dark);
@@ -461,6 +499,11 @@
   margin-top: 20px;
 }
 
+.m-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .flex {
   display: flex;
   align-items: center;
@@ -481,4 +524,21 @@
   font-size: 20px;
   margin-left: 16px;
   margin-top: 4px;
+}
+
+/*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
+.temporary-poll-form-class {
+  font-size: 20px;
+}
+
+.p-24 {
+  margin: 24px;
+}
+
+.search-form {
+  display: flex;
+  max-width: 400px;
+  column-gap: 16px;
+  margin-right: auto;
+  margin-left: auto;
 }

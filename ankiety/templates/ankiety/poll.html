@@ -1,13 +1,19 @@
 {% extends "ankiety/base.html" %}
 {% block content %}
-    <form method="POST">
+{% load static %}
+    <div  class="wrapper">
+    <a href="{% url 'home' %}" class="logo">
+      <img src="{% static 'ankiety/assets/icon.svg' %}" />
+      <h1><span class="text-dark">Ankieto</span>poll</h1>
+    </a>
+    <form method="POST" class="container-poll">
         {% csrf_token %}
         {% for poll in polls.items.formItems %}
-            <div>
+            <div class="card">
                 <h1>{{ poll.description }}{% if poll.is_req == "T" %}*{% endif %}</h1>
                 {% if poll.type == "r" %}
                     {% for el in poll.value %}
-                        <div>
+                        <div class="temporary-poll-form-class">
                             <input type="radio"
                                    name="r-{{ poll.id }}"
                                    value="{{ forloop.counter0 }}"
@@ -19,7 +25,7 @@
                     {% endfor %}
                 {% elif poll.type == "c" %}
                     {% for el in poll.value %}
-                        <div>
+                        <div class="temporary-poll-form-class">
                             <input type="checkbox"
                                    name="c-{{ poll.id }}"
                                    value="{{ forloop.counter0 }}"
@@ -30,49 +36,58 @@
                     {% endfor %}
                 {% elif poll.type == "t" %}
                     <div>
-                        <label for="t-{{ poll.id }}">{{ poll.description }}</label>
+                        <label class="hidden" for="t-{{ poll.id }}">{{ poll.description }}</label>
                         <input type="text"
                                name="t-{{ poll.id }}"
-                               placeholder="{{ poll.value }}"
+                               placeholder="{{ poll.value.0 }}"
                                id="t-{{ poll.id }}"
                                {% if poll.is_req == "T" %}required{% endif %}
+                               class="field-md"
                         >
                     </div>
                 {% elif poll.type == "n" %}
                     <div>
-                        <label for="n-{{ poll.id }}">{{ poll.description }}</label>
+                        <label class="hidden" for="n-{{ poll.id }}">{{ poll.description }}</label>
                         <input type="number"
                                name="n-{{ poll.id }}"
-                               placeholder="{{ poll.description }}"
+                               placeholder="enter a value from {{ poll.value.0 }} to {{ poll.value.1 }}"
                                min="{{ poll.value.0 }}"
                                max="{{ poll.value.1 }}"
                                id="n-{{ poll.id }}"
                                {% if poll.is_req == "T" %}required{% endif %}
+                               class="field-md"
                         >
                     </div>
                 {% elif poll.type == "s" %}
                     <div>
-                        <label for="s-{{ poll.id }}" id="sl-{{ poll.id }}">0</label>
                         <input type="range"
                                name="s-{{ poll.id }}"
                                id="s-{{ poll.id }}"
                                min="{{ poll.value.0 }}"
                                max="{{ poll.value.1 }}"
-                               value="0"
+                               value="{{ poll.value.0 }}"
                                {% if poll.is_req == "T" %}required{% endif %}
+                               class="w-full"
                         >
+                        <label for="s-{{ poll.id }}" id="sl-{{ poll.id }}">0</label>
                         <script>
                             document.addEventListener("DOMContentLoaded", () => {
-                                document.getElementById("s-{{ poll.id }}").oninput = e => {
-                                    document.getElementById("sl-{{ poll.id }}").textContent = e.target.value
-                                }
+                                const slider = document.getElementById("s-{{ poll.id }}")
+                                const label = document.getElementById("sl-{{ poll.id }}")
+                                const maxV = {{ poll.value.1 }}
+                                const minV = {{ poll.value.0 }}
+                                slider.valueAsNumber = (maxV - minV) / 2 + minV
+                                label.textContent = slider.value
+                                slider.oninput = e => label.textContent = e.target.value
                             })
                         </script>
                     </div>
                 {% endif %}
             </div>
-            <hr>
         {% endfor %}
-        <input type="submit" value="Zakończ ankietę">
+        <div class="p-24">
+            <button type="submit" class="button-lg button-focus w-full">Submit</button>
+        </div>
     </form>
+    </div>
 {% endblock content %}

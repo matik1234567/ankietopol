@@ -2,7 +2,7 @@
 {% block content %}
 <div class="wrapper">
     <nav class="hero-nav">
-        <a href="{% url 'create_poll' %}" class="btn btn-lg btn-focus">Create poll</a>
+        <a href="{% url 'create_poll' %}" class="button-lg button-focus">Create poll</a>
     </nav>
     <main>
         <h1 class="hero-logo"><span class="text-dark">Ankieto</span>poll</h1>
@@ -30,7 +30,7 @@
             {% endfor %}
         </section>
         <div class="text-center">
-            <a class="btn btn-md" href="{% url 'poll_search'%}">Find more surveys</a>
+            <a class="button-md" href="{% url 'poll_search'%}">Find more surveys</a>
         </div>
         <footer class="hero-footer">
             <h1>Some Dev Stuff</h1>
@@ -41,53 +41,9 @@
             <a href="{% url 'login' %}">Login</a>
             {% endif %}
             <a href="{% url 'create_poll' %}">Poll creator</a>
-            <a href="{% url 'UserPanel'%}"> Manage Your Account</a>
+            <a href="{% url 'user_panel'%}"> Manage Your Account</a>
             <a href="{%url 'register'%}"> Register account</a>
-            {% for book in books %}
-            {% if book.author == 'anonymus' %}
-                <span style="color:red;">{{book.author}} , {{book.title}}</span>
-            {% else %}
-                <span>{{book.author}} , {{book.title}}</span>
-            {% endif %}
-            <br>
-            {% endfor %}
-           
         </footer>
     </main>
 </div>
-
-
-
-<!-- <div class="box">
-    <div>
-        <h1>Home</h1>
-        
-        {% if request.user.is_authenticated %}
-            <p>{{request.user}}</p>
-            <a href="logout">LOGOUT</a>
-        {% else %}
-            <p>Not logged in</p>
-            
-        {% endif %}
-        <br>
-        
-        <br>
-        
-        <br>
-        <a href="{% url 'poll_search'%}">Search poll</a>
-        <br>
-        <a href="{%url 'register'%}"> Register account</a>
-        <br>
-        <form method="POST">
-            {% csrf_token %}
-            <label for="poll_code">Kod ankiety:</label>
-            <input type="text" name="poll_code" id="poll_code">
-            <input type="submit" value="Wypełnij ankietę">
-        </form>
-    </div>
-</div>
-<div>
-<h1>Recently added public polls</h1>
-
-</div> -->
 {% endblock content %}
