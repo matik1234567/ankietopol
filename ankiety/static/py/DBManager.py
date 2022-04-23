@@ -142,4 +142,13 @@ class DBManager:
             values.append(f['name'])
         return values
 
+    @staticmethod
+    def get_names_types(poll_id):
+        form = Form.objects.get(pk=poll_id)
+        values = []
+        for f in form.items['formItems']:
+            values.append({'name': f['name'], 'type': f['type']})
+        return values
+
+
 
