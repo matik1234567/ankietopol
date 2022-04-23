@@ -51,6 +51,7 @@ def poll(request, pk):
         try:
             DBManager.send_poll_response(request.POST, pk)
         except Exception as ex:
+            print('poll response exception')
             return render(request, 'ankiety/error_page.html', {'error': str(ex)})
         return redirect('poll_complete')
     
