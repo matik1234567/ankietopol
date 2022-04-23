@@ -131,7 +131,7 @@ def logout_user(request):
 def test(request):
     if request.method == 'POST':
 
-        return Export.write_xlsx(50)
+        return Export.write_xlsx(52)
 
     # TestMainDB.run()
     # DBManager.get_polls_by_title("pub tes")
@@ -141,5 +141,5 @@ def test(request):
 # dev purpose test forms
 def test_form(request):
     if request.method == "POST":
-        DBManager.send_poll_response(request.POST, 42)
+        DBManager.send_poll_response(request.POST, 51)
     return render(request, 'ankiety/test_form.html')

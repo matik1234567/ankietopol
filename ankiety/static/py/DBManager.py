@@ -134,4 +134,12 @@ class DBManager:
             data.append(p)
         return data
 
+    @staticmethod
+    def get_names(poll_id):
+        form = Form.objects.get(pk=poll_id)
+        values = []
+        for f in form.items['formItems']:
+            values.append(f['name'])
+        return values
+
 
