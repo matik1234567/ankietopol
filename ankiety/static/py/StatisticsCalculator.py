@@ -31,7 +31,7 @@ class StatisticsCalculator:
     def __get_response_distribution(values, list):
         freq = [0] * len(values)
         for item in list:
-            freq[item - 1] += 1  # +1 to the number of occurences of this question
+            freq[item - 1] += 1  # +1 to the number of occurences of this answer
         return [values, freq]
 
     @staticmethod
@@ -43,6 +43,11 @@ class StatisticsCalculator:
         result["Q1"] = list.quantile(0.25)
         result["Q3"] = list.quantile(0.75)
         result["Empty answers"] = StatisticsCalculator.__count_empty(list)
+        return result
+
+    @staticmethod
+    def __get_measures_discrete(list):  # get measures for continuous variables
+        result = {}
         return result
 
     @staticmethod
