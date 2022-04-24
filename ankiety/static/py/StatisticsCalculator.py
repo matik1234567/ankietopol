@@ -16,20 +16,17 @@ class StatisticsCalculator:
         for question in poll:
             match question['type']:
                 case 'r':
-                    stats.append({'data': StatisticsCalculator.__get_response_hist(responses[question['name']].dropna()),
+                    stats.append({'data': StatisticsCalculator.__get_response_hist(responses[question['name']]),
                                   'title': question['title'],
                                   'questions': question['questions'],
                                   'measures': StatisticsCalculator.__get_measures_categorical(responses[question['name']]),
                                   'type': question['type']})
                 case 'c':
-                    df = pd.DataFrame(StatisticsCalculator.__merge_lists(responses[question['name']].dropna()))
-                    #print(responses[question['name']].values.tolist())
                     stats.append(
-                        {'data': StatisticsCalculator.__get_response_hist(df[0]),
+                        {'data': StatisticsCalculator.__get_response_hist(responses[question['name']]),
                          'title': question['title'],
                          'questions': question['questions'],
-                         'measures': StatisticsCalculator.__get_measures_categorical(StatisticsCalculator.__merge_lists(
-                             responses[question['name']])),
+                         'measures': StatisticsCalculator.__get_measures_categorical(responses[question['name']]),
                          'type': question['type']})
                 case 'n':
                     a = 1
@@ -38,7 +35,6 @@ class StatisticsCalculator:
                     a=2
                     #stats[question.id] = StatisticsCalculator.__get_measures_continuous(responses[question.id])
                 case 't':
-
                     nothing = 0 # TODO: string length distribution??
         return stats
 
@@ -51,6 +47,8 @@ class StatisticsCalculator:
 
     @staticmethod
     def __get_response_hist(data):
+        data.dropna()
+        data.explode(0)
         dict_of_freq = {}
         for v in data.unique():
             dict_of_freq[str(v)] = 0
@@ -79,6 +77,7 @@ class StatisticsCalculator:
         result['Total poll answers'] = len(list)
         list = list.dropna()
         result['Empty poll answers'] = result['Total poll answers'] - len(list)
+        list.explode(0)
         result["Mode"] = mode(list)
         result["Q1"] = list.quantile(0.25)
         result["Q3"] = list.quantile(0.75)
@@ -96,22 +95,8 @@ class StatisticsCalculator:
     def __merge_lists(lists):
         result = []
         for list in lists:
-<<<<<<< Updated upstream
-            if list is list:
-                result.extend(list)
-            else:
-                result.append(list)
-=======
-            result.extend(list)
+            result.append(list)
         return result'''
-
-    @staticmethod
-    def __expand_lists_in_df(df):
-        result = []
-        for list in lists:
-            result.extend(list)
->>>>>>> Stashed changes
-        return result
 
     @staticmethod
     def get_correlation(poll, responses, var1_id, var2_id):
