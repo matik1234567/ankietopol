@@ -152,7 +152,7 @@ def test(request):
           ['Pepperoni', 2]
         ]
     """
-
+    print(stat)
     return render(request, 'ankiety/test.html', {'stat':  stat})
 
 

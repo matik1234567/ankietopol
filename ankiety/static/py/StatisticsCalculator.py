@@ -21,14 +21,24 @@ class StatisticsCalculator:
                                   'questions': question['questions'],
                                   'measures': StatisticsCalculator.__get_measures_categorical(responses[question['name']]),
                                   'type': question['type']})
-                    return stats
                 case 'c':
-                    stats[question.id] = StatisticsCalculator.__get_measures_categorical(question.value, StatisticsCalculator.__merge_lists(responses[question.id]))
+                    df = pd.DataFrame(StatisticsCalculator.__merge_lists(responses[question['name']].dropna()))
+                    #print(responses[question['name']].values.tolist())
+                    stats.append(
+                        {'data': StatisticsCalculator.__get_response_hist(df[0]),
+                         'title': question['title'],
+                         'questions': question['questions'],
+                         'measures': StatisticsCalculator.__get_measures_categorical(StatisticsCalculator.__merge_lists(
+                             responses[question['name']])),
+                         'type': question['type']})
                 case 'n':
-                    stats[question.id] = StatisticsCalculator.__get_measures_continuous(responses[question.id])
+                    a = 1
+                    #stats[question.id] = StatisticsCalculator.__get_measures_continuous(responses[question.id])
                 case 's':
-                    stats[question.id] = StatisticsCalculator.__get_measures_continuous(responses[question.id])
+                    a=2
+                    #stats[question.id] = StatisticsCalculator.__get_measures_continuous(responses[question.id])
                 case 't':
+
                     nothing = 0 # TODO: string length distribution??
         return stats
 
@@ -51,6 +61,7 @@ class StatisticsCalculator:
 
     @staticmethod
     def __get_measures_continuous(list): # get measures for continuous variables
+        print(list)
         result = {}
         result['Total poll answers'] = len(list)
         list = list.dropna()
@@ -85,7 +96,10 @@ class StatisticsCalculator:
     def __merge_lists(lists):
         result = []
         for list in lists:
-            result.extend(list)
+            if list is list:
+                result.extend(list)
+            else:
+                result.append(list)
         return result
 
     @staticmethod
