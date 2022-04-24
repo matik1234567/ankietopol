@@ -141,7 +141,7 @@ def test(request):
     poll = DBManager.get_names_types(52)
     responses = Parser.responses_to_dataframe(52)
 
-    data, title, questions, measures = StatisticsCalculator.get_basic_measurements(poll, responses)
+    stat = StatisticsCalculator.get_basic_measurements(poll, responses)
     #data, title = Parser.parse_to_chart(52)
     """
     data = [
@@ -152,9 +152,8 @@ def test(request):
           ['Pepperoni', 2]
         ]
     """
-    print(data)
-    print(measures)
-    return render(request, 'ankiety/test.html', {'data':  data, 'title': title, 'questions':questions, 'measures':measures})
+
+    return render(request, 'ankiety/test.html', {'stat':  stat})
 
 
 

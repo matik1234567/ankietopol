@@ -8,15 +8,17 @@
     <button type='submit'>Download xlsx</button>
 </form>
 <div style="width:600px; height:300px" id="chart1"></div>
-
+{% for s in stat %}
+    <div style="width:600px; height:300px" id={{s.name}}></div>
+    <button onclick="drawChart({{s.data|safe}})">Chart</button>
+{% endfor %}
 <script src="https://www.gstatic.com/charts/loader.js"></script>
  <script>
 
       google.charts.load('current', {'packages':['corechart']});
+      //google.charts.setOnLoadCallback(drawChart);
 
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
+      function drawChart(data) {
 
 
         var data = new google.visualization.DataTable();
@@ -24,7 +26,7 @@
         data.addColumn('string', 'Topping');
         data.addColumn('number', 'Slices');
 
-        data.addRows({{data|safe}});
+        data.addRows(data);
 
         // Set chart options
         var options = {'title':'{{title|safe}}',
