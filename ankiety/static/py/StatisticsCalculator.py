@@ -10,7 +10,7 @@ import numpy as np
 
 class StatisticsCalculator:
 
-    def get_basic_measurement(self, poll, responses):
+    def get_basic_measurements(self, poll, responses):
         stats = {}
         for index, question in poll.iterrows():
             match question.type:
@@ -67,5 +67,5 @@ class StatisticsCalculator:
     print(df_r)
     df_p = pd.read_json("C:\\Users\\aneta\\Documents\\GitHub\\ankietopol\\ankietopol\\ankiety\\static\\examples\\items2.json")
     print(df_p)
-    print(get_basic_measurement(df_p, df_r))
+    print(get_basic_measurements(df_p, df_r))
     '''
