@@ -18,13 +18,19 @@ class StatisticsCalculator:
                 case 'r':
                     stats.append({'data': StatisticsCalculator.__get_response_hist(responses[question['name']].dropna()),
                                   'title': question['title'],
+<<<<<<< HEAD
                                   'questions': question['questions'],
                                   'measures': StatisticsCalculator.__get_measures_continuous(responses[question['name']]),
                                   'type': question['type']})
                     return stats
                     #return StatisticsCalculator.__get_response_hist(responses[question['name']].dropna()), question['title'], question['questions'], StatisticsCalculator.__get_measures_continuous(responses[question['name']])
+=======
+                                  'questions':question['questions'],
+                                  'measures': 3})
+                    return StatisticsCalculator.__get_response_hist(responses[question['name']].dropna()), question['title'], question['questions'], StatisticsCalculator.__get_measures_categorical(responses[question['name']])
+>>>>>>> 7b2d2119ba9dbca0ba6390c87fbf3d6b2f265e9a
                 case 'c':
-                    stats[question.id] = StatisticsCalculator.__get_response_hist(question.value, StatisticsCalculator.__merge_lists(responses[question.id]))
+                    stats[question.id] = StatisticsCalculator.__get_measures_categorical(question.value, StatisticsCalculator.__merge_lists(responses[question.id]))
                 case 'n':
                     stats[question.id] = StatisticsCalculator.__get_measures_continuous(responses[question.id])
                 case 's':
@@ -33,12 +39,12 @@ class StatisticsCalculator:
                     nothing = 0 # TODO: string length distribution??
         return stats
 
-    @staticmethod
+    ''''@staticmethod
     def __get_response_distribution(values, list):
         freq = [0] * len(values)
         for item in list:
             freq[item - 1] += 1  # +1 to the number of occurences of this answer
-        return [values, freq]
+        return [values, freq]'''
 
     @staticmethod
     def __get_response_hist(data):
@@ -61,21 +67,26 @@ class StatisticsCalculator:
         result["StdDev"] = statistics.stdev(list)
         result["Q1"] = list.quantile(0.25)
         result["Q3"] = list.quantile(0.75)
-        result["Empty answers"] = StatisticsCalculator.__count_empty(list)
         return result
 
     @staticmethod
-    def __get_measures_discrete(list):  # get measures for continuous variables
+    def __get_measures_categorical(list):  # get measures for continuous variables
         result = {}
+        result['Total poll answers'] = len(list)
+        list = list.dropna()
+        result['Empty poll answers'] = result['Total poll answers'] - len(list)
+        result["Mode"] = mode(list)
+        result["Q1"] = list.quantile(0.25)
+        result["Q3"] = list.quantile(0.75)
         return result
 
-    @staticmethod
+    '''@staticmethod
     def __count_empty(list):
         count = 0
         for item in list:
             if not item:
                 count += 1
-        return count
+        return count'''
 
     @staticmethod
     def __merge_lists(lists):
@@ -83,6 +94,12 @@ class StatisticsCalculator:
         for list in lists:
             result.extend(list)
         return result
+
+    @staticmethod
+    def get_correlation(poll, responses, var1_id, var2_id):
+        var1_vals = responses[var1_id]
+        var2_vals = responses[var2_id]
+        # TODO - check what kind of variables, calculate correlation
 
 """
 df_r = pd.read_json("C:\\Users\\aneta\\Documents\\GitHub\\ankietopol\\ankietopol\\ankiety\\static\\examples\\responses2.json")
