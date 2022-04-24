@@ -17,6 +17,16 @@ class Parser:
         return dataframe
 
     @staticmethod
+    def get_response_hist(data, attribute):
+        dict_of_freq = {}
+        for v in data.unique():
+            dict_of_freq[str(v)] = 0
+        for item in data.tolist():
+            dict_of_freq[str(item)] += 1  # +1 to the number of occurences of this question
+
+        return [[str(int(float(key))), value] for key, value in dict_of_freq.items()]
+
+    @staticmethod
     def parse_to_chart(poll_id):
 
         responses_df = Parser.responses_to_dataframe(poll_id)
@@ -25,13 +35,9 @@ class Parser:
         for nt in names_types:
             if nt['type'] == 'r':
                 data = responses_df[nt['name']]
-                description = {
-                    'index': ("number", "index"),
-                    'name': ("number", "name")}
-                data = data.to_dict('records')
-                print(data)
-
-
+                data = data.dropna()
+                title = nt['description']
+                return Parser.get_response_hist(data, nt['name']), title
 
             elif nt['type'] == 'c':
                 data = responses_df[nt['name']]
