@@ -49,8 +49,10 @@ class DBManager:
                             )
 
     @staticmethod
-    def get_poll_model(poll_id):
+    def get_poll_model(poll_id, secure=True):
         form = Form.objects.get(pk=poll_id)
+        if not secure:
+            return form
         try:
             DBManager.__check_close_condition(form)
         except Exception as ex:
@@ -147,7 +149,7 @@ class DBManager:
         form = Form.objects.get(pk=poll_id)
         values = []
         for f in form.items['formItems']:
-            values.append({'name': f['name'], 'type': f['type'], 'description': f['description']})
+            values.append({'name': f['name'], 'type': f['type'], 'title': f['description'], 'questions':f['value']})
         return values
 
 

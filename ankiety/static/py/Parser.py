@@ -17,6 +17,11 @@ class Parser:
         return dataframe
 
     @staticmethod
+    def get_poll_model(poll_id):
+        poll = DBManager.get_poll_model(poll_id)
+        return pd.read_json(poll)
+
+    @staticmethod
     def get_response_hist(data, attribute):
         dict_of_freq = {}
         for v in data.unique():

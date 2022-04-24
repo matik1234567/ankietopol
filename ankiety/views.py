@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse_lazy
 from ankiety.static.py.DBManager import DBManager
 from ankiety.static.py.Parser import Parser
+from ankiety.static.py.StatisticsCalculator import StatisticsCalculator
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -135,10 +136,13 @@ import gviz_api
 def test(request):
 
     if request.method == 'POST':
-
         return Export.write_xlsx(52)
 
-    data, title = Parser.parse_to_chart(52)
+    poll = DBManager.get_names_types(52)
+    responses = Parser.responses_to_dataframe(52)
+
+    data, title, questions, measures = StatisticsCalculator.get_basic_measurements(poll, responses)
+    #data, title = Parser.parse_to_chart(52)
     """
     data = [
           ['Mushrooms', 3],
@@ -149,8 +153,8 @@ def test(request):
         ]
     """
     print(data)
-
-    return render(request, 'ankiety/test.html', {'data':  data, 'title': title})
+    print(measures)
+    return render(request, 'ankiety/test.html', {'data':  data, 'title': title, 'questions':questions, 'measures':measures})
 
 
 
