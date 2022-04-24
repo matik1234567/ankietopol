@@ -16,5 +16,6 @@ urlpatterns = [
     path('poll-search/', views.poll_search, name='poll_search'),
     path('poll-manage/', views.poll_manage, name='poll_manage'),
     path('poll-statistics/<int:pk>/', views.poll_statistics, name='poll_statistics'),
+    path('poll-correlation/<int:pk>/', views.poll_correlation, name='poll_correlation'),
     path('register/', views.registerPage, name='register'),
 ]

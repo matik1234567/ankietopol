@@ -91,6 +91,28 @@ def poll_statistics(request, pk):
     except Exception as ex:
         return render(request, 'ankiety/error_page.html', {'error': str(ex)})
 
+# poll correlation
+def poll_correlation(request, pk):
+    print(pk)
+
+    polls = DBManager.get_poll_model(pk)
+    try:
+        if request.method == "POST":
+            response = DBManager.get_responses(pk)
+            if request.POST['var1_id'] == "" or request.POST['var2_id'] == "":
+                return render(request, 'ankiety/poll_correlation.html', {'polls': polls, 'message': 'Error - Question not selected'})
+
+            if request.POST['var1_id'] == request.POST['var2_id']:
+                return render(request, 'ankiety/poll_correlation.html', {'polls': polls, 'message': 'Error - The same two questions were chosen'})
+
+            correlation = StatisticsCalculator.get_correlation(polls.items['formItems'], response,
+                                                               int(request.POST['var1_id']),
+                                                               int(request.POST['var2_id']))
+            return render(request, 'ankiety/poll_correlation.html', {'polls': polls, 'correlation': correlation})
+        else:
+            return render(request, 'ankiety/poll_correlation.html', {'polls': polls})
+    except Exception as ex:
+        return render(request, 'ankiety/error_page.html', {'error': str(ex)})
 
 
 

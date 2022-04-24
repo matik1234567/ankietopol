@@ -108,7 +108,7 @@ class StatisticsCalculator:
         var2_vals = responses[var2_id]
 
         # TODO - check what kind of variables, calculate correlation
-        if StatisticsCalculator.__get_variable_type(poll["type"][var1_id]) == StatisticsCalculator.__get_variable_type(poll["type"][var2_id]):
+        if StatisticsCalculator.__get_variable_type(poll[var1_id]["type"]) == StatisticsCalculator.__get_variable_type(poll[var2_id]["type"]):
             nothing = 0
             # variable types are the same
             description = "method used: ..., if index>1 corelation exists ..."

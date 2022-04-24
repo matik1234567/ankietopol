@@ -20,6 +20,7 @@
             <article>
                 <h1>{{ poll.title }}</h1>
                 <a href="{% url 'poll_statistics' poll.id_form %}" class="button-sm mx-16">Statistics</a>
+                <a href="{% url 'poll_correlation' poll.id_form %}" class="button-sm mx-16">Correlation</a>
                 <a href="#" class="button-sm mx-16">Edit</a>
                 <a href="#" class="button-sm button-focus mx-16">Delete</a>
             </article>

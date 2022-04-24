@@ -1,0 +1,40 @@
+{% extends "ankiety/base.html" %}
+{% block content %}
+{% load static %}
+<main class="wrapper">
+    <a href="{% url 'home' %}" class="logo">
+        <img src="{% static 'ankiety/assets/icon.svg' %}" />
+        <h1><span class="text-dark">Ankieto</span>poll</h1>
+    </a>
+    <div class="container">
+        <form method="POST" class="form-card">
+        {% csrf_token %}
+            <h3 class="mb-8">Correlation</h3>
+            <select name="var1_id" class="field-sm mb-8">
+                <option value="">-- Select question 1 --</option>
+                {% for poll in polls.items.formItems %}
+                    {% if poll.type != "t" %}
+                        <option value="{{ poll.id }}">{{ poll.description }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <select name="var2_id" class="field-sm mb-8">
+                <option value="">-- Select question 2 --</option>
+                {% for poll in polls.items.formItems %}
+                    {% if poll.type != "t" %}
+                        <option value="{{ poll.id }}">{{ poll.description }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <button type="submit" class="button-sm w-full">Get correlation</button>
+        </form>
+    {% if correlation %}
+        <p>Description: {{ correlation.0 }}</p>
+        <p>Index: {{ correlation.1 }}</p>
+    {% endif %}
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    </div>
+</main>
+{% endblock content %}
