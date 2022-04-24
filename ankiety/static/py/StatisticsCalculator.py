@@ -20,14 +20,16 @@ class StatisticsCalculator:
                                   'title': question['title'],
                                   'questions': question['questions'],
                                   'measures': StatisticsCalculator.__get_measures_categorical(responses[question['name']]),
-                                  'type': question['type']})
+                                  'type': question['type'],
+                                  'name':question['name']})
                 case 'c':
                     stats.append(
                         {'data': StatisticsCalculator.__get_response_hist(responses[question['name']]),
                          'title': question['title'],
                          'questions': question['questions'],
                          'measures': StatisticsCalculator.__get_measures_categorical(responses[question['name']]),
-                         'type': question['type']})
+                         'type': question['type'],
+                         'name': question['name']})
                 case 'n':
                     a = 1
                     #stats[question.id] = StatisticsCalculator.__get_measures_continuous(responses[question.id])
@@ -47,8 +49,10 @@ class StatisticsCalculator:
 
     @staticmethod
     def __get_response_hist(data):
+        print(data)
         data = data.dropna()
-        data = data.explode(0)
+        data = data.explode()
+        print(data)
         dict_of_freq = {}
         for v in data.unique():
             dict_of_freq[str(v)] = 0
@@ -76,7 +80,7 @@ class StatisticsCalculator:
         result['Total poll answers'] = len(list)
         list = list.dropna()
         result['Empty poll answers'] = result['Total poll answers'] - len(list)
-        list = list.explode(0)
+        list = list.explode()
         list = list.astype(float)
         result["Mode"] = mode(list)
         result["Q1"] = list.quantile(0.25)

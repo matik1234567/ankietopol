@@ -132,7 +132,7 @@ def logout_user(request):
 
 
 # dev purpose for database testers
-import gviz_api
+
 def test(request):
 
     if request.method == 'POST':

@@ -7,11 +7,11 @@
     <input type="text" name="poll_id">
     <button type='submit'>Download xlsx</button>
 </form>
-<div style="width:600px; height:300px" id="chart1"></div>
+
 {% for s in stat %}
     {% if s.type != 't' %}
-            <div style="width:600px; height:300px" id={{s.name}}></div>
-            <button onclick="drawChartHist({{s.data|safe}},'{{s.title|safe}}')">Chart</button>
+            <div style="width:600px; height:300px" id='{{s.name}}'></div>
+            <button onclick="drawChartHist({{s.data|safe}},'{{s.title|safe}}', '{{s.name|safe}}')">Chart</button>
             <ul>
                 {% for q in s.questions %}
                     <li>{{forloop.counter0}} - {{q}}</li>
@@ -40,8 +40,8 @@
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
-      function drawChartHist(dataa, title) {
-
+      function drawChartHist(dataa, title, div_id) {
+        console.log(div_id)
         var data = new google.visualization.DataTable();
 
         data.addColumn('string', 'Topping');
@@ -55,7 +55,7 @@
                        'height':300};
 
         // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.BarChart(document.getElementById('chart1'));
+        var chart = new google.visualization.BarChart(document.getElementById(div_id));
         chart.draw(data, options);
       }
 
