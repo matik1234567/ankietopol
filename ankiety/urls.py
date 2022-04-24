@@ -14,5 +14,7 @@ urlpatterns = [
     path('userpass/', views.userpassview, name='userpass'),
     path('poll-complete/', views.poll_complete, name='poll_complete'),
     path('poll-search/', views.poll_search, name='poll_search'),
+    path('poll-manage/', views.poll_manage, name='poll_manage'),
+    path('poll-statistics/<int:pk>/', views.poll_statistics, name='poll_statistics'),
     path('register/', views.registerPage, name='register'),
 ]

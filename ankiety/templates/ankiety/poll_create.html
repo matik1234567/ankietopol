@@ -6,6 +6,9 @@
       <img src="{% static 'ankiety/assets/icon.svg' %}" />
       <h1><span class="text-dark">Ankieto</span>poll</h1>
     </a>
+    <div class="menu-buttons">
+        <a href="{% url 'user_panel' %}" class="button-md">Exit</a>
+    </div>
     <form method="POST" class="container">
         {% csrf_token %}
         <div class="card field-spacing">

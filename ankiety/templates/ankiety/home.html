@@ -3,6 +3,11 @@
 <div class="wrapper">
     <nav class="hero-nav">
         <a href="{% url 'create_poll' %}" class="button-lg button-focus">Create poll</a>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'user_panel' %}" class="button-lg ml-16">Your account</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="button-lg ml-16">SignIn</a>
+        {% endif %}
     </nav>
     <main>
         <h1 class="hero-logo"><span class="text-dark">Ankieto</span>poll</h1>
@@ -29,20 +34,21 @@
             </a>
             {% endfor %}
         </section>
-        <div class="text-center">
+        <div class="text-center mb-24">
             <a class="button-md" href="{% url 'poll_search'%}">Find more surveys</a>
         </div>
         <footer class="hero-footer">
-            <h1>Some Dev Stuff</h1>
-            {% if request.user.is_authenticated %}
-            <p>{{request.user}}</p>
-            <a href="{% url 'logout' %}">Logout</a>
-            {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            {% endif %}
-            <a href="{% url 'create_poll' %}">Poll creator</a>
-            <a href="{% url 'user_panel'%}"> Manage Your Account</a>
-            <a href="{%url 'register'%}"> Register account</a>
+            <div class="authors">
+                <p>Aneta Nowak</p>
+                <span>⚜</span>
+                <p>Mateusz Machura</p>
+                <span>⚜</span>
+                <p>Patryk Gacek</p>
+                <span>⚜</span>
+                <p>Michał Moric</p>
+                <span>⚜</span>
+                <p>Jakub Szczegielniak</p>
+            </div>
         </footer>
     </main>
 </div>

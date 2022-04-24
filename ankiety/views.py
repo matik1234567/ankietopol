@@ -44,6 +44,8 @@ def userpassview(request):
 
 # poll creator
 def create_poll(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if request.method == "POST":
         DBManager.insert_poll_model(request.POST, 1)  # user id
     return render(request, 'ankiety/poll_create.html')
@@ -70,6 +72,27 @@ def poll(request, pk):
 def poll_complete(request):
     return render(request, 'ankiety/poll_complete.html')
 
+# poll manage
+def poll_manage(request):
+    polls = DBManager.get_user_polls(1)
+    if not request.user.is_authenticated:
+        return redirect('login')
+    return render(request, 'ankiety/poll_manage.html', {'polls': polls})
+
+# poll statistics
+def poll_statistics(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    try:
+        poll = DBManager.get_names_types(pk)
+        responses = Parser.responses_to_dataframe(pk)
+        statistics = StatisticsCalculator.get_basic_measurements(poll, responses)
+        return render(request, 'ankiety/poll_statistics.html', {'statistics':  statistics})
+    except Exception as ex:
+        return render(request, 'ankiety/error_page.html', {'error': str(ex)})
+
+
+
 
 # poll search
 def poll_search(request):
@@ -87,7 +110,7 @@ def poll_search(request):
 # login user
 def login_page(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('user_panel')
     else:
         if request.method == 'POST':
             username = request.POST.get('username')

@@ -48,12 +48,19 @@
   align-items: center;
 }
 
-.card {
+.card,
+.form-card {
   margin: 16px;
   padding: 24px;
   background: white;
   box-shadow: 1px 2px 8px var(--shadow-color);
   border-radius: 36px;
+}
+
+.form-card {
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .static-logo {
@@ -350,6 +357,40 @@
   text-decoration: none;
   color: var(--prime-text);
 }
+
+.user-polls {
+  max-width: 800px;
+  margin: auto;
+}
+
+.user-polls h1 {
+  font-weight: 400;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.mx-16 {
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.user-polls article {
+  margin: 16px 0;
+  padding: 24px;
+  background: white;
+  box-shadow: 1px 2px 8px var(--shadow-color);
+  border-radius: 16px;
+  transition: all ease .3s;
+}
+
+.user-polls article h1 {
+  font-size: 20px;
+}
+.user-polls article p {
+  text-align: end;
+}
+
+
 .hero-footer {
   margin-top: 24px;
   background-color: #2B2D42;
@@ -448,12 +489,12 @@
 }
 
 .button-md {
-  padding: 10px 16px;
+  padding: 10px 20px;
   font-size: 20px;
 }
 
 .button-lg {
-  padding: 12px 16px;
+  padding: 12px 24px;
   font-size: 24px;
 }
 
@@ -539,6 +580,14 @@
   margin-bottom: 8px;
 }
 
+.mb-24 {
+  margin-bottom: 24px;
+}
+
+.ml-16 {
+  margin-left: 16px;
+}
+
 .search-form {
   display: flex;
   max-width: 400px;
@@ -550,4 +599,40 @@
 .small-red-text {
   color: var(--dark-red);
   font-size: 14px;
+}
+
+.authors {
+  display: flex;
+  justify-content: space-between;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.statistics {
+  display: flex;
+  align-items: center;
+}
+
+.statistics td,
+.statistics th {
+  padding: 8px;
+  border-bottom: 1px solid var(--grey);
+}
+
+.statistics th {
+  text-align: left;
+}
+
+.statistics-chart {
+  width: 600px;
+  height: 300px;
+}
+
+.statistics-legend {
+  margin-left: 70px;
+}
+
+.statistics-legend p {
+  padding: 8px;
 }

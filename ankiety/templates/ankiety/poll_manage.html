@@ -1,0 +1,31 @@
+{% extends "ankiety/base.html" %}
+{% block content %}
+{% load static %}
+    <div class="wrapper">
+    <a href="{% url 'home' %}" class="logo">
+      <img src="{% static 'ankiety/assets/icon.svg' %}" />
+      <h1><span class="text-dark">Ankieto</span>poll</h1>
+    </a>
+    <div class="menu-buttons">
+        <a href="{% url 'user_panel' %}" class="button-md mb-24">Back</a>
+    </div>
+    <h1 class="text-center">
+        Your Poll's
+    </h1>
+    <section class="user-polls">
+        {% if not polls %}
+            <h3 class="text-center mt-20">You have not created your survey yet, <a href="{% url 'create_poll' %}" style="color: var(--dark-red);" >create it now</a></h3>
+        {% else %}
+        {% for poll in polls %}
+            <article>
+                <h1>{{ poll.title }}</h1>
+                <a href="{% url 'poll_statistics' poll.id_form %}" class="button-sm mx-16">Statistics</a>
+                <a href="#" class="button-sm mx-16">Edit</a>
+                <a href="#" class="button-sm button-focus mx-16">Delete</a>
+            </article>
+        {% endfor %}
+        {% endif %}
+    </section>
+    </div>
+{% endblock content %}
+

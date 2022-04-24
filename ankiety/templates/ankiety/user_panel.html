@@ -1,19 +1,41 @@
-<h1>User Panel</h1>
+{% extends "ankiety/base.html" %}
+{% block content %}
+{% load static %}
+    <main class="wrapper">
+    <a href="{% url 'home' %}" class="logo">
+      <img src="{% static 'ankiety/assets/icon.svg' %}" />
+      <h1><span class="text-dark">Ankieto</span>poll</h1>
+    </a>
+    <div class="container">
+        <h1 class="mb-24 text-center">Hi {{ request.user.first_name }}</h1>
+        <div class="menu-buttons mb-24">
+            <a href="{% url 'poll_manage' %}" class="button-md">Your Poll's</a>
+            <a href="{% url 'create_poll' %}" class="button-md button-focus">Create poll</a>
+        </div>
 
-<form method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <div>
-        {% if request.user.is_authenticated %}
-            <p>{{request.user}}</p>
-            <input type = "submit" value="Your Poll's">
-            <input type = "submit" value="Delete Account">
-            <input type = "submit" value="Change Password">
-            <a href="{% url 'userpass'%}">Change Password </a>
-        {% else %}
-            <p>Not logged in</p>
-            <a href="{% url 'login'%}">LOGIN </a>
-         {% endif %}
+        <form method="POST" class="form-card">
+            <h4 class="mb-8">Change your password</h4>
+            {% csrf_token %}
+            <input type="password" class="field-sm mb-8" name="password" placeholder="New Password">
+            <input type="password" class="field-sm mb-8" name="password-confirm" placeholder="Confirm Password">
+            <button type="submit" class="button-sm w-full">Change password</button>
+        </form>
+
+        <form method="POST" class="form-card">
+            <h4 class="mb-8">Change your email</h4>
+            {% csrf_token %}
+            <input type="text" class="field-sm mb-8" name="password" placeholder="New Email">
+            <button type="submit" class="button-sm w-full">Change email</button>
+        </form>
     </div>
-</form>
-<a href="{% url 'home' %}">Return to main page</a>
+
+    <form method="POST" class="form-card">
+            <h4 class="mb-8">Delete your account</h4>
+            {% csrf_token %}
+            <input type="hidden" name="delete_account" value="true">
+            <button type="submit" class="button-sm button-focus w-full">Delete</button>
+        </form>
+
+    </main>
+
+{% endblock content %}

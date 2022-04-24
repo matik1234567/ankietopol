@@ -1,0 +1,101 @@
+{% extends "ankiety/base.html" %}
+{% block content %}
+{% load static %}
+
+    <div class="wrapper">
+    <a href="{% url 'home' %}" class="logo">
+      <img src="{% static 'ankiety/assets/icon.svg' %}" />
+      <h1><span class="text-dark">Ankieto</span>poll</h1>
+    </a>
+    <div class="container">
+    <div class="menu-buttons">
+        <a href="{% url 'poll_manage' %}" class="button-md">Back</a>
+    </div>
+{% for s in statistics %}
+    {% if s.type != 't' %}
+        <div class="card">
+            <h2>{{ s.title }}</h2>
+            <div class="statistics">
+                <div>
+                    <div class="statistics-chart" id="{{s.name}}"></div>
+                    <div class="statistics-legend">
+                        {% for q in s.questions %}
+                            <p>{{forloop.counter0}} - {{q}}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div>
+                <table>
+                    <tbody>
+                    {% for key, value in s.measures.items  %}
+                        <tr>
+                        <th>{{key}}</th>
+                        <td>{{value}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+
+
+{#            <div style="width:600px; height:300px" id='{{s.name}}'></div>#}
+{#        #}
+{#            <ul>#}
+{#                {% for q in s.questions %}#}
+{#                    <li>{{forloop.counter0}} - {{q}}</li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#            <table>#}
+{#                <thead>#}
+{#                {% for key, value in s.measures.items  %}#}
+{#                    <th>{{key}}</th>#}
+{#                {% endfor %}#}
+{#                </thead>#}
+{#                <tbody>#}
+{#                <tr>#}
+{#                 {% for key, value in s.measures.items  %}#}
+{#                    <td>{{value}}</td>#}
+{#                 {% endfor %}#}
+{#                </tr>#}
+{#                </tbody>#}
+{#            </table>#}
+    {% endif %}
+
+{% endfor %}
+    </div>
+    </div>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const drawChartHist = (dataa, title, div_id) => {
+        let data = new google.visualization.DataTable()
+        data.addColumn('string', 'Topping')
+        data.addColumn('number', 'Slices')
+        data.addRows(dataa);
+
+        // Set chart options
+        let options = {
+            'title': title,
+            'width': 400,
+            'height': 300
+        }
+
+        // Instantiate and draw our chart, passing in some options.
+        let chart = new google.visualization.BarChart(document.getElementById(div_id))
+        chart.draw(data, options)
+    }
+
+    const drawCharts = () => {
+        {% for s in statistics %}
+            drawChartHist({{s.data|safe}}, '{{s.title|safe}}', '{{s.name|safe}}')
+        {% endfor %}
+    }
+
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawCharts);
+})
+</script>
+{% endblock content %}
