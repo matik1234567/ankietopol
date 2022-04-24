@@ -10,7 +10,8 @@
         {% csrf_token %}
         {% for poll in polls.items.formItems %}
             <div class="card">
-                <h1>{{ poll.description }}{% if poll.is_req == "T" %}*{% endif %}</h1>
+                {% if poll.is_req == "Y" %}<p class="small-red-text mb-8">Required</p>{% endif %}
+                <h1>{{ poll.description }}</h1>
                 {% if poll.type == "r" %}
                     {% for el in poll.value %}
                         <div class="temporary-poll-form-class">
@@ -18,7 +19,7 @@
                                    name="r-{{ poll.id }}"
                                    value="{{ forloop.counter0 }}"
                                    id="r-{{ poll.id }}-{{ forloop.counter0 }}"
-                                   {% if poll.is_req == "T" %}required{% endif %}
+                                   {% if poll.is_req == "Y" %}required{% endif %}
                             >
                             <label for="r-{{ poll.id }}-{{ forloop.counter0 }}">{{ el }}</label>
                         </div>
@@ -41,7 +42,7 @@
                                name="t-{{ poll.id }}"
                                placeholder="{{ poll.value.0 }}"
                                id="t-{{ poll.id }}"
-                               {% if poll.is_req == "T" %}required{% endif %}
+                               {% if poll.is_req == "Y" %}required{% endif %}
                                class="field-md"
                         >
                     </div>
@@ -54,7 +55,7 @@
                                min="{{ poll.value.0 }}"
                                max="{{ poll.value.1 }}"
                                id="n-{{ poll.id }}"
-                               {% if poll.is_req == "T" %}required{% endif %}
+                               {% if poll.is_req == "Y" %}required{% endif %}
                                class="field-md"
                         >
                     </div>
@@ -66,7 +67,7 @@
                                min="{{ poll.value.0 }}"
                                max="{{ poll.value.1 }}"
                                value="{{ poll.value.0 }}"
-                               {% if poll.is_req == "T" %}required{% endif %}
+                               {% if poll.is_req == "Y" %}required{% endif %}
                                class="w-full"
                         >
                         <label for="s-{{ poll.id }}" id="sl-{{ poll.id }}">0</label>

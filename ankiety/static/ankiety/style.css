@@ -535,10 +535,19 @@
   margin: 24px;
 }
 
+.mb-8 {
+  margin-bottom: 8px;
+}
+
 .search-form {
   display: flex;
   max-width: 400px;
   column-gap: 16px;
   margin-right: auto;
   margin-left: auto;
+}
+
+.small-red-text {
+  color: var(--dark-red);
+  font-size: 14px;
 }
