@@ -18,17 +18,10 @@ class StatisticsCalculator:
                 case 'r':
                     stats.append({'data': StatisticsCalculator.__get_response_hist(responses[question['name']].dropna()),
                                   'title': question['title'],
-<<<<<<< HEAD
                                   'questions': question['questions'],
-                                  'measures': StatisticsCalculator.__get_measures_continuous(responses[question['name']]),
+                                  'measures': StatisticsCalculator.__get_measures_categorical(responses[question['name']]),
                                   'type': question['type']})
                     return stats
-                    #return StatisticsCalculator.__get_response_hist(responses[question['name']].dropna()), question['title'], question['questions'], StatisticsCalculator.__get_measures_continuous(responses[question['name']])
-=======
-                                  'questions':question['questions'],
-                                  'measures': 3})
-                    return StatisticsCalculator.__get_response_hist(responses[question['name']].dropna()), question['title'], question['questions'], StatisticsCalculator.__get_measures_categorical(responses[question['name']])
->>>>>>> 7b2d2119ba9dbca0ba6390c87fbf3d6b2f265e9a
                 case 'c':
                     stats[question.id] = StatisticsCalculator.__get_measures_categorical(question.value, StatisticsCalculator.__merge_lists(responses[question.id]))
                 case 'n':
