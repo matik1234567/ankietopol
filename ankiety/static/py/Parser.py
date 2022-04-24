@@ -1,7 +1,6 @@
 import json
 import pandas as pd
 from .DBManager import DBManager
-import gviz_api
 
 class Parser:
     @staticmethod
