@@ -138,11 +138,19 @@ def test(request):
 
         return Export.write_xlsx(52)
 
-    # TestMainDB.run()
-    # DBManager.get_polls_by_title("pub tes")
+    data, title = Parser.parse_to_chart(52)
+    """
+    data = [
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]
+    """
+    print(data)
 
-
-    return render(request, 'ankiety/test.html')
+    return render(request, 'ankiety/test.html', {'data':  data, 'title': title})
 
 
 

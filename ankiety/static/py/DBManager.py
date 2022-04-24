@@ -147,7 +147,7 @@ class DBManager:
         form = Form.objects.get(pk=poll_id)
         values = []
         for f in form.items['formItems']:
-            values.append({'name': f['name'], 'type': f['type']})
+            values.append({'name': f['name'], 'type': f['type'], 'description': f['description']})
         return values
 
 
