@@ -47,8 +47,8 @@ class StatisticsCalculator:
 
     @staticmethod
     def __get_response_hist(data):
-        data.dropna()
-        data.explode(0)
+        data = data.dropna()
+        data = data.explode(0)
         dict_of_freq = {}
         for v in data.unique():
             dict_of_freq[str(v)] = 0
@@ -59,7 +59,6 @@ class StatisticsCalculator:
 
     @staticmethod
     def __get_measures_continuous(list): # get measures for continuous variables
-        print(list)
         result = {}
         result['Total poll answers'] = len(list)
         list = list.dropna()
@@ -77,7 +76,8 @@ class StatisticsCalculator:
         result['Total poll answers'] = len(list)
         list = list.dropna()
         result['Empty poll answers'] = result['Total poll answers'] - len(list)
-        list.explode(0)
+        list = list.explode(0)
+        list = list.astype(float)
         result["Mode"] = mode(list)
         result["Q1"] = list.quantile(0.25)
         result["Q3"] = list.quantile(0.75)
