@@ -180,6 +180,8 @@ def logout_user(request):
 
 def test(request):
 
+    DBManager.remove_poll(49, 1)
+
     if request.method == 'POST':
         return Export.write_xlsx(52)
 
@@ -188,15 +190,7 @@ def test(request):
 
     stat = StatisticsCalculator.get_basic_measurements(poll, responses)
     #data, title = Parser.parse_to_chart(52)
-    """
-    data = [
-          ['Mushrooms', 3],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2]
-        ]
-    """
+
     print(stat)
     return render(request, 'ankiety/test.html', {'stat':  stat})
 
@@ -204,6 +198,7 @@ def test(request):
 
 # dev purpose test forms
 def test_form(request):
+
     if request.method == "POST":
-        DBManager.send_poll_response(request.POST, 51)
+        DBManager.send_poll_response(request.POST, 41)
     return render(request, 'ankiety/test_form.html')

@@ -152,5 +152,18 @@ class DBManager:
             values.append({'name': f['name'], 'type': f['type'], 'title': f['description'], 'questions':f['value']})
         return values
 
+    @staticmethod
+    def remove_poll(poll_id):
+        form = Form.objects.get(pk=poll_id)
+        if not form:
+            raise Exception("Poll already removed")
+        form.delete()
+
+    @staticmethod
+    def edit_poll(request, poll_id):
+        # id, name in request required
+        return 0
+
+
 
 
