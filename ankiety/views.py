@@ -112,11 +112,12 @@ def poll_manage(request):
         return redirect('login')
     polls = DBManager.get_user_polls(request.user.id)
     for idx, poll in enumerate(polls):
+        polls[idx].poll_code = hex(1000000000 + poll.id_form * 9999)[2:].upper()
+    for idx, poll in enumerate(polls):
         try:
             responses = Parser.responses_to_dataframe(poll.id_form)
             total_answers = len(responses)
             polls[idx].total_answers = total_answers
-            polls[idx].poll_code = hex(1000000000 + poll.id_form * 9999)[2:].upper()
         except:
             polls[idx].total_answers = 0
     return render(request, 'ankiety/poll_manage.html', {'polls': polls})
