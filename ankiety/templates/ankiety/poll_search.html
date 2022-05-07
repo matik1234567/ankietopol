@@ -1,26 +1,26 @@
 {% extends "ankiety/base.html" %}
 {% block content %}
-{% load static %}
+    {% load static %}
     <div class="wrapper">
-    <a href="{% url 'home' %}" class="logo">
-      <img src="{% static 'ankiety/assets/icon.svg' %}" />
-      <h1><span class="text-dark">Ankieto</span>poll</h1>
-    </a>
-    <form method="GET" class="search-form">
-        <label for="search" class="hidden">Type</label>
-        <input type="text" name="search" id="search" placeholder="Search..." class="field-md">
-        <button type="submit" class="button-sm">Search</button>
-    </form>
-    <section class="hero-public-polls">
-        {% for poll in polls %}
-            <a href="{% url 'poll' poll.id_form %}">
-                <article>
-                    <h1>{{ poll.title }}</h1>
-                    <p>Username</p>
-                </article>
-            </a>
-        {% endfor %}
-    </section>
+        <a href="{% url 'home' %}" class="logo">
+            <img src="{% static 'ankiety/assets/icon.svg' %}"/>
+            <h1><span class="text-dark">Ankieto</span>poll</h1>
+        </a>
+        <form method="GET" class="search-form">
+            <label for="search" class="hidden">Type</label>
+            <input type="text" name="search" id="search" placeholder="Search..." class="field-md">
+            <button type="submit" class="button-sm">Search</button>
+        </form>
+        <section class="hero-public-polls">
+            {% for poll in polls %}
+                <a href="{% url 'poll' poll.id_form %}">
+                    <article>
+                        <h1>{{ poll.title }}</h1>
+                        <p>{{ poll.description }}</p>
+                    </article>
+                </a>
+            {% endfor %}
+        </section>
     </div>
 {% endblock content %}
 

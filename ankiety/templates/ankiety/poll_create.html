@@ -19,6 +19,7 @@
             <hr class="hr20">
             <p class="w-full">Select when the survey should be closed</p>
             <div class="flex">
+                <button type="button" id="showDontCloseBtn" class="button-sm">Don't close automatically</button>
                 <button type="button" id="showDateBtn" class="button-sm">Select a date</button>
                 <button type="button" id="showCountBtn" class="button-sm">Enter number of people</button>
                 <div id="endConditionForm">
@@ -502,12 +503,14 @@
             }
 
             const showDateBtn = document.getElementById("showDateBtn")
+            const showDontCloseBtn = document.getElementById("showDontCloseBtn")
             const showCountBtn = document.getElementById("showCountBtn")
             const endConditionForm = document.getElementById("endConditionForm")
 
             showDateBtn.addEventListener("click", () => {
                 showDateBtn.disabled = true
                 showCountBtn.disabled = false
+                showDontCloseBtn.disabled = false
                 const dateField = createField("end_condition", "end_condition", "date", "Specify the date of completion:", "", false)
                 endConditionForm.removeChild(endConditionForm.lastChild)
                 endConditionForm.appendChild(dateField)
@@ -517,7 +520,20 @@
             showCountBtn.addEventListener("click", () => {
                 showCountBtn.disabled = true
                 showDateBtn.disabled = false
+                showDontCloseBtn.disabled = false
                 const countField = createField("end_condition", "end_condition", "number", "Enter the number of people:", "", false)
+                endConditionForm.removeChild(endConditionForm.lastChild)
+                endConditionForm.appendChild(countField)
+                document.getElementById("endConditionForm").appendChild(countField)
+            })
+
+            showDontCloseBtn.addEventListener("click", () => {
+                showCountBtn.disabled = false
+                showDateBtn.disabled = false
+                showDontCloseBtn.disabled = true
+                const countField = createField("end_condition", "end_condition", "text", "", "", true)
+                countField.hidden = true
+                countField.value = "none"
                 endConditionForm.removeChild(endConditionForm.lastChild)
                 endConditionForm.appendChild(countField)
                 document.getElementById("endConditionForm").appendChild(countField)
@@ -536,7 +552,7 @@
                          document.getElementById("public").valueAsNumber = 0
                 })
 
-            showDateBtn.click()
+            showDontCloseBtn.click()
         })
     </script>
 {% endblock content %}

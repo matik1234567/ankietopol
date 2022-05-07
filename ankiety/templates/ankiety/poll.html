@@ -1,94 +1,99 @@
 {% extends "ankiety/base.html" %}
 {% block content %}
-{% load static %}
-    <div  class="wrapper">
-    <a href="{% url 'home' %}" class="logo">
-      <img src="{% static 'ankiety/assets/icon.svg' %}" />
-      <h1><span class="text-dark">Ankieto</span>poll</h1>
-    </a>
-    <form method="POST" class="container-poll">
-        {% csrf_token %}
-        {% for poll in polls.items.formItems %}
+    {% load static %}
+    <div class="wrapper">
+        <a href="{% url 'home' %}" class="logo">
+            <img src="{% static 'ankiety/assets/icon.svg' %}"/>
+            <h1><span class="text-dark">Ankieto</span>poll</h1>
+        </a>
+        <form method="POST" class="container-poll">
             <div class="card">
-                {% if poll.is_req == "Y" %}<p class="small-red-text mb-8">Required</p>{% endif %}
-                <h1>{{ poll.description }}</h1>
-                {% if poll.type == "r" %}
-                    {% for el in poll.value %}
-                        <div class="temporary-poll-form-class">
-                            <input type="radio"
-                                   name="r-{{ poll.id }}"
-                                   value="{{ forloop.counter }}"
-                                   id="r-{{ poll.id }}-{{ forloop.counter0 }}"
-                                   {% if poll.is_req == "Y" %}required{% endif %}
-                            >
-                            <label for="r-{{ poll.id }}-{{ forloop.counter0 }}">{{ el }}</label>
-                        </div>
-                    {% endfor %}
-                {% elif poll.type == "c" %}
-                    {% for el in poll.value %}
-                        <div class="temporary-poll-form-class">
-                            <input type="checkbox"
-                                   name="c-{{ poll.id }}"
-                                   value="{{ forloop.counter }}"
-                                   id="c-{{ poll.id }}-{{ forloop.counter0 }}"
-                            >
-                            <label for="c-{{ poll.id }}-{{ forloop.counter0 }}">{{ el }}</label>
-                        </div>
-                    {% endfor %}
-                {% elif poll.type == "t" %}
-                    <div>
-                        <label class="hidden" for="t-{{ poll.id }}">{{ poll.description }}</label>
-                        <input type="text"
-                               name="t-{{ poll.id }}"
-                               placeholder="{{ poll.value.0 }}"
-                               id="t-{{ poll.id }}"
-                               {% if poll.is_req == "Y" %}required{% endif %}
-                               class="field-md"
-                        >
-                    </div>
-                {% elif poll.type == "n" %}
-                    <div>
-                        <label class="hidden" for="n-{{ poll.id }}">{{ poll.description }}</label>
-                        <input type="number"
-                               name="n-{{ poll.id }}"
-                               placeholder="enter a value from {{ poll.value.0 }} to {{ poll.value.1 }}"
-                               min="{{ poll.value.0 }}"
-                               max="{{ poll.value.1 }}"
-                               id="n-{{ poll.id }}"
-                               {% if poll.is_req == "Y" %}required{% endif %}
-                               class="field-md"
-                        >
-                    </div>
-                {% elif poll.type == "s" %}
-                    <div>
-                        <input type="range"
-                               name="s-{{ poll.id }}"
-                               id="s-{{ poll.id }}"
-                               min="{{ poll.value.0 }}"
-                               max="{{ poll.value.1 }}"
-                               value="{{ poll.value.0 }}"
-                               {% if poll.is_req == "Y" %}required{% endif %}
-                               class="w-full"
-                        >
-                        <label for="s-{{ poll.id }}" id="sl-{{ poll.id }}">0</label>
-                        <script>
-                            document.addEventListener("DOMContentLoaded", () => {
-                                const slider = document.getElementById("s-{{ poll.id }}")
-                                const label = document.getElementById("sl-{{ poll.id }}")
-                                const maxV = {{ poll.value.1 }}
-                                const minV = {{ poll.value.0 }}
-                                slider.valueAsNumber = (maxV - minV) / 2 + minV
-                                label.textContent = slider.value
-                                slider.oninput = e => label.textContent = e.target.value
-                            })
-                        </script>
-                    </div>
-                {% endif %}
+                <h1 class="m10">{{ polls.title }}</h1>
+                <p class="m10">{{ polls.description }}</p>
             </div>
-        {% endfor %}
-        <div class="p-24">
-            <button type="submit" class="button-lg button-focus w-full">Submit</button>
-        </div>
-    </form>
+            {% csrf_token %}
+            {% for poll in polls.items.formItems %}
+                <div class="card">
+                    {% if poll.is_req == "Y" %}<p class="small-red-text mb-8">Required</p>{% endif %}
+                    <h1>{{ poll.description }}</h1>
+                    {% if poll.type == "r" %}
+                        {% for el in poll.value %}
+                            <div class="temporary-poll-form-class">
+                                <input type="radio"
+                                       name="r-{{ poll.id }}"
+                                       value="{{ forloop.counter }}"
+                                       id="r-{{ poll.id }}-{{ forloop.counter0 }}"
+                                       {% if poll.is_req == "Y" %}required{% endif %}
+                                >
+                                <label for="r-{{ poll.id }}-{{ forloop.counter0 }}">{{ el }}</label>
+                            </div>
+                        {% endfor %}
+                    {% elif poll.type == "c" %}
+                        {% for el in poll.value %}
+                            <div class="temporary-poll-form-class">
+                                <input type="checkbox"
+                                       name="c-{{ poll.id }}"
+                                       value="{{ forloop.counter }}"
+                                       id="c-{{ poll.id }}-{{ forloop.counter0 }}"
+                                >
+                                <label for="c-{{ poll.id }}-{{ forloop.counter0 }}">{{ el }}</label>
+                            </div>
+                        {% endfor %}
+                    {% elif poll.type == "t" %}
+                        <div>
+                            <label class="hidden" for="t-{{ poll.id }}">{{ poll.description }}</label>
+                            <input type="text"
+                                   name="t-{{ poll.id }}"
+                                   placeholder="{{ poll.value.0 }}"
+                                   id="t-{{ poll.id }}"
+                                   {% if poll.is_req == "Y" %}required{% endif %}
+                                   class="field-md"
+                            >
+                        </div>
+                    {% elif poll.type == "n" %}
+                        <div>
+                            <label class="hidden" for="n-{{ poll.id }}">{{ poll.description }}</label>
+                            <input type="number"
+                                   name="n-{{ poll.id }}"
+                                   placeholder="enter a value from {{ poll.value.0 }} to {{ poll.value.1 }}"
+                                   min="{{ poll.value.0 }}"
+                                   max="{{ poll.value.1 }}"
+                                   id="n-{{ poll.id }}"
+                                   {% if poll.is_req == "Y" %}required{% endif %}
+                                   class="field-md"
+                            >
+                        </div>
+                    {% elif poll.type == "s" %}
+                        <div>
+                            <input type="range"
+                                   name="s-{{ poll.id }}"
+                                   id="s-{{ poll.id }}"
+                                   min="{{ poll.value.0 }}"
+                                   max="{{ poll.value.1 }}"
+                                   value="{{ poll.value.0 }}"
+                                   {% if poll.is_req == "Y" %}required{% endif %}
+                                   class="w-full"
+                            >
+                            <label for="s-{{ poll.id }}" id="sl-{{ poll.id }}">0</label>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    const slider = document.getElementById("s-{{ poll.id }}")
+                                    const label = document.getElementById("sl-{{ poll.id }}")
+                                    const maxV =
+                                    {{ poll.value.1 }}
+                                    const minV = {{ poll.value.0 }}
+                                        slider.valueAsNumber = (maxV - minV) / 2 + minV
+                                    label.textContent = slider.value
+                                    slider.oninput = e => label.textContent = e.target.value
+                                })
+                            </script>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="p-24">
+                <button type="submit" class="button-lg button-focus w-full">Submit</button>
+            </div>
+        </form>
     </div>
 {% endblock content %}

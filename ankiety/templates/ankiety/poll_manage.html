@@ -1,32 +1,69 @@
 {% extends "ankiety/base.html" %}
 {% block content %}
-{% load static %}
+    {% load static %}
+    <div id="exportModal" class="modal"></div>
     <div class="wrapper">
-    <a href="{% url 'home' %}" class="logo">
-      <img src="{% static 'ankiety/assets/icon.svg' %}" />
-      <h1><span class="text-dark">Ankieto</span>poll</h1>
-    </a>
-    <div class="menu-buttons">
-        <a href="{% url 'user_panel' %}" class="button-md mb-24">Back</a>
-    </div>
-    <h1 class="text-center">
-        Your Poll's
-    </h1>
-    <section class="user-polls">
-        {% if not polls %}
-            <h3 class="text-center mt-20">You have not created your survey yet, <a href="{% url 'create_poll' %}" style="color: var(--dark-red);" >create it now</a></h3>
-        {% else %}
-        {% for poll in polls %}
-            <article>
-                <h1>{{ poll.title }}</h1>
-                <a href="{% url 'poll_statistics' poll.id_form %}" class="button-sm mx-16">Statistics</a>
-                <a href="{% url 'poll_correlation' poll.id_form %}" class="button-sm mx-16">Correlation</a>
-                <a href="#" class="button-sm mx-16">Edit</a>
-                <a href="#" class="button-sm button-focus mx-16">Delete</a>
-            </article>
-        {% endfor %}
-        {% endif %}
-    </section>
+        <a href="{% url 'home' %}" class="logo">
+            <img src="{% static 'ankiety/assets/icon.svg' %}"/>
+            <h1><span class="text-dark">Ankieto</span>poll</h1>
+        </a>
+        <div class="menu-buttons mb-24">
+            <a href="{% url 'user_panel' %}" class="button-md">Account</a>
+            <a href="{% url 'create_poll' %}" class="button-md button-focus">Create poll</a>
+        </div>
+        <h1 class="text-center">
+            Your Poll's
+        </h1>
+        <section class="user-polls">
+            {% if not polls %}
+                <h3 class="text-center mt-20">
+                    You have not created your survey yet,
+                    <a href="{% url 'create_poll' %}" style="color: var(--dark-red);">create it now</a>
+                </h3>
+            {% else %}
+                {% for poll in polls %}
+                    <article>
+                        <h1>{{ poll.title }}</h1>
+                        <p class="mb-8">Poll code: {{ poll.poll_code }}</p>
+                        <p class="mb-8">Poll link: http://127.0.0.1:8000/poll/{{ poll.poll_code }}/</p>
+                        <p class="mb-8">Completed by {{ poll.total_answers }} {% if poll.total_answers == 1 %}person{% else %}people{% endif %}</p>
+                        {% if poll.close_condition == "D" %}
+                            <p class="mb-8">Close codnition: closing after {{ poll.close_value }}</p>
+                        {% elif poll.close_condition == "C" %}
+                            <p class="mb-8">Close codnition: closing after {{ poll.close_value }} persons</p>
+                        {% elif poll.close_condition == "N" %}
+                            <p class="mb-8">Close codnition: manual closing</p>
+                        {% endif %}
+                        <p class="mb-8">Is closed:
+                            {% if poll.is_closed %} yes
+                            {% else %} no | <a href="#" class="link-text" onclick="return confirm('Are you sure? The survey cannot be reopened');">close now</a>
+                            {% endif %}
+                        </p>
+                        <p class="mb-8">Is public:
+                            {% if poll.is_public %} yes | <a href="{% url 'poll_toggle_public' poll.id_form %}" class="link-text">make it private</a>
+                            {% else %} no | <a href="{% url 'poll_toggle_public' poll.id_form %}" class="link-text">make a public</a>
+                            {% endif %}
+                        </p>
+                        <hr class="p-24">
+                    {% if poll.total_answers > 0 %}
+                        <a href="{% url 'poll_statistics' poll.id_form %}" class="button-sm mx-16">Statistics</a>
+                        <a href="{% url 'poll_correlation' poll.id_form %}" class="button-sm mx-16">Correlation</a>
+                        <select class="select-button-sm mx-16" onchange="location = this.value;">
+                            <option value="#">Export as</option>
+                            <option value="{% url 'export_as_xlsx' poll.id_form %}">.xlsx</option>
+                            <option value="{% url 'export_as_csv' poll.id_form %}">.csv</option>
+                        </select>
+                    {% else %}
+                        <button class="button-sm mx-16" disabled>Statistics</button>
+                        <button class="button-sm mx-16" disabled>Correlation</button>
+                        <button class="button-sm mx-16" disabled>Export as</button>
+                    {% endif %}
+                        <a href="{% url 'poll_edit' poll.id_form %}" class="button-sm mx-16">Rename</a>
+                        <a href="{% url 'poll_delete' poll.id_form %}" class="button-sm button-focus mx-16">Delete</a>
+                    </article>
+                {% endfor %}
+            {% endif %}
+        </section>
     </div>
 {% endblock content %}
 

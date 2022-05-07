@@ -1,41 +1,45 @@
 {% extends "ankiety/base.html" %}
 {% block content %}
-{% load static %}
-<a href="{% url 'home' %}" class="static-logo">
-  <img src="{% static 'ankiety/assets/icon.svg' %}" />
-  <h1><span class="text-dark">Ankieto</span>poll</h1>
-</a>
-<div class="wrapper flex-center">
-<form method="POST" class="card form">
-    {% csrf_token %}
-    <h1>Create an account!</h1>
-    <p>We look forward to getting to know you!</p>
-    <p>Create account to create your first survey</p>
-    <div class="input-group-sign">
-        <label for="id_username">Username</label>
-        {{ form.username }}
-        <p class="form-error-message2">{{ form.username.errors.as_text }}</p>
+    {% load static %}
+    <a href="{% url 'home' %}" class="static-logo">
+        <img src="{% static 'ankiety/assets/icon.svg' %}"/>
+        <h1><span class="text-dark">Ankieto</span>poll</h1>
+    </a>
+    <div class="wrapper flex-center">
+        <form method="POST" class="card form">
+            {% csrf_token %}
+            <h1>Create an account!</h1>
+            <p>We look forward to getting to know you!</p>
+            <p>Create account to create your first survey</p>
+            <div class="input-group-sign">
+                <label for="id_username">Username</label>
+                {{ form.username }}
+                <p class="form-error-message2">{{ form.username.errors.as_text }}</p>
+            </div>
+            <div class="input-group-sign">
+                <label for="id_username">First name</label>
+                {{ form.first_name }}
+                <p class="form-error-message2">{{ form.first_name.errors.as_text }}</p>
+            </div>
+            <div class="input-group-sign">
+                <label for="id_email">Email</label>
+                {{ form.email }}
+                <p class="form-error-message2">{{ form.email.errors.as_text }}</p>
+            </div>
+            <div class="input-group-sign">
+                <label for="id_password1">Password</label>
+                {{ form.password1 }}
+                <p class="form-error-message2">{{ form.password1.errors.as_text }}</p>
+            </div>
+            <div class="input-group-sign">
+                <label for="id_password2">Confirm Password</label>
+                {{ form.password2 }}
+                <p class="form-error-message2">{{ form.password2.errors.as_text }}</p>
+            </div>
+            <div class="form-buttons">
+                <button type="submit" class="button-md button-focus">Register Account</button>
+                <a class="button-md button-outline" href="{% url 'login' %}">I am already registered</a>
+            </div>
+        </form>
     </div>
-    <div class="input-group-sign">
-        <label for="id_email">Email</label>
-        {{ form.email }}
-        <p class="form-error-message2">{{ form.email.errors.as_text }}</p>
-    </div>
-    <div class="input-group-sign">
-        <label for="id_password1">Password</label>
-        {{ form.password1 }}
-        <p class="form-error-message2">{{ form.password1.errors.as_text }}</p>
-    </div>
-    <div class="input-group-sign">
-        <label for="id_password2">Confirm Password</label>
-        {{ form.password2 }}
-        <p class="form-error-message2">{{ form.password2.errors.as_text }}</p>
-    </div>
-    <div class="form-buttons">
-        <button type="submit" class="button-md button-focus">Register Account</button>
-        <a class="button-md button-outline" href="{% url 'login' %}">I am already registered</a>
-    </div>
-</form>
-</div>
-
 {% endblock content %}

@@ -164,6 +164,6 @@ class DBManager:
         # id, name in request required
         return 0
 
-
-
-
+    @staticmethod
+    def toggle_public(poll_id):
+        return 0

@@ -1,55 +1,55 @@
 {% extends "ankiety/base.html" %}
 {% block content %}
-<div class="wrapper">
-    <nav class="hero-nav">
-        <a href="{% url 'create_poll' %}" class="button-lg button-focus">Create poll</a>
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'user_panel' %}" class="button-lg ml-16">Your account</a>
-        {% else %}
-            <a href="{% url 'login' %}" class="button-lg ml-16">SignIn</a>
-        {% endif %}
-    </nav>
-    <main>
-        <h1 class="hero-logo"><span class="text-dark">Ankieto</span>poll</h1>
-        <form method="POST" class="hero-form">
-            {% csrf_token %}
-            <label for="poll_code">Enter code and complete survey</label>
-            <div>
-                <input type="text" name="poll_code" id="poll_code" placeholder="_ _ _ _ _ _ _ _" required>
-                <button type="submit"><i class="fa-solid fa-angle-right"></i></button>
-            </div>
-        </form>
-        <nav class="hero-links">
-            <a href="{% url 'create_poll' %}">Or <span class="text-red">make Your Own</span></a>
-            <a href="#">Explore the possibilities</a>
+    <div class="wrapper">
+        <nav class="hero-nav">
+            <a href="{% url 'create_poll' %}" class="button-lg button-focus">Create poll</a>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'user_panel' %}" class="button-lg ml-16">Your account</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="button-lg ml-16">SignIn</a>
+            {% endif %}
         </nav>
-        <section class="hero-public-polls">
-            <h1>Recently added public polls</h1>
-            {% for poll in public_polls %}
-            <a href="{% url 'poll' poll.id_form %}">
-                <article>
-                    <h1>{{ poll.title }}</h1>
-                    <p>Username</p>
-                </article>
-            </a>
-            {% endfor %}
-        </section>
-        <div class="text-center mb-24">
-            <a class="button-md" href="{% url 'poll_search'%}">Find more surveys</a>
-        </div>
-        <footer class="hero-footer">
-            <div class="authors">
-                <p>Aneta Nowak</p>
-                <span>⚜</span>
-                <p>Mateusz Machura</p>
-                <span>⚜</span>
-                <p>Patryk Gacek</p>
-                <span>⚜</span>
-                <p>Michał Moric</p>
-                <span>⚜</span>
-                <p>Jakub Szczegielniak</p>
+        <main>
+            <h1 class="hero-logo"><span class="text-dark">Ankieto</span>poll</h1>
+            <form method="POST" class="hero-form">
+                {% csrf_token %}
+                <label for="poll_code">Enter code and complete survey</label>
+                <div>
+                    <input type="text" name="poll_code" id="poll_code" placeholder="_ _ _ _ _ _ _ _" required>
+                    <button type="submit"><i class="fa-solid fa-angle-right"></i></button>
+                </div>
+            </form>
+            <nav class="hero-links">
+                <a href="{% url 'create_poll' %}">Or <span class="text-red">make Your Own</span></a>
+                <a href="#">Explore the possibilities</a>
+            </nav>
+            <section class="hero-public-polls">
+                <h1>Recently added public polls</h1>
+                {% for poll in public_polls %}
+                    <a href="{% url 'poll' poll.id_form %}">
+                        <article>
+                            <h1>{{ poll.title }}</h1>
+                            <p class="mt-20">{{ poll.description }}</p>
+                        </article>
+                    </a>
+                {% endfor %}
+            </section>
+            <div class="text-center mb-24">
+                <a class="button-md" href="{% url 'poll_search' %}">Find more surveys</a>
             </div>
-        </footer>
-    </main>
-</div>
+            <footer class="hero-footer">
+                <div class="authors">
+                    <p>Aneta Nowak</p>
+                    <span>⚜</span>
+                    <p>Mateusz Machura</p>
+                    <span>⚜</span>
+                    <p>Patryk Gacek</p>
+                    <span>⚜</span>
+                    <p>Michał Moric</p>
+                    <span>⚜</span>
+                    <p>Jakub Szczegielniak</p>
+                </div>
+            </footer>
+        </main>
+    </div>
 {% endblock content %}

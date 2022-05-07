@@ -11,8 +11,8 @@
         <div class="menu-buttons mb-24">
             <a href="{% url 'poll_manage' %}" class="button-md">Your Poll's</a>
             <a href="{% url 'create_poll' %}" class="button-md button-focus">Create poll</a>
+            <a href="{% url 'logout' %}" class="button-md">Logout</a>
         </div>
-
         <form method="POST" class="form-card">
             <h4 class="mb-8">Change your password</h4>
             {% csrf_token %}
@@ -20,7 +20,6 @@
             <input type="password" class="field-sm mb-8" name="password-confirm" placeholder="Confirm Password">
             <button type="submit" class="button-sm w-full">Change password</button>
         </form>
-
         <form method="POST" class="form-card">
             <h4 class="mb-8">Change your email</h4>
             {% csrf_token %}
@@ -28,14 +27,11 @@
             <button type="submit" class="button-sm w-full">Change email</button>
         </form>
     </div>
-
     <form method="POST" class="form-card">
             <h4 class="mb-8">Delete your account</h4>
             {% csrf_token %}
             <input type="hidden" name="delete_account" value="true">
             <button type="submit" class="button-sm button-focus w-full">Delete</button>
         </form>
-
     </main>
-
 {% endblock content %}

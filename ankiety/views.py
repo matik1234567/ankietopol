@@ -16,7 +16,6 @@ import time
 import xlsxwriter
 import json
 
-# Create your views here.
 
 # Home view
 def home(request):
@@ -47,20 +46,24 @@ def create_poll(request):
     if not request.user.is_authenticated:
         return redirect('login')
     if request.method == "POST":
-        DBManager.insert_poll_model(request.POST, 1)  # user id
+        if not len(request.POST) > 5:
+            return render(request, 'ankiety/error_page.html',
+                          {'error': 'An attempt to create a blank survey failed. Add at least one field'})
+        DBManager.insert_poll_model(request.POST, request.user.id)  # user id
+        return redirect('poll_manage')
     return render(request, 'ankiety/poll_create.html')
 
 
 # poll view
 def poll(request, pk):
+    pk = (int(pk, 16) - 1000000000) / 9999
     if request.method == "POST":
         try:
             DBManager.send_poll_response(request.POST, pk)
         except Exception as ex:
-            print('poll response exception')
             return render(request, 'ankiety/error_page.html', {'error': str(ex)})
         return redirect('poll_complete')
-    
+
     try:
         polls = DBManager.get_poll_model(pk)
         return render(request, 'ankiety/poll.html', {'polls': polls})
@@ -72,38 +75,95 @@ def poll(request, pk):
 def poll_complete(request):
     return render(request, 'ankiety/poll_complete.html')
 
-# poll manage
-def poll_manage(request):
-    polls = DBManager.get_user_polls(1)
+
+# poll delete
+def poll_delete(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
+    try:
+        DBManager.remove_poll(pk)
+    except Exception as ex:
+        return render(request, 'ankiety/error_page.html', {'error': str(ex)})
+    return render(request, 'ankiety/poll_delete.html')
+
+
+# poll edit
+def poll_edit(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.method == "POST":
+        print(request.POST)
+        try:
+            DBManager.edit_poll(request, pk)
+        except Exception as ex:
+            return render(request, 'ankiety/error_page.html', {'error': str(ex)})
+        return render(request, 'ankiety/poll_edit_success.html')
+
+    try:
+        polls = DBManager.get_poll_model(pk)
+    except Exception as ex:
+        return render(request, 'ankiety/error_page.html', {'error': 'This survey is not available'})
+    return render(request, 'ankiety/poll_edit.html', {'polls': polls})
+
+
+# poll manage
+def poll_manage(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    polls = DBManager.get_user_polls(request.user.id)
+    for idx, poll in enumerate(polls):
+        try:
+            responses = Parser.responses_to_dataframe(poll.id_form)
+            total_answers = len(responses)
+            polls[idx].total_answers = total_answers
+            polls[idx].poll_code = hex(1000000000 + poll.id_form * 9999)[2:].upper()
+        except:
+            polls[idx].total_answers = 0
     return render(request, 'ankiety/poll_manage.html', {'polls': polls})
+
+
+# poll toggle public
+def poll_toggle_public(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    try:
+        DBManager.toggle_public(pk)
+    except Exception as ex:
+        return render(request, 'ankiety/error_page.html', {'error': str(ex)})
+    return redirect('poll_manage')
+
 
 # poll statistics
 def poll_statistics(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
     if not request.user.is_authenticated:
         return redirect('login')
     try:
         poll = DBManager.get_names_types(pk)
         responses = Parser.responses_to_dataframe(pk)
         statistics = StatisticsCalculator.get_basic_measurements(poll, responses)
-        return render(request, 'ankiety/poll_statistics.html', {'statistics':  statistics})
+        return render(request, 'ankiety/poll_statistics.html', {'statistics': statistics})
     except Exception as ex:
         return render(request, 'ankiety/error_page.html', {'error': str(ex)})
 
+
 # poll correlation
 def poll_correlation(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
     print(pk)
-
     polls = DBManager.get_poll_model(pk)
     try:
         if request.method == "POST":
             response = DBManager.get_responses(pk)
             if request.POST['var1_id'] == "" or request.POST['var2_id'] == "":
-                return render(request, 'ankiety/poll_correlation.html', {'polls': polls, 'message': 'Error - Question not selected'})
+                return render(request, 'ankiety/poll_correlation.html',
+                              {'polls': polls, 'message': 'Error - Question not selected'})
 
             if request.POST['var1_id'] == request.POST['var2_id']:
-                return render(request, 'ankiety/poll_correlation.html', {'polls': polls, 'message': 'Error - The same two questions were chosen'})
+                return render(request, 'ankiety/poll_correlation.html',
+                              {'polls': polls, 'message': 'Error - The same two questions were chosen'})
 
             correlation = StatisticsCalculator.get_correlation(polls.items['formItems'], response,
                                                                int(request.POST['var1_id']),
@@ -113,7 +173,6 @@ def poll_correlation(request, pk):
             return render(request, 'ankiety/poll_correlation.html', {'polls': polls})
     except Exception as ex:
         return render(request, 'ankiety/error_page.html', {'error': str(ex)})
-
 
 
 # poll search
@@ -176,10 +235,20 @@ def logout_user(request):
     return redirect('home')
 
 
+def export_as_xlsx(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    return Export.write_xlsx(pk)
+
+
+def export_as_csv(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    return Export.write_csv(pk)
+
+
 # dev purpose for database testers
-
 def test(request):
-
     DBManager.remove_poll(49, 1)
 
     if request.method == 'POST':
@@ -189,16 +258,14 @@ def test(request):
     responses = Parser.responses_to_dataframe(52)
 
     stat = StatisticsCalculator.get_basic_measurements(poll, responses)
-    #data, title = Parser.parse_to_chart(52)
+    # data, title = Parser.parse_to_chart(52)
 
     print(stat)
-    return render(request, 'ankiety/test.html', {'stat':  stat})
-
+    return render(request, 'ankiety/test.html', {'stat': stat})
 
 
 # dev purpose test forms
 def test_form(request):
-
     if request.method == "POST":
         DBManager.send_poll_response(request.POST, 41)
     return render(request, 'ankiety/test_form.html')

@@ -8,8 +8,8 @@
     <main class="wrapper flex-center">
         <div class="text-center">
             <img src="{% static 'ankiety/assets/icon.svg' %}" style="width: 120px;"/>
-            <h1 style="font-weight: 400; margin: 24px 0;">Thank you for completing the survey</h1>
-            <a href="{% url 'home' %}" class="button-md mt-20">Homepage</a>
+            <h1 style="font-weight: 400; margin: 24px 0;">The survey has been updated</h1>
+            <a href="{% url 'poll_manage' %}" class="button-md mt-20">Back to your polls</a>
         </div>
     </main>
 {% endblock content %}

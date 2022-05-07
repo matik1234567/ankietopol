@@ -1,0 +1,61 @@
+{% extends "ankiety/base.html" %}
+{% block content %}
+    {% load static %}
+    <div class="wrapper">
+        <a href="{% url 'home' %}" class="logo">
+            <img src="{% static 'ankiety/assets/icon.svg' %}"/>
+            <h1><span class="text-dark">Ankieto</span>poll</h1>
+        </a>
+        <div class="menu-buttons">
+            <a href="{% url 'poll_manage' %}" class="button-md mt-20">Back to your polls</a>
+        </div>
+        <p class="text-center p-24">Change the names displayed as column titles in .csv .xlsx files</p>
+        <form method="POST" class="container-poll">
+            {% csrf_token %}
+            {% for poll in polls.items.formItems %}
+                <div class="card">
+                    <h1>{{ poll.description }}</h1>
+                    {% if poll.type == "r" %}
+                        <input class="field-md"
+                               type="text"
+                               name="r-{{ poll.id }}"
+                               value="{{ poll.name }}"
+                               placeholder="{{ poll.name }}"
+                               required/>
+                    {% elif poll.type == "c" %}
+                        <input class="field-md"
+                               type="text"
+                               name="c-{{ poll.id }}"
+                               value="{{ poll.name }}"
+                               placeholder="{{ poll.name }}"
+                               required/>
+                    {% elif poll.type == "t" %}
+                        <input class="field-md"
+                               type="text"
+                               name="t-{{ poll.id }}"
+                               value="{{ poll.name }}"
+                               placeholder="{{ poll.name }}"
+                               required/>
+                    {% elif poll.type == "n" %}
+                        <input class="field-md"
+                               type="text"
+                               name="n-{{ poll.id }}"
+                               value="{{ poll.name }}"
+                               placeholder="{{ poll.name }}"
+                               required/>
+                    {% elif poll.type == "s" %}
+                        <input class="field-md"
+                               type="text"
+                               name="s-{{ poll.id }}"
+                               value="{{ poll.name }}"
+                               placeholder="{{ poll.name }}"
+                               required/>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="p-24">
+                <button type="submit" class="button-lg button-focus w-full">Submit</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
