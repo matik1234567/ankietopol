@@ -143,6 +143,7 @@ def poll_statistics(request, pk):
     try:
         poll = DBManager.get_names_types(pk)
         responses = Parser.responses_to_dataframe(pk)
+        #print(poll, responses)
         statistics = StatisticsCalculator.get_basic_measurements(poll, responses)
         return render(request, 'ankiety/poll_statistics.html', {'statistics': statistics})
     except Exception as ex:

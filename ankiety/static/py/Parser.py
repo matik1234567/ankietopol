@@ -11,9 +11,25 @@ class Parser:
         js = js.replace('\"', '')
         js = js.replace('\'', '\"')
 
-        dataframe = pd.read_json(js)
-        dataframe.columns = DBManager.get_names(poll_id)
-        return dataframe
+        cols = DBManager.get_names(poll_id)
+
+        df = pd.DataFrame(columns=cols)
+        js = json.loads(js)
+        #print(df)
+        for j in js:
+            df_temp = {}
+            i = 0
+            for index, value in j.items():
+                df_temp[cols[i]] = value
+                i += 1
+
+            df = df.append(df_temp, ignore_index=True)
+        #dataframe = pd.read_json(js)
+        #print(df)
+        #print(dataframe)
+
+        #dataframe.columns = DBManager.get_names(poll_id)
+        return df
 
     @staticmethod
     def get_poll_model(poll_id):
@@ -34,6 +50,7 @@ class Parser:
     def parse_to_chart(poll_id):
 
         responses_df = Parser.responses_to_dataframe(poll_id)
+        print(responses_df)
         names_types = DBManager.get_names_types(poll_id)
 
         for nt in names_types:

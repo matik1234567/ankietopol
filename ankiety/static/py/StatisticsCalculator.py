@@ -73,7 +73,6 @@ class StatisticsCalculator:
         for item in data.tolist():
             dict_of_freq[str(item)] += 1  # +1 to the number of occurences of this question
 
-        print([[str(int(float(key))), value] for key, value in dict_of_freq.items()])
         return [[str(int(float(key))), value] for key, value in dict_of_freq.items()]
 
     @staticmethod
@@ -96,12 +95,12 @@ class StatisticsCalculator:
 
     @staticmethod
     def __get_measures_continuous(list): # get measures for continuous variables
-        print(list)
+
         list_temp = []
         for l in list:
             if l != '':
                 list_temp.append(float(l))
-        print(list_temp)
+
         list = pd.Series(list_temp)
         result = {}
         result['Total poll answers'] = len(list)
@@ -112,7 +111,7 @@ class StatisticsCalculator:
         result["Mode"] = mode(list)
         result["Q1"] = list.quantile(0.25)
         result["Q3"] = list.quantile(0.75)
-        print(result)
+
         return result
 
     @staticmethod
