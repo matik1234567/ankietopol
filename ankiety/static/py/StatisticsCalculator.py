@@ -4,6 +4,8 @@ from statistics import mode
 import json
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy.stats
+from sklearn.feature_selection import chi2
 
 # radio, checkbox: answers_distribution []
 # number, slider: ['Average', 'Mode', 'StdDev', 'Q1', 'Q3', 'Empty answers']
@@ -134,30 +136,43 @@ class StatisticsCalculator:
                 count += 1
         return count'''
 
-    ''''@staticmethod
+    @staticmethod
     def __merge_lists(lists):
         result = []
         for list in lists:
             result.append(list)
-        return result'''
+        return result
 
     @staticmethod
-    def get_correlation(poll, responses, var1_id, var2_id):
+    def get_correlation(poll, responses, var1_id, var2_id): # WYWALIC CHECKBOX!!
         var1_vals = responses[var1_id]
         var2_vals = responses[var2_id]
 
         # TODO - check what kind of variables, calculate correlation
-        if StatisticsCalculator.__get_variable_type(poll[var1_id]["type"]) == StatisticsCalculator.__get_variable_type(poll[var2_id]["type"]):
-            nothing = 0
+        if StatisticsCalculator.__get_variable_type(poll["type"].iloc[var1_id]) == StatisticsCalculator.__get_variable_type(poll["type"].iloc[var2_id]):
             # variable types are the same
-            description = "method used: ..., if index>1 corelation exists ..."
-            index = 0.5
+
+            if StatisticsCalculator.__get_variable_type(poll["type"].iloc[var1_id]) == "continuous":
+                corr_coe, p_value = scipy.stats.pearsonr(var1_vals, var2_vals)
+                description = "Method used: Pearson Correlation\nCorrelation coefficient = "+str(round(corr_coe, 2))
+                description += "\nThe Pearson's correlation coefficient varies between -1 and +1 with 0 implying no correlation. Correlations of -1 or +1 imply an exact linear relationship."
+            else:
+                description = "Method used: Chi Square"
+                vals = [var1_vals, var2_vals]
+                chi2_val, p_val, dof, other = scipy.stats.chi2_contingency(vals) # dof = degree of freedom
+                description += "\nChi2 = "+str(round(chi2_val,2))
+                alpha = 0.05
+                critical_value = scipy.stats.chi2.ppf(q = 1-alpha, df = dof)
+                description += "\nChi2 critical value for p=0.05 is "+str(round(critical_value,2))
+                if chi2_val<critical_value:
+                    description += " - the variables are not correlated."
+                else:
+                    description += " - the variables are correlated."
         else:
-            nothing = 0
             # there is one categorical and one continuous variable
             description = "method used: ..., if index>1 corelation exists ..."
             index = 0.5
-        return description, index
+        return description
 
     @staticmethod
     def __get_variable_type(field_type):
@@ -171,11 +186,10 @@ class StatisticsCalculator:
             case 's':
                 return "continuous"
 
-"""
+
 df_r = pd.read_json("C:\\Users\\aneta\\Documents\\GitHub\\ankietopol\\ankietopol\\ankiety\\static\\examples\\responses2.json")
 print(df_r)
 df_p = pd.read_json("C:\\Users\\aneta\\Documents\\GitHub\\ankietopol\\ankietopol\\ankiety\\static\\examples\\items2.json")
 print(df_p)
-print(StatisticsCalculator.get_basic_measurements(df_p, df_r))
-print(get_correlation(df_p, df_r, 0, 2))
-"""
+#print(StatisticsCalculator.get_basic_measurements(df_p, df_r))
+print(StatisticsCalculator.get_correlation(df_p, df_r, 0, 0))

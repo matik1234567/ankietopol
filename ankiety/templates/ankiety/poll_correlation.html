@@ -13,16 +13,16 @@
                 <select name="var1_id" class="field-sm mb-8">
                     <option value="">-- Select question 1 --</option>
                     {% for poll in polls.items.formItems %}
-                        {% if poll.type != "t" %}
-                            <option value="{{ poll.id }}">{{ poll.description }}</option>
+                        {% if poll.type != "t" and poll.type != "c" %}
+                            <option value="{{ poll.id }}">{{ poll.name }}</option>
                         {% endif %}
                     {% endfor %}
                 </select>
                 <select name="var2_id" class="field-sm mb-8">
                     <option value="">-- Select question 2 --</option>
                     {% for poll in polls.items.formItems %}
-                        {% if poll.type != "t" %}
-                            <option value="{{ poll.id }}">{{ poll.description }}</option>
+                        {% if poll.type != "t" and poll.type != "c"%}
+                            <option value="{{ poll.id }}">{{ poll.name }}</option>
                         {% endif %}
                     {% endfor %}
                 </select>

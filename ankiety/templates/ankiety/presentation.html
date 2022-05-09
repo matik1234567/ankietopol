@@ -1,0 +1,11 @@
+{% extends "ankiety/base.html" %}
+{% block content %}
+    {% load static %}
+    <a href="{% url 'home' %}" class="static-logo">
+        <img src="{% static 'ankiety/assets/icon.svg' %}"/>
+        <h1><span class="text-dark">Ankieto</span>poll</h1>
+    </a>
+    <main class="wrapper flex-center">
+        Explore the possibilities
+    </main>
+{% endblock content %}

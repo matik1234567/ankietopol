@@ -22,5 +22,7 @@ urlpatterns = [
     path('poll_toggle_public/<int:pk>/', views.poll_toggle_public, name='poll_toggle_public'),
     path('export_as_xlsx/<int:pk>/', views.export_as_xlsx, name='export_as_xlsx'),
     path('export_as_csv/<int:pk>/', views.export_as_csv, name='export_as_csv'),
+    path('close_poll/<int:pk>/', views.close_poll, name='close_poll'),
+    path('presentation/', views.presentation, name='presentation'),
     path('register/', views.registerPage, name='register'),
 ]
