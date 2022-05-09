@@ -4,6 +4,8 @@ from statistics import mode
 import json
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy.stats
+from sklearn.feature_selection import chi2
 
 # radio, checkbox: answers_distribution []
 # number, slider: ['Average', 'Mode', 'StdDev', 'Q1', 'Q3', 'Empty answers']
@@ -32,17 +34,21 @@ class StatisticsCalculator:
                          'type': question['type'],
                          'name': question['name']})
                 case 'n':
-                    a = 1
                     stats.append(
                         {'data': StatisticsCalculator.__get_responses_hist_numeric(responses[question['name']]),
                          'title': question['title'],
                          'questions': question['questions'],
-                         'measures': StatisticsCalculator.__get_measures_categorical(responses[question['name']]),
+                         'measures': StatisticsCalculator.__get_measures_continuous(responses[question['name']]),
                          'type': question['type'],
                          'name': question['name']})
                 case 's':
-                    a=2
-                    #stats[question.id] = StatisticsCalculator.__get_measures_continuous(responses[question.id])
+                    stats.append(
+                        {'data': StatisticsCalculator.__get_responses_hist_numeric(responses[question['name']]),
+                         'title': question['title'],
+                         'questions': question['questions'],
+                         'measures': StatisticsCalculator.__get_measures_continuous(responses[question['name']]),
+                         'type': question['type'],
+                         'name': question['name']})
                 case 't':
                     nothing = 0 # TODO: string length distribution??
         return stats
@@ -79,25 +85,38 @@ class StatisticsCalculator:
                 continue
             d.append(int(dd))
         data = plt.hist(d)[1]
-        for d in data:
-            print(d)
+        #print(data)
+        ret = []
+        for d in range(len(data)):
+            ret.append([str(d), data[d]])
+        #print(ret)
+        return ret
         #print(np.histogram(d))
 
     @staticmethod
     def __get_measures_continuous(list): # get measures for continuous variables
+        print(list)
+        list_temp = []
+        for l in list:
+            if l != '':
+                list_temp.append(float(l))
+        print(list_temp)
+        list = pd.Series(list_temp)
         result = {}
         result['Total poll answers'] = len(list)
         list = list.dropna()
         result['Empty poll answers'] = result['Total poll answers'] - len(list)
-        result["Average"] = statistics.mean(list)
+        list = list.explode()
+        list = list.astype(float)
         result["Mode"] = mode(list)
-        result["StdDev"] = statistics.stdev(list)
         result["Q1"] = list.quantile(0.25)
         result["Q3"] = list.quantile(0.75)
+        print(result)
         return result
 
     @staticmethod
     def __get_measures_categorical(list):  # get measures for continuous variables
+
         result = {}
         result['Total poll answers'] = len(list)
         list = list.dropna()
@@ -117,30 +136,42 @@ class StatisticsCalculator:
                 count += 1
         return count'''
 
-    ''''@staticmethod
+    @staticmethod
     def __merge_lists(lists):
         result = []
         for list in lists:
             result.append(list)
-        return result'''
+        return result
 
     @staticmethod
     def get_correlation(poll, responses, var1_id, var2_id):
         var1_vals = responses[var1_id]
         var2_vals = responses[var2_id]
 
-        # TODO - check what kind of variables, calculate correlation
-        if StatisticsCalculator.__get_variable_type(poll[var1_id]["type"]) == StatisticsCalculator.__get_variable_type(poll[var2_id]["type"]):
-            nothing = 0
+        if StatisticsCalculator.__get_variable_type(poll["type"].iloc[var1_id]) == StatisticsCalculator.__get_variable_type(poll["type"].iloc[var2_id]):
             # variable types are the same
-            description = "method used: ..., if index>1 corelation exists ..."
-            index = 0.5
+
+            if StatisticsCalculator.__get_variable_type(poll["type"].iloc[var1_id]) == "continuous":
+                corr_coe, p_value = scipy.stats.pearsonr(var1_vals, var2_vals)
+                description = "Method used: Pearson Correlation\nCorrelation coefficient = "+str(round(corr_coe, 2))
+                description += "\nThe Pearson's correlation coefficient varies between -1 and +1 with 0 implying no correlation. Correlations of -1 or +1 imply an exact linear relationship."
+            else:
+                description = "Method used: Chi Square"
+                vals = [var1_vals, var2_vals]
+                chi2_val, p_val, dof, other = scipy.stats.chi2_contingency(vals) # dof = degree of freedom
+                description += "\nChi2 = "+str(round(chi2_val,2))
+                alpha = 0.05
+                critical_value = scipy.stats.chi2.ppf(q = 1-alpha, df = dof)
+                description += "\nChi2 critical value for p=0.05 is "+str(round(critical_value,2))
+                if chi2_val<critical_value:
+                    description += " - the variables are not correlated."
+                else:
+                    description += " - the variables are correlated."
         else:
-            nothing = 0
             # there is one categorical and one continuous variable
             description = "method used: ..., if index>1 corelation exists ..."
             index = 0.5
-        return description, index
+        return description
 
     @staticmethod
     def __get_variable_type(field_type):
@@ -154,11 +185,10 @@ class StatisticsCalculator:
             case 's':
                 return "continuous"
 
-"""
+
 df_r = pd.read_json("C:\\Users\\aneta\\Documents\\GitHub\\ankietopol\\ankietopol\\ankiety\\static\\examples\\responses2.json")
 print(df_r)
 df_p = pd.read_json("C:\\Users\\aneta\\Documents\\GitHub\\ankietopol\\ankietopol\\ankiety\\static\\examples\\items2.json")
 print(df_p)
-print(StatisticsCalculator.get_basic_measurements(df_p, df_r))
-print(get_correlation(df_p, df_r, 0, 2))
-"""
+#print(StatisticsCalculator.get_basic_measurements(df_p, df_r))
+print(StatisticsCalculator.get_correlation(df_p, df_r, 0, 0))
