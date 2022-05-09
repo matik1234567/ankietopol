@@ -186,10 +186,11 @@ class StatisticsCalculator:
             case 's':
                 return "continuous"
 
-
+"""
 df_r = pd.read_json("C:\\Users\\aneta\\Documents\\GitHub\\ankietopol\\ankietopol\\ankiety\\static\\examples\\responses2.json")
 print(df_r)
 df_p = pd.read_json("C:\\Users\\aneta\\Documents\\GitHub\\ankietopol\\ankietopol\\ankiety\\static\\examples\\items2.json")
 print(df_p)
 #print(StatisticsCalculator.get_basic_measurements(df_p, df_r))
 print(StatisticsCalculator.get_correlation(df_p, df_r, 0, 0))
+"""
