@@ -105,7 +105,7 @@ class StatisticsCalculator:
         result = {}
         result['Total poll answers'] = len(list)
         list = list.dropna()
-        result['Empty poll answers'] = result['Total poll answers'] - len(list)
+        result['Empty poll answers'] = result['Total question answers'] - len(list)
         list = list.explode()
         list = list.astype(float)
         result["Mode"] = mode(list)
@@ -120,7 +120,7 @@ class StatisticsCalculator:
         result = {}
         result['Total poll answers'] = len(list)
         list = list.dropna()
-        result['Empty poll answers'] = result['Total poll answers'] - len(list)
+        result['Empty poll answers'] = result['Total question answers'] - len(list)
         list = list.explode()
         list = list.astype(float)
         result["Mode"] = mode(list)
