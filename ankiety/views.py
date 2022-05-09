@@ -115,9 +115,7 @@ def poll_manage(request):
         polls[idx].poll_code = hex(1000000000 + poll.id_form * 9999)[2:].upper()
     for idx, poll in enumerate(polls):
         try:
-            responses = Parser.responses_to_dataframe(poll.id_form)
-            total_answers = len(responses)
-            polls[idx].total_answers = total_answers
+            polls[idx].total_answers = DBManager.get_responses_count(poll.id_form)
         except:
             polls[idx].total_answers = 0
     return render(request, 'ankiety/poll_manage.html', {'polls': polls})
@@ -246,6 +244,20 @@ def export_as_csv(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
     return Export.write_csv(pk)
+
+
+def close_poll(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    try:
+        DBManager.close_poll(pk)
+    except Exception as ex:
+        return render(request, 'ankiety/error_page.html',
+                      {'error': 'An error occurred while closing the survey. Please contact the site administrator.'})
+    return redirect('poll_manage')
+
+def presentation(request):
+    return render(request, 'ankiety/presentation.html')
 
 
 # dev purpose for database testers

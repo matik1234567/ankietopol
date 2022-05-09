@@ -36,7 +36,7 @@
                         {% endif %}
                         <p class="mb-8">Is closed:
                             {% if poll.is_closed %} yes
-                            {% else %} no | <a href="#" class="link-text" onclick="return confirm('Are you sure? The survey cannot be reopened');">close now</a>
+                            {% else %} no | <a href="{% url 'close_poll' poll.id_form %}" class="link-text" onclick="return confirm('Are you sure? The survey cannot be reopened');">close now</a>
                             {% endif %}
                         </p>
                         <p class="mb-8">Is public:
