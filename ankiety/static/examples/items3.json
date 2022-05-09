@@ -1,0 +1,1 @@
+{"formItems": [{"id": 0, "type": "r", "description": "ile masz lat", "value": ["18-20", "21-25", "26-30"], "name": "ile masz lat", "is_req": "F"}, {"id": 1, "type": "n", "description": "wpisz losowa liczbe", "value": ["1", "9999"], "name": "losowa liczba", "is_req": "F"}]}
