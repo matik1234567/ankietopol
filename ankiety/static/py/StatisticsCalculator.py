@@ -144,11 +144,10 @@ class StatisticsCalculator:
         return result
 
     @staticmethod
-    def get_correlation(poll, responses, var1_id, var2_id): # WYWALIC CHECKBOX!!
+    def get_correlation(poll, responses, var1_id, var2_id):
         var1_vals = responses[var1_id]
         var2_vals = responses[var2_id]
 
-        # TODO - check what kind of variables, calculate correlation
         if StatisticsCalculator.__get_variable_type(poll["type"].iloc[var1_id]) == StatisticsCalculator.__get_variable_type(poll["type"].iloc[var2_id]):
             # variable types are the same
 
