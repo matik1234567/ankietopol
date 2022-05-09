@@ -94,7 +94,7 @@ def poll_edit(request, pk):
     if request.method == "POST":
         print(request.POST)
         try:
-            DBManager.edit_poll(request, pk)
+            DBManager.edit_poll(request.POST, pk)
         except Exception as ex:
             return render(request, 'ankiety/error_page.html', {'error': str(ex)})
         return render(request, 'ankiety/poll_edit_success.html')

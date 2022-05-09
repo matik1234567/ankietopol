@@ -3,7 +3,7 @@ from ankiety.models import Form, Response
 from .RequestParser import RequestParser
 from django.db import connection
 from datetime import datetime
-
+import json
 
 class DBManager:
 
@@ -162,8 +162,37 @@ class DBManager:
     @staticmethod
     def edit_poll(request, poll_id):
         # id, name in request required
-        return 0
+        form = Form.objects.get(pk=poll_id)
+        js = str(form.items)
+        js = js.replace('\"', '')
+        js = js.replace('\'', '\"')
+        js = json.loads(js)
+
+        request._mutable = True
+        dict_ = {k: request.getlist(k) if len(request.getlist(k)) > 1 else v for k, v in request.items()}
+
+        for item in js['formItems']:
+            for key, value in dict_.items():
+                id_new = key.split('-')[-1]
+                if str(item['id']) == str(id_new):
+                    print(item['name'], value)
+                    item['name'] = value
+                    break
+
+        form.items = js
+        form.save()
 
     @staticmethod
     def toggle_public(poll_id):
-        return 0
+        form = Form.objects.get(pk=poll_id)
+        if form.is_public:
+            form.is_public = False
+        else:
+            form.is_public = True
+        form.save()
+
+    @staticmethod
+    def close_poll(poll_id):
+        form = Form.objects.get(pk=poll_id)
+        form.is_closed = True
+        form.save()
