@@ -196,3 +196,10 @@ class DBManager:
         form = Form.objects.get(pk=poll_id)
         form.is_closed = True
         form.save()
+
+    @staticmethod
+    def get_responses_count(poll_id):
+        form = Form.objects.get(pk=poll_id)
+        return form.close_count
+
+

@@ -3,6 +3,7 @@ import statistics
 from statistics import mode
 import json
 import numpy as np
+import matplotlib.pyplot as plt
 
 # radio, checkbox: answers_distribution []
 # number, slider: ['Average', 'Mode', 'StdDev', 'Q1', 'Q3', 'Empty answers']
@@ -32,7 +33,13 @@ class StatisticsCalculator:
                          'name': question['name']})
                 case 'n':
                     a = 1
-                    #stats[question.id] = StatisticsCalculator.__get_measures_continuous(responses[question.id])
+                    stats.append(
+                        {'data': StatisticsCalculator.__get_responses_hist_numeric(responses[question['name']]),
+                         'title': question['title'],
+                         'questions': question['questions'],
+                         'measures': StatisticsCalculator.__get_measures_categorical(responses[question['name']]),
+                         'type': question['type'],
+                         'name': question['name']})
                 case 's':
                     a=2
                     #stats[question.id] = StatisticsCalculator.__get_measures_continuous(responses[question.id])
@@ -49,17 +56,32 @@ class StatisticsCalculator:
 
     @staticmethod
     def __get_response_hist(data):
-        print(data)
+
         data = data.dropna()
         data = data.explode()
-        print(data)
+
         dict_of_freq = {}
         for v in data.unique():
             dict_of_freq[str(v)] = 0
         for item in data.tolist():
             dict_of_freq[str(item)] += 1  # +1 to the number of occurences of this question
 
+        print([[str(int(float(key))), value] for key, value in dict_of_freq.items()])
         return [[str(int(float(key))), value] for key, value in dict_of_freq.items()]
+
+    @staticmethod
+    def __get_responses_hist_numeric(data):
+        data = data.dropna()
+        data = data.explode()
+        d = []
+        for dd in data:
+            if dd == '':
+                continue
+            d.append(int(dd))
+        data = plt.hist(d)[1]
+        for d in data:
+            print(d)
+        #print(np.histogram(d))
 
     @staticmethod
     def __get_measures_continuous(list): # get measures for continuous variables
