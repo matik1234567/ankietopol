@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.stats
 from sklearn.feature_selection import chi2
+from scipy.stats import pointbiserialr
 
 # radio, checkbox: answers_distribution []
 # number, slider: ['Average', 'Mode', 'StdDev', 'Q1', 'Q3', 'Empty answers']
@@ -169,8 +170,10 @@ class StatisticsCalculator:
                     description += " - the variables are correlated."
         else:
             # there is one categorical and one continuous variable
-            description = "method used: ..., if index>1 corelation exists ..."
-            index = 0.5
+
+            description = "method used: Point Biserial Correlation"
+            corr, p_val = pointbiserialr(var1_vals, var2_vals)
+            description += "\ncorrelation = "+str(round(corr, 2))+"; p = "+str(round(p_val, 2))
         return description
 
     @staticmethod
@@ -185,11 +188,12 @@ class StatisticsCalculator:
             case 's':
                 return "continuous"
 
-"""
+'''
 df_r = pd.read_json("C:\\Users\\aneta\\Documents\\GitHub\\ankietopol\\ankietopol\\ankiety\\static\\examples\\responses2.json")
 print(df_r)
 df_p = pd.read_json("C:\\Users\\aneta\\Documents\\GitHub\\ankietopol\\ankietopol\\ankiety\\static\\examples\\items2.json")
 print(df_p)
 #print(StatisticsCalculator.get_basic_measurements(df_p, df_r))
 print(StatisticsCalculator.get_correlation(df_p, df_r, 0, 0))
-"""
+'''
+
