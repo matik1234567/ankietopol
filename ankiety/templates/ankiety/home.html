@@ -26,7 +26,7 @@
             <section class="hero-public-polls">
                 <h1>Recently added public polls</h1>
                 {% for poll in public_polls %}
-                    <a href="{% url 'poll' poll.id_form %}">
+                    <a href="{% url 'poll' poll.poll_code %}">
                         <article>
                             <h1>{{ poll.title }}</h1>
                             <p class="mt-20">{{ poll.description }}</p>

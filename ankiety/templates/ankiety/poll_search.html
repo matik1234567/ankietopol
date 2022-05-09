@@ -13,7 +13,7 @@
         </form>
         <section class="hero-public-polls">
             {% for poll in polls %}
-                <a href="{% url 'poll' poll.id_form %}">
+                <a href="{% url 'poll' poll.poll_code %}">
                     <article>
                         <h1>{{ poll.title }}</h1>
                         <p>{{ poll.description }}</p>

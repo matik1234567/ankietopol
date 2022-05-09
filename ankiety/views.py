@@ -22,6 +22,8 @@ def home(request):
     if request.method == "POST":
         return redirect('poll', request.POST['poll_code'])
     public_polls = DBManager.get_public_newest_polls()
+    for idx, poll in enumerate(public_polls):
+        public_polls[idx].poll_code = hex(1000000000 + poll.id_form * 9999)[2:].upper()
     return render(request, 'ankiety/home.html', {'public_polls': public_polls})
 
 
@@ -179,11 +181,15 @@ def poll_search(request):
     if request.GET.get("search", default="") != "":
         try:
             polls = DBManager.get_polls_by_title(request.GET)
+            for idx, poll in enumerate(polls):
+                polls[idx].poll_code = hex(1000000000 + poll.id_form * 9999)[2:].upper()
             return render(request, 'ankiety/poll_search.html', {'polls': polls})
         except Exception as ex:
             return render(request, 'ankiety/error_page.html', {'error': str(ex)})
     else:
         polls = DBManager.get_public_newest_polls()
+        for idx, poll in enumerate(polls):
+            polls[idx].poll_code = hex(1000000000 + poll.id_form * 9999)[2:].upper()
         return render(request, 'ankiety/poll_search.html', {'polls': polls})
 
 
