@@ -32,17 +32,21 @@ class StatisticsCalculator:
                          'type': question['type'],
                          'name': question['name']})
                 case 'n':
-                    a = 1
                     stats.append(
                         {'data': StatisticsCalculator.__get_responses_hist_numeric(responses[question['name']]),
                          'title': question['title'],
                          'questions': question['questions'],
-                         'measures': StatisticsCalculator.__get_measures_categorical(responses[question['name']]),
+                         'measures': StatisticsCalculator.__get_measures_continuous(responses[question['name']]),
                          'type': question['type'],
                          'name': question['name']})
                 case 's':
-                    a=2
-                    #stats[question.id] = StatisticsCalculator.__get_measures_continuous(responses[question.id])
+                    stats.append(
+                        {'data': StatisticsCalculator.__get_responses_hist_numeric(responses[question['name']]),
+                         'title': question['title'],
+                         'questions': question['questions'],
+                         'measures': StatisticsCalculator.__get_measures_continuous(responses[question['name']]),
+                         'type': question['type'],
+                         'name': question['name']})
                 case 't':
                     nothing = 0 # TODO: string length distribution??
         return stats
@@ -79,25 +83,38 @@ class StatisticsCalculator:
                 continue
             d.append(int(dd))
         data = plt.hist(d)[1]
-        for d in data:
-            print(d)
+        #print(data)
+        ret = []
+        for d in range(len(data)):
+            ret.append([str(d), data[d]])
+        #print(ret)
+        return ret
         #print(np.histogram(d))
 
     @staticmethod
     def __get_measures_continuous(list): # get measures for continuous variables
+        print(list)
+        list_temp = []
+        for l in list:
+            if l != '':
+                list_temp.append(float(l))
+        print(list_temp)
+        list = pd.Series(list_temp)
         result = {}
         result['Total poll answers'] = len(list)
         list = list.dropna()
         result['Empty poll answers'] = result['Total poll answers'] - len(list)
-        result["Average"] = statistics.mean(list)
+        list = list.explode()
+        list = list.astype(float)
         result["Mode"] = mode(list)
-        result["StdDev"] = statistics.stdev(list)
         result["Q1"] = list.quantile(0.25)
         result["Q3"] = list.quantile(0.75)
+        print(result)
         return result
 
     @staticmethod
     def __get_measures_categorical(list):  # get measures for continuous variables
+
         result = {}
         result['Total poll answers'] = len(list)
         list = list.dropna()
