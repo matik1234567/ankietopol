@@ -29,8 +29,7 @@
                 <button type="submit" class="button-sm w-full">Get correlation</button>
             </form>
             {% if correlation %}
-                <p>Description: {{ correlation.0 }}</p>
-                <p>Index: {{ correlation.1 }}</p>
+                <p>{{ correlation }}</p>
             {% endif %}
             {% if message %}
                 <p>{{ message }}</p>

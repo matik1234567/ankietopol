@@ -145,13 +145,16 @@ class StatisticsCalculator:
 
     @staticmethod
     def get_correlation(poll, responses, var1_id, var2_id):
-        var1_vals = responses[var1_id]
-        var2_vals = responses[var2_id]
+        var1_vals = responses[poll["name"][var1_id]]
+        var2_vals = responses[poll["name"][var2_id]]
 
-        if StatisticsCalculator.__get_variable_type(poll["type"].iloc[var1_id]) == StatisticsCalculator.__get_variable_type(poll["type"].iloc[var2_id]):
+        var1_vals = var1_vals.astype(int)
+        var2_vals = var2_vals.astype(int)
+
+        if StatisticsCalculator.__get_variable_type(poll["type"][var1_id]) == StatisticsCalculator.__get_variable_type(poll["type"][var2_id]):
             # variable types are the same
 
-            if StatisticsCalculator.__get_variable_type(poll["type"].iloc[var1_id]) == "continuous":
+            if StatisticsCalculator.__get_variable_type(poll["type"][var1_id]) == "continuous":
                 corr_coe, p_value = scipy.stats.pearsonr(var1_vals, var2_vals)
                 description = "Method used: Pearson Correlation\nCorrelation coefficient = "+str(round(corr_coe, 2))
                 description += "\nThe Pearson's correlation coefficient varies between -1 and +1 with 0 implying no correlation. Correlations of -1 or +1 imply an exact linear relationship."

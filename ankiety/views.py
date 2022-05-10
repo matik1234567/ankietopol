@@ -15,6 +15,7 @@ from ankiety.static.py.Export import Export
 import time
 import xlsxwriter
 import json
+import pandas as pd
 
 
 # Home view
@@ -158,7 +159,6 @@ def poll_correlation(request, pk):
     polls = DBManager.get_poll_model(pk)
     # try:
     if request.method == "POST":
-        response = DBManager.get_responses(pk)
         if request.POST['var1_id'] == "" or request.POST['var2_id'] == "":
             return render(request, 'ankiety/poll_correlation.html',
                           {'polls': polls, 'message': 'Error - Question not selected'})
@@ -167,7 +167,9 @@ def poll_correlation(request, pk):
             return render(request, 'ankiety/poll_correlation.html',
                           {'polls': polls, 'message': 'Error - The same two questions were chosen'})
 
-        correlation = StatisticsCalculator.get_correlation(polls.items['formItems'], response,
+        response_df = Parser.responses_to_dataframe(pk)
+        polls_df = Parser.items_to_dataframe(polls.items['formItems'])
+        correlation = StatisticsCalculator.get_correlation(polls_df, response_df,
                                                            int(request.POST['var1_id']),
                                                            int(request.POST['var2_id']))
         return render(request, 'ankiety/poll_correlation.html', {'polls': polls, 'correlation': correlation})

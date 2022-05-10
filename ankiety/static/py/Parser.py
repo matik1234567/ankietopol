@@ -34,6 +34,30 @@ class Parser:
         return df
 
     @staticmethod
+    def items_to_dataframe(items):
+        if type(items) is dict:
+            items = [items]
+
+        cols = list(items[0].keys())
+
+        df = pd.DataFrame(columns=cols)
+        # print(df)
+        for j in items:
+            df_temp = {}
+            i = 0
+            for index, value in j.items():
+                df_temp[cols[i]] = value
+                i += 1
+
+            df = df.append(df_temp, ignore_index=True)
+        # dataframe = pd.read_json(js)
+        # print(df)
+        # print(dataframe)
+
+        # dataframe.columns = DBManager.get_names(poll_id)
+        return df
+
+    @staticmethod
     def get_poll_model(poll_id):
         poll = DBManager.get_poll_model(poll_id)
         return pd.read_json(poll)
