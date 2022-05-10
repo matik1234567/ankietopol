@@ -1,5 +1,5 @@
 # ankietopol
-- install python > 3.9.x (select 'add to path' in installation options)\
+- install python > 3.10.x (select 'add to path' in installation options)\
 https://www.python.org/downloads/
 
 - open cmd and type following\
