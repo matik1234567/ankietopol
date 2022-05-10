@@ -16,6 +16,8 @@ class Parser:
         df = pd.DataFrame(columns=cols)
         js = json.loads(js)
         #print(df)
+        if type(js) is dict:
+            js = [js]
         for j in js:
             df_temp = {}
             i = 0

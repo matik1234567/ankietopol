@@ -6,7 +6,7 @@
             {% if request.user.is_authenticated %}
                 <a href="{% url 'user_panel' %}" class="button-lg ml-16">Your account</a>
             {% else %}
-                <a href="{% url 'login' %}" class="button-lg ml-16">SignIn</a>
+                <a href="{% url 'login' %}" class="button-lg ml-16">Sign In</a>
             {% endif %}
         </nav>
         <main>

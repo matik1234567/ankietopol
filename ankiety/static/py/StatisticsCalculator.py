@@ -103,9 +103,9 @@ class StatisticsCalculator:
 
         list = pd.Series(list_temp)
         result = {}
-        result['Total poll answers'] = len(list)
+        result['Total question answers'] = len(list)
         list = list.dropna()
-        result['Empty poll answers'] = result['Total question answers'] - len(list)
+        result['Empty question answers'] = result['Total question answers'] - len(list)
         list = list.explode()
         list = list.astype(float)
         result["Mode"] = mode(list)
@@ -118,9 +118,9 @@ class StatisticsCalculator:
     def __get_measures_categorical(list):  # get measures for continuous variables
 
         result = {}
-        result['Total poll answers'] = len(list)
+        result['Total question answers'] = len(list)
         list = list.dropna()
-        result['Empty poll answers'] = result['Total question answers'] - len(list)
+        result['Empty question answers'] = result['Total question answers'] - len(list)
         list = list.explode()
         list = list.astype(float)
         result["Mode"] = mode(list)

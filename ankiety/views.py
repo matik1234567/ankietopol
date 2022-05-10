@@ -140,14 +140,14 @@ def poll_statistics(request, pk):
         return redirect('login')
     if not request.user.is_authenticated:
         return redirect('login')
-    try:
-        poll = DBManager.get_names_types(pk)
-        responses = Parser.responses_to_dataframe(pk)
-        #print(poll, responses)
-        statistics = StatisticsCalculator.get_basic_measurements(poll, responses)
-        return render(request, 'ankiety/poll_statistics.html', {'statistics': statistics})
-    except Exception as ex:
-        return render(request, 'ankiety/error_page.html', {'error': str(ex)})
+    # try:
+    poll = DBManager.get_names_types(pk)
+    responses = Parser.responses_to_dataframe(pk)
+    #print(poll, responses)
+    statistics = StatisticsCalculator.get_basic_measurements(poll, responses)
+    return render(request, 'ankiety/poll_statistics.html', {'statistics': statistics})
+    # except Exception as ex:
+    #     return render(request, 'ankiety/error_page.html', {'error': str(ex)})
 
 
 # poll correlation
@@ -156,25 +156,25 @@ def poll_correlation(request, pk):
         return redirect('login')
     print(pk)
     polls = DBManager.get_poll_model(pk)
-    try:
-        if request.method == "POST":
-            response = DBManager.get_responses(pk)
-            if request.POST['var1_id'] == "" or request.POST['var2_id'] == "":
-                return render(request, 'ankiety/poll_correlation.html',
-                              {'polls': polls, 'message': 'Error - Question not selected'})
+    # try:
+    if request.method == "POST":
+        response = DBManager.get_responses(pk)
+        if request.POST['var1_id'] == "" or request.POST['var2_id'] == "":
+            return render(request, 'ankiety/poll_correlation.html',
+                          {'polls': polls, 'message': 'Error - Question not selected'})
 
-            if request.POST['var1_id'] == request.POST['var2_id']:
-                return render(request, 'ankiety/poll_correlation.html',
-                              {'polls': polls, 'message': 'Error - The same two questions were chosen'})
+        if request.POST['var1_id'] == request.POST['var2_id']:
+            return render(request, 'ankiety/poll_correlation.html',
+                          {'polls': polls, 'message': 'Error - The same two questions were chosen'})
 
-            correlation = StatisticsCalculator.get_correlation(polls.items['formItems'], response,
-                                                               int(request.POST['var1_id']),
-                                                               int(request.POST['var2_id']))
-            return render(request, 'ankiety/poll_correlation.html', {'polls': polls, 'correlation': correlation})
-        else:
-            return render(request, 'ankiety/poll_correlation.html', {'polls': polls})
-    except Exception as ex:
-        return render(request, 'ankiety/error_page.html', {'error': str(ex)})
+        correlation = StatisticsCalculator.get_correlation(polls.items['formItems'], response,
+                                                           int(request.POST['var1_id']),
+                                                           int(request.POST['var2_id']))
+        return render(request, 'ankiety/poll_correlation.html', {'polls': polls, 'correlation': correlation})
+    else:
+        return render(request, 'ankiety/poll_correlation.html', {'polls': polls})
+    # except Exception as ex:
+    #     return render(request, 'ankiety/error_page.html', {'error': str(ex)})
 
 
 # poll search
