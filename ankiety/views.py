@@ -32,17 +32,25 @@ def user_panel(request):
     if not request.user.is_authenticated:
         return redirect('login')
     if request.method == "POST":
-        print(request.POST)
+        if request.POST ["type"]=="password":
+            request.user.set_password(request.POST ["password"])
+            request.user.save()
+            return redirect('passwordchange')
+            print(request.POST)
+        elif request.POST ["type"]=="delete":
+            request.user.delete()
+            return redirect('delete')
+
+
+
     return render(request, 'ankiety/user_panel.html')
 
 
-def userpassview(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    if request.method == "POST":
-        print(request.POST)
-    return render(request, 'ankiety/userpass.html')
+def delete(request):
+    return render(request, 'ankiety/delete.html')
 
+def passwordchange(request):
+    return render(request, 'ankiety/passwordchange.html')
 
 # poll creator
 def create_poll(request):

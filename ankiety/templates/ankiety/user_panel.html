@@ -18,19 +18,14 @@
             {% csrf_token %}
             <input type="password" class="field-sm mb-8" name="password" placeholder="New Password">
             <input type="password" class="field-sm mb-8" name="password-confirm" placeholder="Confirm Password">
+            <input type="hidden" name="type" value = "password">
             <button type="submit" class="button-sm w-full">Change password</button>
-        </form>
-        <form method="POST" class="form-card">
-            <h4 class="mb-8">Change your email</h4>
-            {% csrf_token %}
-            <input type="text" class="field-sm mb-8" name="password" placeholder="New Email">
-            <button type="submit" class="button-sm w-full">Change email</button>
         </form>
     </div>
     <form method="POST" class="form-card">
             <h4 class="mb-8">Delete your account</h4>
             {% csrf_token %}
-            <input type="hidden" name="delete_account" value="true">
+            <input type="hidden" name="type" value="delete">
             <button type="submit" class="button-sm button-focus w-full">Delete</button>
         </form>
     </main>

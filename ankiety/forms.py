@@ -6,4 +6,4 @@ class CreateUserForm(UserCreationForm):
 	# username = forms.CharField(widget=forms.TextInput(attrs={'class': 'field-sm'}))
 	class Meta:
 		model = User
-		fields = ['username', 'first_name', 'email', 'password1', 'password2']
+		fields = ['username', 'first_name', 'password1', 'password2']

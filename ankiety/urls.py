@@ -11,7 +11,6 @@ urlpatterns = [
     path('poll/<str:pk>/', views.poll, name='poll'),
     path('test', views.test),  # dev purpose
     path('test-form/', views.test_form, name='tf'),  # dev purpose
-    path('userpass/', views.userpassview, name='userpass'),
     path('poll-complete/', views.poll_complete, name='poll_complete'),
     path('poll-search/', views.poll_search, name='poll_search'),
     path('poll-manage/', views.poll_manage, name='poll_manage'),
@@ -25,4 +24,6 @@ urlpatterns = [
     path('close_poll/<int:pk>/', views.close_poll, name='close_poll'),
     path('presentation/', views.presentation, name='presentation'),
     path('register/', views.registerPage, name='register'),
+    path('delete/', views.delete, name='delete'),
+    path('passwordchange/', views.passwordchange, name='passwordchange'),
 ]
