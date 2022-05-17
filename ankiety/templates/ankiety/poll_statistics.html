@@ -18,9 +18,11 @@
                             <div>
                                 <div class="statistics-chart" id="{{ s.name }}"></div>
                                 <div class="statistics-legend">
-                                    {% for q in s.questions %}
-                                        <p>{{ forloop.counter }} - {{ q }}</p>
-                                    {% endfor %}
+                                    {% if s.type != 'n' and s.type != 's' %}
+                                        {% for q in s.questions %}
+                                            <p>{{ forloop.counter }} - {{ q }}</p>
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
                             </div>
                             <div>
