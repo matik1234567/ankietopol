@@ -14,7 +14,7 @@
             {% csrf_token %}
             {% for poll in polls.items.formItems %}
                 <div class="card">
-                    {% if poll.is_req == "Y" %}<p class="small-red-text mb-8">Required</p>{% endif %}
+                    {% if poll.is_req == "Y" and poll.type != "c" and poll.type != "s" %}<p class="small-red-text mb-8">Required</p>{% endif %}
                     <h1>{{ poll.description }}</h1>
                     {% if poll.type == "r" %}
                         {% for el in poll.value %}
@@ -71,7 +71,6 @@
                                    min="{{ poll.value.0 }}"
                                    max="{{ poll.value.1 }}"
                                    value="{{ poll.value.0 }}"
-                                   {% if poll.is_req == "Y" %}required{% endif %}
                                    class="w-full"
                             >
                             <label for="s-{{ poll.id }}" id="sl-{{ poll.id }}">0</label>

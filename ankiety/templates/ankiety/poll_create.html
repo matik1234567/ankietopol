@@ -263,19 +263,6 @@
                 newPoll.prepend(removePollButton)
                 removePollButton.addEventListener("click", () => newPoll.remove())
 
-                {# Poll Required Checkbox #}
-                const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "", true)
-                requiredField.addEventListener("change", e => {
-                    if (e.target.checked)
-                        fieldRequiredHidden.valueAsNumber = 1
-                    else
-                        fieldRequiredHidden.valueAsNumber = 0
-                    console.dir(fieldRequiredHidden)
-                    console.log(e.target.checked)
-                })
-                newPoll.appendChild(requiredField)
-                fieldCount += 1
                 globalCount += 1
             }
 
@@ -486,19 +473,6 @@
                 newPoll.prepend(removePollButton)
                 removePollButton.addEventListener("click", () => newPoll.remove())
 
-                {# Poll Required Checkbox #}
-                const idFieldRequired = idPoll + "-" + fieldCount
-                const requiredField = createField(idFieldRequired, "", "checkbox", requiredContent, "", true)
-                requiredField.addEventListener("change", e => {
-                    if (e.target.checked)
-                        fieldRequiredHidden.valueAsNumber = 1
-                    else
-                        fieldRequiredHidden.valueAsNumber = 0
-                    console.dir(fieldRequiredHidden)
-                    console.log(e.target.checked)
-                })
-                newPoll.appendChild(requiredField)
-                fieldCount += 1
                 globalCount += 1
             }
 
