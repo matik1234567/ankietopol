@@ -84,14 +84,18 @@ class StatisticsCalculator:
             if dd == '':
                 continue
             d.append(int(dd))
-        data = plt.hist(d)[1]
-        #print(data)
-        ret = []
-        for d in range(len(data)):
-            ret.append([str(d), data[d]])
-        #print(ret)
-        return ret
-        #print(np.histogram(d))
+        n, bins, patches = plt.hist(d)
+        print(n)
+        print(bins)
+        #print(patches)
+
+        res = [[str(round(bins[i], 1)), n[i]] for i in range(len(n))]
+        for r in range(len(res)):
+            if r<len(res)-1:
+                res[r][0]+=(" - "+res[r+1][0])
+        res[-1][0]+=(" - "+str(bins[-1]))
+
+        return res
 
     @staticmethod
     def __get_measures_continuous(list): # get measures for continuous variables
@@ -108,9 +112,9 @@ class StatisticsCalculator:
         result['Empty question answers'] = result['Total question answers'] - len(list)
         list = list.explode()
         list = list.astype(float)
-        result["Mean"] = statistics.mean(list)
+        result["Mean"] = round(statistics.mean(list),2)
         result["Mode"] = mode(list)
-        result["Std Dev"] = np.std(list)
+        result["Std Dev"] = round(np.std(list),2)
         result["Q1"] = list.quantile(0.25)
         result["Q3"] = list.quantile(0.75)
 
