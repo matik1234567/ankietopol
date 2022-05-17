@@ -108,9 +108,9 @@ class StatisticsCalculator:
         result['Empty question answers'] = result['Total question answers'] - len(list)
         list = list.explode()
         list = list.astype(float)
-        result["Mean"] = mean(list)
+        result["Mean"] = statistics.mean(list)
         result["Mode"] = mode(list)
-        result["Std Dev"] = stdev(list)
+        result["Std Dev"] = statistics.stdev(list)
         result["Q1"] = list.quantile(0.25)
         result["Q3"] = list.quantile(0.75)
 
