@@ -1,11 +1,48 @@
 {% extends "ankiety/base.html" %}
 {% block content %}
     {% load static %}
-    <a href="{% url 'home' %}" class="static-logo">
+    <main class="wrapper" style="text-align: center;">
+    <a href="{% url 'home' %}" class="logo">
         <img src="{% static 'ankiety/assets/icon.svg' %}"/>
         <h1><span class="text-dark">Ankieto</span>poll</h1>
     </a>
-    <main class="wrapper flex-center">
-        Explore the possibilities
+    <div class="menu-buttons mb-24">
+        <a href="{% url 'home' %}" class="button-md">Homepage</a>
+    </div>
+        <h1 class="mb-24">Explore the possibilities</h1>
+        <hr class="mb-24">
+    <h1>Fill out the survey by entering its code on the home page</h1>
+    <img class="mb-24" src="{% static 'ankiety/assets/search-code.png' %}"/>
+    <h1>You can also fill out public surveys</h1>
+    <img class="mb-24" src="{% static 'ankiety/assets/public-polls.png' %}"/>
+    <h1 class="mt-20">Create survey</h1>
+    <img class="mb-24" src="{% static 'ankiety/assets/poll-create.png' %}"/>
+    <h1 class="mt-20">Fill out the survey</h1>
+    <img class="mb-24" src="{% static 'ankiety/assets/poll-complete.png' %}"/>
+    <h1 class="mt-20">Manage your survey</h1>
+    <img class="mb-24" src="{% static 'ankiety/assets/poll-manage.png' %}"/>
+    <h1 class="mt-20">Check the statistics</h1>
+    <img class="mb-24" src="{% static 'ankiety/assets/poll-statistics.png' %}"/>
+    <h1 class="mt-20">Check the Correlation</h1>
+    <img class="mb-24" src="{% static 'ankiety/assets/poll-correlation.png' %}"/>
+    <h1 class="mt-20">Export answers in csv and xlsx files</h1>
+    <img class="mb-24" src="{% static 'ankiety/assets/export.png' %}"/>
+    <a href="{% url 'home' %}" class="logo-prez mt-20">
+        <img src="{% static 'ankiety/assets/icon.svg' %}"/>
+        <h1><span class="text-dark">Ankieto</span>poll</h1>
+    </a>
+    <footer class="hero-footer">
+        <div class="authors">
+            <p>Aneta Nowak</p>
+            <span>⚜</span>
+            <p>Mateusz Machura</p>
+            <span>⚜</span>
+            <p>Patryk Gacek</p>
+            <span>⚜</span>
+            <p>Michał Moric</p>
+            <span>⚜</span>
+            <p>Jakub Szczegielniak</p>
+        </div>
+    </footer>
     </main>
 {% endblock content %}

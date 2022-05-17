@@ -9,24 +9,27 @@
     <div class="container">
         <h1 class="mb-24 text-center">Hi {{ request.user.first_name }}</h1>
         <div class="menu-buttons mb-24">
-            <a href="{% url 'poll_manage' %}" class="button-md">Your Poll's</a>
+            <a href="{% url 'poll_manage' %}" class="button-md">Your Polls</a>
             <a href="{% url 'create_poll' %}" class="button-md button-focus">Create poll</a>
             <a href="{% url 'logout' %}" class="button-md">Logout</a>
         </div>
         <form method="POST" class="form-card">
             <h4 class="mb-8">Change your password</h4>
             {% csrf_token %}
-            <input type="password" class="field-sm mb-8" name="password" placeholder="New Password">
-            <input type="password" class="field-sm mb-8" name="password-confirm" placeholder="Confirm Password">
+            <input type="password" class="field-sm mb-8" name="password" placeholder="New Password" required>
+            <input type="password" class="field-sm mb-8" name="password-confirm" placeholder="Confirm Password" required>
             <input type="hidden" name="type" value = "password">
+            {% for message in messages %}
+                <p class="form-error-message">{{ message }}</p>
+            {% endfor %}
             <button type="submit" class="button-sm w-full">Change password</button>
         </form>
     </div>
     <form method="POST" class="form-card">
-            <h4 class="mb-8">Delete your account</h4>
-            {% csrf_token %}
-            <input type="hidden" name="type" value="delete">
-            <button type="submit" class="button-sm button-focus w-full">Delete</button>
-        </form>
+        <h4 class="mb-8">Delete your account</h4>
+        {% csrf_token %}
+        <input type="hidden" name="type" value="delete">
+        <button type="submit" class="button-sm button-focus w-full" onclick="return confirm('Your account will be deleted permanently');">Delete</button>
+    </form>
     </main>
 {% endblock content %}

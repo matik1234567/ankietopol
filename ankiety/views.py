@@ -33,15 +33,15 @@ def user_panel(request):
         return redirect('login')
     if request.method == "POST":
         if request.POST ["type"]=="password":
-            request.user.set_password(request.POST ["password"])
-            request.user.save()
-            return redirect('passwordchange')
-            print(request.POST)
+            if request.POST['password'] == request.POST['password-confirm']:
+                request.user.set_password(request.POST["password"])
+                request.user.save()
+                return redirect('passwordchange')
+            else:
+                messages.info(request, 'Passwords do not match')
         elif request.POST ["type"]=="delete":
             request.user.delete()
             return redirect('delete')
-
-
 
     return render(request, 'ankiety/user_panel.html')
 
@@ -173,7 +173,7 @@ def poll_correlation(request, pk):
 
         if request.POST['var1_id'] == request.POST['var2_id']:
             return render(request, 'ankiety/poll_correlation.html',
-                          {'polls': polls, 'message': 'Error - The same two questions were chosen'})
+                          {'polls': polls, 'message': 'The same two questions were chosen'})
 
         response_df = Parser.responses_to_dataframe(pk)
         polls_df = Parser.items_to_dataframe(polls.items['formItems'])

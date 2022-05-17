@@ -151,31 +151,34 @@ class StatisticsCalculator:
         var1_vals = var1_vals.astype(int)
         var2_vals = var2_vals.astype(int)
 
+        description = ["Correlation"]
+
         if StatisticsCalculator.__get_variable_type(poll["type"][var1_id]) == StatisticsCalculator.__get_variable_type(poll["type"][var2_id]):
             # variable types are the same
 
             if StatisticsCalculator.__get_variable_type(poll["type"][var1_id]) == "continuous":
                 corr_coe, p_value = scipy.stats.pearsonr(var1_vals, var2_vals)
-                description = "Method used: Pearson Correlation\nCorrelation coefficient = "+str(round(corr_coe, 2))
-                description += "\nThe Pearson's correlation coefficient varies between -1 and +1 with 0 implying no correlation. Correlations of -1 or +1 imply an exact linear relationship."
+                description.append("Method used: Pearson Correlation")
+                description.append("Correlation coefficient = " +str(round(corr_coe, 2)))
+                description.append("The Pearson's correlation coefficient varies between -1 and +1 with 0 implying no correlation. Correlations of -1 or +1 imply an exact linear relationship.")
             else:
-                description = "Method used: Chi Square"
+                description.append("Method used: Chi Square")
                 vals = [var1_vals, var2_vals]
                 chi2_val, p_val, dof, other = scipy.stats.chi2_contingency(vals) # dof = degree of freedom
-                description += "\nChi2 = "+str(round(chi2_val,2))
+                description.append("Chi2 = "+str(round(chi2_val,2)))
                 alpha = 0.05
                 critical_value = scipy.stats.chi2.ppf(q = 1-alpha, df = dof)
-                description += "\nChi2 critical value for p=0.05 is "+str(round(critical_value,2))
+                description.append("Chi2 critical value for p=0.05 is "+str(round(critical_value,2)))
                 if chi2_val<critical_value:
-                    description += " - the variables are not correlated."
+                    description.append(" - the variables are not correlated.")
                 else:
-                    description += " - the variables are correlated."
+                    description.append(" - the variables are correlated.")
         else:
             # there is one categorical and one continuous variable
 
-            description = "method used: Point Biserial Correlation"
+            description.append("method used: Point Biserial Correlation")
             corr, p_val = pointbiserialr(var1_vals, var2_vals)
-            description += "\ncorrelation = "+str(round(corr, 2))+"; p = "+str(round(p_val, 2))
+            description.append("correlation = "+str(round(corr, 2))+"; p = "+str(round(p_val, 2)))
         return description
 
     @staticmethod

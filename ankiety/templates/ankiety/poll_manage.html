@@ -28,11 +28,11 @@
                         <p class="mb-8">Poll link: http://127.0.0.1:8000/poll/{{ poll.poll_code }}/</p>
                         <p class="mb-8">Completed by {{ poll.total_answers }} {% if poll.total_answers == 1 %}person{% else %}people{% endif %}</p>
                         {% if poll.close_condition == "D" %}
-                            <p class="mb-8">Close codnition: closing after {{ poll.close_value }}</p>
+                            <p class="mb-8">Close condition: closing after {{ poll.close_value }}</p>
                         {% elif poll.close_condition == "C" %}
-                            <p class="mb-8">Close codnition: closing after {{ poll.close_value }} persons</p>
+                            <p class="mb-8">Close condition: closing after {{ poll.close_value }} persons</p>
                         {% elif poll.close_condition == "N" %}
-                            <p class="mb-8">Close codnition: manual closing</p>
+                            <p class="mb-8">Close condition: manual closing</p>
                         {% endif %}
                         <p class="mb-8">Is closed:
                             {% if poll.is_closed %} yes

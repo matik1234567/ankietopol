@@ -83,10 +83,29 @@
   margin: 20px;
 }
 
+.logo-prez {
+  display: block;
+  text-decoration: none;
+  font-family: "Century Gothic";
+  color: var(--dark-red);
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
 .static-logo h1,
 .logo h1 {
   font-size: 40px;
   margin-left: 8px;
+}
+
+.logo-prez h1 {
+  font-size: 90px;
+  margin-left: 8px;
+}
+
+.logo-prez img {
+  height: 100px;
 }
 
 .text-dark {
