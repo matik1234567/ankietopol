@@ -110,7 +110,7 @@ class StatisticsCalculator:
         list = list.astype(float)
         result["Mean"] = statistics.mean(list)
         result["Mode"] = mode(list)
-        result["Std Dev"] = statistics.stdev(list)
+        result["Std Dev"] = np.std(list)
         result["Q1"] = list.quantile(0.25)
         result["Q3"] = list.quantile(0.75)
 
